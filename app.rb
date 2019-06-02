@@ -1,5 +1,5 @@
 require 'sinatra'
 
 get '/welcome_message' do
-  'Holis'
+  'Hola desde Guarani'
 end
