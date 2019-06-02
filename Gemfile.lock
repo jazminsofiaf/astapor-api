@@ -58,6 +58,7 @@ GEM
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
+    pg (0.21.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -100,6 +101,7 @@ GEM
       rake (>= 0.8.1)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
+    sequel (5.21.0)
     shellany (0.0.1)
     sinatra (2.0.5)
       mustermann (~> 1.0)
@@ -119,6 +121,7 @@ DEPENDENCIES
   guard
   guard-rspec
   json
+  pg (~> 0.18)
   rack-test
   rake
   rb-readline
@@ -127,10 +130,11 @@ DEPENDENCIES
   rubocop
   rubocop-rspec
   ruby-debug-ide
+  sequel
   sinatra
 
 RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.2
+   1.17.3

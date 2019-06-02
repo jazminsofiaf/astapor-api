@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 
 ruby '2.5.1'
 
+gem 'pg', '~> 0.18'
+gem 'sequel'
+
 gem 'json'
 gem 'rake'
 gem 'rb-readline'
