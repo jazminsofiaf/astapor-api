@@ -11,19 +11,17 @@ gem 'json'
 gem 'rake'
 gem 'rb-readline'
 gem 'sinatra'
+gem 'sinatra-activerecord'
 
-group :development, :test do
-  gem 'cucumber'
-  gem 'rack-test', require: 'rack/test'
-  gem 'rspec'
-  gem 'rspec_junit_formatter'
-  gem 'rubocop', require: false
-  gem 'rubocop-rspec', require: false
-end
+gem 'cucumber'
+gem 'rack-test', require: 'rack/test'
+gem 'rspec'
+gem 'rspec_junit_formatter'
+gem 'rubocop', require: false
+gem 'rubocop-rspec', require: false
+gem 'sqlite3'
 
-group :development do
-  gem 'byebug'
-  gem 'guard'
-  gem 'guard-rspec'
-  gem 'ruby-debug-ide'
-end
+gem 'byebug'
+gem 'guard'
+gem 'guard-rspec'
+gem 'ruby-debug-ide'

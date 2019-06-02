@@ -1,0 +1,15 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: astapor_test
+  pool: 2
+  username: astapor
+  password: astapor
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: astapor_development
+  pool: 2
+  username: astapor
+  password: astapor
