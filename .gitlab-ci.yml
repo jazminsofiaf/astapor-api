@@ -1,14 +1,14 @@
+image: ruby:2.5.1
 before_script:
-  - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
+  - apt-get update -qq && apt-get install -y -qq libpq-dev cmake
   - ruby -v
   - which ruby
-  - gem install bundler --no-document
-  - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install --without staging production
+stages:
+  - build
 
-rspec:
+job_build:
+  stage: build
   script:
-    - bundle exec rspec
-
-rubocop:
-  script:
-    - bundle exec rubocop
+    - RACK_ENV=test bundle exec rake

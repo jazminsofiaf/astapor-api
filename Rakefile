@@ -1,11 +1,7 @@
-# frozen_string_literal: true
-
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.rspec_opts = '--color --format d'
-end
+RSpec::Core::RakeTask.new(:spec)
 
 RuboCop::RakeTask.new(:rubocop) do |task|
   task.options = ['--display-cop-names']
