@@ -1,10 +1,15 @@
 image: ruby:2.5.1
 before_script:
-  - apt-get update -qq && apt-get install -y -qq libpq-dev cmake
+  - apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
   - ruby -v
   - which ruby
   - gem install bundler --no-ri --no-rdoc
   - bundle install --without staging production
+variables:
+  POSTGRES_DB: astapor_test
+  POSTGRES_USER: astapor
+  POSTGRES_PASSWORD: astapor
+  DB_HOST: astapor
 stages:
   - build
   - deploy
