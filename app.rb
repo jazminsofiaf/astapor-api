@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 require 'sinatra'
 
-get 'start' do
+get 'welcome_message' do
   'Holis'
 end
