@@ -9,8 +9,29 @@ require 'sinatra/activerecord'
 
 RACK_ENV = ENV['RACK_ENV'] ||= 'test' unless defined?(RACK_ENV)
 
+task :all do
+  ['rubocop', 'rake spec'].each do |cmd|
+    puts "Starting to run #{cmd}..."
+    system("export DISPLAY=:99.0 && bundle exec #{cmd}")
+    raise "#{cmd} failed!" unless $CHILD_STATUS.exitstatus.zero?
+  end
+end
+
+task :build_server do
+  ['rake spec_report'].each do |cmd|
+    puts "Starting to run #{cmd}..."
+    system("export DISPLAY=:99.0 && bundle exec #{cmd}")
+    raise "#{cmd} failed!" unless $CHILD_STATUS.exitstatus.zero?
+  end
+end
+
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = '--color --format d'
+end
+
+RSpec::Core::RakeTask.new(:spec_report) do |t|
+  t.pattern = './spec/**/*_spec.rb'
+  t.rspec_opts = %w[--format RspecJunitFormatter --out reports/spec/spec.xml]
 end
 
 RuboCop::RakeTask.new(:rubocop) do |task|
