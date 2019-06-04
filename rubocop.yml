@@ -3,6 +3,9 @@ require: rubocop-rspec
 # Avoid methods longer than 30 lines of code
 MethodLength:
   Max: 30
+Style/Documentation:
+  Enabled: false
+
 Metrics/BlockLength:
   ExcludedMethods: ['controllers', 'describe', 'context']
 Metrics/LineLength:
@@ -12,8 +15,8 @@ Naming/PredicateName:
   Enabled: false
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
-Style/Documentation:
-  Exclude: ['**/*', '*']
+Documentation:
+  Enabled: false
 RSpec/AnyInstance:
   Enabled: false
 RSpec/ExampleWording:

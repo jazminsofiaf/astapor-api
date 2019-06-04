@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
-
+# comment
 class BaseRepository
   def save(a_record)
     if find_dataset_by_id(a_record.id).first
@@ -95,5 +94,4 @@ class BaseRepository
   def pk_column
     Sequel[self.class.table_name][:id]
   end
-  # rubocop:enable Style/Documentation
 end
