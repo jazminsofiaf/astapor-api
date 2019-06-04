@@ -4,24 +4,37 @@ source 'https://rubygems.org'
 
 ruby '2.5.1'
 
+# Project requirements
+gem 'rake'
+
+# Component requirements
+gem 'activemodel', require: 'active_model'
 gem 'pg', '~> 0.18'
 gem 'sequel'
 
+gem 'bcrypt'
+gem 'clockwork'
+gem 'erubis', '~> 2.7.0'
 gem 'json'
-gem 'rake'
-gem 'rb-readline'
-gem 'sinatra'
-gem 'sinatra-activerecord'
+gem 'therubyracer'
+gem 'twitter'
 
-gem 'cucumber'
-gem 'rack-test', require: 'rack/test'
-gem 'rspec'
-gem 'rspec_junit_formatter'
-gem 'rubocop', require: false
-gem 'rubocop-rspec', require: false
-gem 'sqlite3'
+# Padrino Stable Gem
+gem 'padrino', '~> 0.14'
 
-gem 'byebug'
-gem 'guard'
-gem 'guard-rspec'
-gem 'ruby-debug-ide'
+group :development, :test do
+  gem 'capybara'
+  gem 'cucumber'
+  gem 'rack-test', require: 'rack/test'
+  gem 'rspec'
+  gem 'rspec_junit_formatter'
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'simplecov'
+end
+
+group :development do
+  gem 'byebug'
+  gem 'guard'
+  gem 'guard-rspec'
+end
