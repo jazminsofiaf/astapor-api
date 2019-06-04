@@ -9,7 +9,7 @@ variables:
   POSTGRES_DB: astapor_test
   POSTGRES_USER: astapor
   POSTGRES_PASSWORD: astapor
-  DB_HOST: astapor
+  DB_HOST: postgres
 stages:
   - build
   - deploy
