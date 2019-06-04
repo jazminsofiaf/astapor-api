@@ -1,4 +1,6 @@
 image: ruby:2.5.1
+services:
+  - postgres:9.5
 before_script:
   - apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
   - ruby -v
