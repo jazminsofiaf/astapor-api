@@ -1,5 +1,6 @@
-AstaporGuarani::App.controllers do
+# frozen_string_literal: true
 
+AstaporGuarani::App.controllers do
   get '/' do
     course = CoursesRepository.new.search_by_subject('Algebra')
     content_type :json
@@ -12,6 +13,4 @@ AstaporGuarani::App.controllers do
     algebra = Course.new(course_param)
     CoursesRepository.new.save(algebra)
   end
-
-
 end
