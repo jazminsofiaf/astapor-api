@@ -1,18 +1,11 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
-require 'rake'
-require 'padrino-core/cli/rake'
-require 'English'
-require 'cucumber/rake/task'
+require './app'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
+require 'cucumber/rake/task'
 
 RACK_ENV = ENV['RACK_ENV'] ||= 'test' unless defined?(RACK_ENV)
-
-PadrinoTasks.use(:database)
-PadrinoTasks.use(:sequel)
-PadrinoTasks.init
 
 task :all do
   ['rubocop', 'rake spec'].each do |cmd|
@@ -28,17 +21,6 @@ task :build_server do
     system("export DISPLAY=:99.0 && bundle exec #{cmd}")
     raise "#{cmd} failed!" unless $CHILD_STATUS.exitstatus.zero?
   end
-end
-
-Cucumber::Rake::Task.new(:cucumber) do |task|
-  Rake::Task['db:migrate'].invoke
-  Rake::Task['db:seed'].invoke
-  task.cucumber_opts = ['features', '--tags ~@wip']
-end
-
-Cucumber::Rake::Task.new(:cucumber_report) do |task|
-  Rake::Task['db:migrate'].invoke
-  task.cucumber_opts = ['features', '--format html -o reports/cucumber.html']
 end
 
 RSpec::Core::RakeTask.new(:spec) do |t|
