@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'base_repository'
 # comment
 class CoursesRepository < BaseRepository
   self.table_name = :course
@@ -20,14 +21,13 @@ class CoursesRepository < BaseRepository
     curse
   end
 
-  def changeset(offer)
+  def changeset(course)
     {
-      title: offer.title,
-      location: offer.location,
-      description: offer.description,
-      experience: offer.experience,
-      is_active: offer.is_active,
-      user_id: offer.owner&.id || offer.user_id
+      code: course.code,
+      subject: course.subject,
+      teacher: course.teacher,
+      quota: course.quota,
+      modality: course.modality
     }
   end
 end

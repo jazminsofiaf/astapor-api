@@ -1,22 +1,26 @@
 # frozen_string_literal: true
 
 # comment
-class Curse
+class Course
   include ActiveModel::Validations
 
-  attr_accessor :code, :subject, :teacher,
-                :quota, :modality
+  attr_accessor :id, :code, :subject, :teacher,
+                :quota, :modality, :updated_on, :created_on
 
   def initialize(data = {})
+    @id = data[:id]
     @code = data[:code]
     @subject = data[:subject]
     @teacher = data[:teacher]
     @quota = data[:quota]
     @modality = data[:modality]
+    @updated_on = data[:updated_on]
+    @created_on = data[:created_on]
   end
 
   def to_json(*_args)
-    { 'code' => @code,
+    { 'id' => @id,
+      'code' => @code,
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
