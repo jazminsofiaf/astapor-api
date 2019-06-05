@@ -9,7 +9,8 @@ AstaporGuarani::App.controllers do
 
   post :create_course do
     course_param = { id: 2, code: 7515, subject: 'Analisis',
-                     teacher: 'Sirne', quota: 50, modality: 'tp' }
+                     teacher: 'Sirne', quota: 50, modality: 'tp',
+                     laboratory: 'si', projector: 'no' }
     algebra = Course.new(course_param)
     CoursesRepository.new.save(algebra)
   end
