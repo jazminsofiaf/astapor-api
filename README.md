@@ -10,10 +10,15 @@ Follow these steps to initialize the PostgreSQL databases:
 
 
 ## Run local app:
-ruby app.rb -o0.0.0.0 -p3000
+
+
+1. Run **_bundle install --without staging production_**, to install all application dependencies
+1. Run **_bundle exec rake_**, to run all tests and ensure everything is properly setup
+1. Run **_RACK_ENV=development bundle exec rake_**, to setup the development database
+1. Run **_bundle exec padrino start -h 0.0.0.0_**, to start the application
 
 ## Deploy URL 
-https://astapor-api.herokuapp.com/welcome_message
+https://astapor-api.herokuapp.com/
 
 ## Run fitnesse test:
 * Local:
