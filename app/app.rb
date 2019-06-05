@@ -10,7 +10,8 @@ module AstaporGuarani
     register Padrino::Helpers
 
     get '/welcome_message' do
-      'Hola desde Guarani'
+      course = CoursesRepository.new.search_by_subject('Algebra')[0]
+      "Welcome to "+course.code.to_s
     end
   end
 end
