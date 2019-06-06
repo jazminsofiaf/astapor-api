@@ -44,10 +44,14 @@ rescue LoadError
   puts 'error loading rspec/core/rake_task'
   end
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec_report) do |t|
-  t.pattern = './spec/**/*_spec.rb'
-  t.rspec_opts = %w[--format RspecJunitFormatter --out reports/spec/spec.xml]
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec_report) do |t|
+    t.pattern = './spec/**/*_spec.rb'
+    t.rspec_opts = %w[--format RspecJunitFormatter --out reports/spec/spec.xml]
+  end
+rescue LoadError
+  puts 'error loading rspec/core/rake_task'
 end
 
 require 'rubocop/rake_task'
