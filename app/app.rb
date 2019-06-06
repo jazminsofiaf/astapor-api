@@ -21,7 +21,7 @@ module AstaporGuarani
         course = CourseFromJson.parse(request.body.read)
       rescue IncompatibleRequestException
         status 400
-        { 'si,': '', 'no,': 'pedidos_incompatibles' }.to_json
+        { "resultado": 'pedidos_incompatibles' }.to_json
       end
 
       begin
@@ -29,6 +29,9 @@ module AstaporGuarani
       rescue DuplicateSubjectException
         status 400
         { 'error': 'MATERIA_DUPLICADA' }.to_json
+      else
+        status 201
+        { "resultado": 'materia_creada' }.to_json
       end
     end
 

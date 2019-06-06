@@ -17,7 +17,7 @@ class CoursesRepository < BaseRepository
   end
 
   def save(a_record)
-    raise DuplicateSubjectException if find_by_code(a_record.code)
+    raise DuplicateSubjectException unless find_by_code(a_record.code).empty?
 
     if find_dataset_by_id(a_record.id).first
       update(a_record).positive?
