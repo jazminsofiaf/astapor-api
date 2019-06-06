@@ -39,7 +39,7 @@ describe Course do
     end
 
     it 'should be invalid when code has a quota greater than 300' do
-      algebra = Course.new(id: 2, code: 751, subject: 'Analisis',
+      algebra = Course.new(id: 2, code: 7515, subject: 'Analisis',
                            teacher: 'Sirne', quota: 301, modality: 'tp',
                            projector: false, laboratory: false)
       expect(algebra).not_to be_valid
@@ -48,8 +48,8 @@ describe Course do
 
     it 'should be invalid when it requests both lab and projector' do
       expect do
-        Course.new(id: 2, code: 751, subject: 'Analisis',
-                   teacher: 'Sirne', quota: 301, modality: 'tp',
+        Course.new(id: 2, code: 7515, subject: 'Analisis',
+                   teacher: 'Sirne', quota: 31, modality: 'tp',
                    projector: true, laboratory: true)
       end.to raise_error(IncompatibleRequestException)
     end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../../config/database'
+
 # comment
 class BaseRepository
   def save(a_record)
