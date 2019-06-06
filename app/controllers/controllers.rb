@@ -2,15 +2,12 @@
 
 AstaporGuarani::App.controllers do
   get '/' do
-    course = CoursesRepository.new.search_by_subject('Algebra')
-    content_type :json
-    course.to_json
-  end
-
-  post :create_course do
-    course_param = { id: 2, code: 7515, subject: 'Analisis',
+    course_param = { id: 1, code: 7514, subject: 'Algebra',
                      teacher: 'Sirne', quota: 50, modality: 'tp' }
     algebra = Course.new(course_param)
     CoursesRepository.new.save(algebra)
+    course = CoursesRepository.new.search_by_subject('Algebra')
+    content_type :json
+    course.to_json
   end
 end
