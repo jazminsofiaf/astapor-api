@@ -2,6 +2,7 @@
 
 require 'rspec'
 require_relative '../../models/student'
+require_relative '../../models/exceptions/duplicated_inscription'
 
 describe 'Student' do
   subject(:student) { Student.new(97_266, 'Jazmin Ferreiro', 'jaz2') }
@@ -18,6 +19,11 @@ describe 'Student' do
   describe 'enroll in a course' do
     it 'can enroll in a course' do
       expect(student.inscribe_to(memo)).to be_truthy
+    end
+
+    it 'can enroll in a course twice in the same semester' do
+      student.inscribe_to(memo)
+      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscription)
     end
   end
 end
