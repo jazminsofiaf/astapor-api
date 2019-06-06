@@ -7,7 +7,7 @@ Style/Documentation:
   Enabled: false
 
 Metrics/BlockLength:
-  ExcludedMethods: ['controllers', 'describe', 'context']
+  ExcludedMethods: ['controllers', 'describe', 'context' ]
 Metrics/LineLength:
   Max: 100
   IgnoredPatterns: ['(When|Given|Then)', '(get|post|put)']
@@ -28,5 +28,8 @@ RSpec/HookArgument:
 RSpec/MessageSpies:
   EnforcedStyle: receive
 RSpec/MultipleExpectations:
-  Max: 3
+  Max: 10
+Metrics/ModuleLength:
+  Exclude: "**/*_spec.rb"
+
 

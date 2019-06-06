@@ -10,7 +10,7 @@ class Course
 
   attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on,
-                :con_proyector, :con_laboratorio
+                :projector, :laboratory
 
   validates :code, presence: true, length: { minimum: 4, maximum: 4 }
   validates :quota, presence: true, numericality: { only_integer: true,
@@ -23,8 +23,8 @@ class Course
     @modality = data[:modality], @teacher = data[:teacher]
     @subject = data[:subject], @quota = data[:quota]
     @updated_on = data[:updated_on], @created_on = data[:created_on]
-    @con_proyector = data[:con_proyector]
-    @con_laboratorio = data[:con_laboratorio]
+    @projector = data[:projector]
+    @laboratory = data[:laboratory]
     validate!
   end
 
@@ -38,6 +38,6 @@ class Course
   end
 
   def validate!
-    raise IncompatibleRequestException if @con_proyector && @con_laboratorio
+    raise IncompatibleRequestException if @projector && @laboratory
   end
 end

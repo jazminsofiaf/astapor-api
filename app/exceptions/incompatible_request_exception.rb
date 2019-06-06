@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
-class IncompatibleRequestException < StandardError
+require_relative 'astapor_error'
+class IncompatibleRequestException < AstaporError
 end

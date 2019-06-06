@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
-class DuplicateSubjectException < StandardError
+require_relative 'astapor_error'
+class DuplicateSubjectException < AstaporError
 end
