@@ -39,7 +39,7 @@ describe Course do
     end
 
     it 'should be invalid when code has a quota greater than 300' do
-      algebra = Course.new(id: 2, code: 751, subject: 'Analisis',
+      algebra = Course.new(id: 2, code: 7515, subject: 'Analisis',
                            teacher: 'Sirne', quota: 301, modality: 'tp',
                            projector: false, laboratory: false)
       expect(algebra).not_to be_valid
@@ -48,32 +48,32 @@ describe Course do
 
     it 'should be invalid when it requests both lab and projector' do
       expect do
-        Course.new(id: 2, code: 751, subject: 'Analisis',
-                   teacher: 'Sirne', quota: 301, modality: 'tp',
+        Course.new(id: 2, code: 7515, subject: 'Analisis',
+                   teacher: 'Sirne', quota: 31, modality: 'tp',
                    projector: true, laboratory: true)
       end.to raise_error(IncompatibleRequestException)
     end
 
-    # it 'should be invalid when title has more than 50 characters' do
-    #   algebra = Course.new(id: 2, code: 7513,
-    #                        subject: 'Analisis12345678912345678912
-    #                                  3456789123456789123456gdfgd7',
-    #                        teacher: 'Sirne', quota: 30, modality: 'tp',
-    #                        projector: false, laboratory: false)
-    #   expect(algebra).not_to be_valid
-    #   expect(algebra.errors).to have_key(:subject)
-    # end
+    it 'should be invalid when title has more than 50 characters' do
+      algebra = Course.new(id: 2, code: 7513,
+                           subject: 'Analisis12345678912345678912
+                                     3456789123456789123456gdfgd7',
+                           teacher: 'Sirne', quota: 30, modality: 'tp',
+                           projector: false, laboratory: false)
+      expect(algebra).not_to be_valid
+      expect(algebra.errors).to have_key(:subject)
+    end
 
-    # it 'should be invalid when title is not present' do
-    #   algebra = Course.new(id: 2, code: 7513,
-    #                        subject: nil,
-    #                        teacher: 'Sirne',
-    #                        quota: 31, modality: 'tp',
-    #                        projector: false,
-    #                        laboratory: false)
-    #   expect(algebra).not_to be_valid
-    #   expect(algebra.errors).to have_key(:subject)
-    # end
+    it 'should be invalid when title is not present' do
+      algebra = Course.new(id: 2, code: 7513,
+                           subject: nil,
+                           teacher: 'Sirne',
+                           quota: 31, modality: 'tp',
+                           projector: false,
+                           laboratory: false)
+      expect(algebra).not_to be_valid
+      expect(algebra.errors).to have_key(:subject)
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
