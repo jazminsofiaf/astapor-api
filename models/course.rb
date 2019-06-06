@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_model'
+
 # comment
 class Course
   include ActiveModel::Validations
@@ -10,10 +12,10 @@ class Course
   def initialize(data = {})
     @id = data[:id]
     @code = data[:code]
-    @subject = data[:subject]
-    @teacher = data[:teacher]
-    @quota = data[:quota]
     @modality = data[:modality]
+    @teacher = data[:teacher]
+    @subject = data[:subject]
+    @quota = data[:quota]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
   end
