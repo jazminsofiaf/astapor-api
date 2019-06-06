@@ -9,13 +9,14 @@ class Student
     @id = id
     @name = name
     @user_name = user_name
-    @inscriptions = {}
+    @inscriptions = []
   end
 
   def inscribe_to(course)
-    raise DuplicatedInscription if @inscriptions.key?(course.id)
+    raise DuplicatedInscription if @inscriptions.include?(course.id)
 
-    @inscriptions[course.id] = 'aca objeto con notas, cuatrimestre etc'
+    @inscriptions << course.id
+    course.reduce_quota
     true
   end
 end

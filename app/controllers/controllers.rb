@@ -10,4 +10,8 @@ AstaporGuarani::App.controllers do
     content_type :json
     course.to_json
   end
+
+  post '/alumnos' do
+    status 200
+  end
 end

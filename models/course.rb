@@ -19,6 +19,10 @@ class Course
     @created_on = data[:created_on]
   end
 
+  def reduce_quota
+    @quota -= 1
+  end
+
   def to_json(*_args)
     { 'id' => @id,
       'code' => @code,

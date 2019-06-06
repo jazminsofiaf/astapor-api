@@ -2,7 +2,7 @@
 
 require 'rspec'
 require_relative '../../models/student'
-require_relative '../../models/exceptions/duplicated_inscription'
+require_relative '../../exceptions/duplicated_inscription'
 
 describe 'Student' do
   subject(:student) { Student.new(97_266, 'Jazmin Ferreiro', 'jaz2') }
