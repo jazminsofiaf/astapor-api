@@ -15,6 +15,13 @@ describe Course do
   end
 
   describe 'valid?' do
+    it 'should be valid' do
+      algebra = Course.new(id: 2, code: 7557, subject: 'Analisis',
+                           teacher: 'Sirne', quota: 50, modality: 'tp',
+                           projector: false, laboratory: false)
+      expect(algebra).to be_valid
+    end
+
     it 'should be invalid when code has more than four digits' do
       algebra = Course.new(id: 2, code: 751_57, subject: 'Analisis',
                            teacher: 'Sirne', quota: 50, modality: 'tp',

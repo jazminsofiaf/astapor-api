@@ -3,12 +3,11 @@
 AstaporGuarani::App.controllers do
   # method for testing walking skeleton
   get '/a' do
-    course_param = { id: 2, code: 7515, subject: 'Analisis',
-                     teacher: 'Sirne', quota: 50, modality: 'tp',
-                     projector: false, laboratory: false }
-    algebra = Course.new(course_param)
-    CoursesRepository.new.save(algebra)
-    course = CoursesRepository.new.search_by_subject('Algebra')
+    analisis = Course.new(id: 2, code: 7557, subject: 'Analisis',
+                          teacher: 'Sirne', quota: 50, modality: 'tp',
+                          projector: false, laboratory: false)
+    CoursesRepository.new.save(analisis)
+    course = CoursesRepository.new.search_by_subject('Analisis')
     content_type :json
     course.to_json
   end

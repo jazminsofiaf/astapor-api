@@ -16,7 +16,7 @@ class Course
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than: 0,
                                                     less_than: 301 }
-  validates :subject, presence: true, length: { maximum: 7 }
+  validates :subject, presence: true, length: { maximum: 50 }
 
   def initialize(data = {})
     populate(data)

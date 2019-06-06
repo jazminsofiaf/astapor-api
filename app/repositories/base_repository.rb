@@ -59,6 +59,7 @@ class BaseRepository
       id = dataset.insert(insert_changeset(a_record))
       a_record.id = id
     end
+    puts 'record invalid.. not saving it'
     a_record
   end
 
