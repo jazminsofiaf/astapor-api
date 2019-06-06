@@ -2,6 +2,7 @@
 
 require 'active_model'
 require_relative '../app/exceptions/incompatible_request_exception'
+require_relative '../app/exceptions/duplicate_subject_exception'
 
 # comment
 class Course
@@ -12,6 +13,7 @@ class Course
                 :con_proyector, :con_laboratorio
 
   validates :code, presence: true, length: { minimum: 4, maximum: 4 }
+  validates :subject, presence: true, length: { maximum: 50 }
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than: 0,
                                                     less_than: 301 }
@@ -23,7 +25,7 @@ class Course
     @updated_on = data[:updated_on], @created_on = data[:created_on]
     @con_proyector = data[:con_proyector]
     @con_laboratorio = data[:con_laboratorio]
-    raise IncompatibleRequestException if @con_proyector && @con_laboratorio
+    validate!
   end
 
   def to_json(*_args)
@@ -33,5 +35,9 @@ class Course
       'teacher' => @teacher,
       'quota' => @quota,
       'modality' => @modality }.to_json
+  end
+
+  def validate!
+    raise IncompatibleRequestException if @con_proyector && @con_laboratorio
   end
 end

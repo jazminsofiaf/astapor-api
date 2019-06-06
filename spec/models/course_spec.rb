@@ -39,7 +39,7 @@ describe Course do
       expect(algebra.errors).to have_key(:quota)
     end
 
-    it 'should be invalid when ir requests both lab and projector' do
+    it 'should be invalid when it requests both lab and projector' do
       expect do
         Course.new(id: 2, code: 751, subject: 'Analisis',
                    teacher: 'Sirne', quota: 301, modality: 'tp',
