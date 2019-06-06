@@ -14,7 +14,8 @@ AstaporGuarani::App.controllers do
 
   # method for create new course
   post :materias do
-    push = JSON.parse(request.body.read)
-    puts "I got some JSON: #{push.inspect}"
+    course = CourseDto.new(JSON.parse(request.body.read)).to_course
+    status 200
+    CoursesRepository.new.save(course)
   end
 end
