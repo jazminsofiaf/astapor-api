@@ -35,10 +35,14 @@ task :build_server do
   end
 end
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.pattern = './spec/**/*_spec.rb'
-end
+begin
+    require 'rspec/core/rake_task'
+    RSpec::Core::RakeTask.new(:spec) do |t|
+      t.pattern = './spec/**/*_spec.rb'
+    end
+rescue LoadError
+  puts 'error loading rspec/core/rake_task'
+  end
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec_report) do |t|
