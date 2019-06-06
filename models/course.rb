@@ -11,6 +11,9 @@ class Course
                 :con_proyector, :con_laboratorio
 
   validates :code, presence: true, length: { minimum: 4, maximum: 4 }
+  validates :quota, presence: true, numericality: { only_integer: true,
+                                                    greater_than: 0,
+                                                    less_than: 301 }
 
   def initialize(data = {})
     @id = data[:id]

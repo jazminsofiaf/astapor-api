@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../../models/course'
-
+# rubocop:disable Metrics/BlockLength
 describe Course do
   describe 'course' do
     it { is_expected.to respond_to(:id) }
@@ -28,5 +28,13 @@ describe Course do
       expect(algebra).not_to be_valid
       expect(algebra.errors).to have_key(:code)
     end
+
+    it 'should be invalid when code has a quota greater than 300' do
+      algebra = Course.new(id: 2, code: 751, subject: 'Analisis',
+                           teacher: 'Sirne', quota: 301, modality: 'tp')
+      expect(algebra).not_to be_valid
+      expect(algebra.errors).to have_key(:quota)
+    end
   end
 end
+# rubocop:enable Metrics/BlockLength
