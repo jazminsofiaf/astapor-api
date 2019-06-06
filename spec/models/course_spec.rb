@@ -13,4 +13,13 @@ describe Course do
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
   end
+
+  describe 'valid?' do
+    it 'should be invalid when code has more than four digits' do
+      algebra = Course.new(id: 2, code: 751_57, subject: 'Analisis',
+                           teacher: 'Sirne', quota: 50, modality: 'tp')
+      expect(algebra).not_to be_valid
+      expect(algebra.errors).to have_key(:code)
+    end
+  end
 end

@@ -9,6 +9,8 @@ class Course
   attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on
 
+  validates :code, presence: true, length: { maximum: 4 }
+
   def initialize(data = {})
     @id = data[:id]
     @code = data[:code]
