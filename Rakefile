@@ -53,14 +53,17 @@ begin
 rescue LoadError
   puts 'error loading rspec/core/rake_task'
 end
-
-require 'rubocop/rake_task'
-desc 'Run RuboCop on the lib directory'
-RuboCop::RakeTask.new(:rubocop) do |task|
-  # run analysis on rspec tests
-  task.requires << 'rubocop-rspec'
-  # don't abort rake on failure
-  task.fail_on_error = false
+begin
+  require 'rubocop/rake_task'
+  desc 'Run RuboCop on the lib directory'
+  RuboCop::RakeTask.new(:rubocop) do |task|
+    # run analysis on rspec tests
+    task.requires << 'rubocop-rspec'
+    # don't abort rake on failure
+    task.fail_on_error = false
+  end
+rescue LoadError
+  puts 'error loading rubocop/rake_task'
 end
 
 task default: [:all]
