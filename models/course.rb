@@ -19,13 +19,21 @@ class Course
   validates :subject, presence: true, length: { maximum: 7 }
 
   def initialize(data = {})
-    @id = data[:id], @code = data[:code]
-    @modality = data[:modality], @teacher = data[:teacher]
-    @subject = data[:subject], @quota = data[:quota]
-    @updated_on = data[:updated_on], @created_on = data[:created_on]
+    populate(data)
+    validate!
+  end
+
+  def populate(data)
+    @id = data[:id]
+    @code = data[:code]
+    @teacher = data[:teacher]
+    @subject = data[:subject]
+    @quota = data[:quota]
+    @modality = data[:modality]
+    @updated_on = data[:updated_on]
+    @created_on = data[:created_on]
     @projector = data[:projector]
     @laboratory = data[:laboratory]
-    validate!
   end
 
   def to_json(*_args)
@@ -34,7 +42,9 @@ class Course
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
-      'modality' => @modality }.to_json
+      'modality' => @modality,
+      'projector' => @projector,
+      'laboratory' => @laboratory }.to_json
   end
 
   def validate!
