@@ -46,6 +46,27 @@ describe Course do
                    con_proyector: true, con_laboratorio: true)
       end.to raise_error(IncompatibleRequestException)
     end
+
+    # it 'should be invalid when title has more than 50 characters' do
+    #   algebra = Course.new(id: 2, code: 7513,
+    #                        subject: 'Analisis12345678912345678912
+    #                                  3456789123456789123456gdfgd7',
+    #                        teacher: 'Sirne', quota: 30, modality: 'tp',
+    #                        con_proyector: false, con_laboratorio: false)
+    #   expect(algebra).not_to be_valid
+    #   expect(algebra.errors).to have_key(:subject)
+    # end
+
+    # it 'should be invalid when title is not present' do
+    #   algebra = Course.new(id: 2, code: 7513,
+    #                        subject: nil,
+    #                        teacher: 'Sirne',
+    #                        quota: 31, modality: 'tp',
+    #                        con_proyector: false,
+    #                        con_laboratorio: false)
+    #   expect(algebra).not_to be_valid
+    #   expect(algebra.errors).to have_key(:subject)
+    # end
   end
 end
 # rubocop:enable Metrics/BlockLength
