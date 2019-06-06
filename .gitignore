@@ -4,6 +4,8 @@
 .DS_Store
 .settings
 .env
+.byebug_history
+
 *.iml
 **/target
 **/.idea
