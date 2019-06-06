@@ -9,4 +9,8 @@ class Student
     self.name = @name
     self.user_name = @user_name
   end
+
+  def inscribe_to(_course)
+    true
+  end
 end
