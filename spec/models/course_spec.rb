@@ -10,8 +10,8 @@ describe Course do
     it { is_expected.to respond_to(:teacher) }
     it { is_expected.to respond_to(:quota) }
     it { is_expected.to respond_to(:modality) }
-    it { is_expected.to respond_to(:created_on) }
-    it { is_expected.to respond_to(:updated_on) }
+    it { is_expected.to respond_to(:con_proyector) }
+    it { is_expected.to respond_to(:con_laboratorio) }
   end
 
   describe 'valid?' do

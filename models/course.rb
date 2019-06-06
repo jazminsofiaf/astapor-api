@@ -7,7 +7,8 @@ class Course
   include ActiveModel::Validations
 
   attr_accessor :id, :code, :subject, :teacher,
-                :quota, :modality, :updated_on, :created_on
+                :quota, :modality, :updated_on, :created_on,
+                :con_proyector, :con_laboratorio
 
   validates :code, presence: true, length: { minimum: 4, maximum: 4 }
 
@@ -20,6 +21,8 @@ class Course
     @quota = data[:quota]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
+    @con_proyector = data[:con_proyector]
+    @con_laboratorio = data[:con_laboratorio]
   end
 
   def to_json(*_args)
