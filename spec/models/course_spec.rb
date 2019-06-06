@@ -21,5 +21,12 @@ describe Course do
       expect(algebra).not_to be_valid
       expect(algebra.errors).to have_key(:code)
     end
+
+    it 'should be invalid when code has less than four digits' do
+      algebra = Course.new(id: 2, code: 751, subject: 'Analisis',
+                           teacher: 'Sirne', quota: 50, modality: 'tp')
+      expect(algebra).not_to be_valid
+      expect(algebra.errors).to have_key(:code)
+    end
   end
 end
