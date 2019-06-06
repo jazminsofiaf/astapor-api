@@ -9,8 +9,6 @@ Sequel.migration do
       String :teacher
       Integer :quota, default: 30
       String :modality
-      String :laboratory
-      String :projector
     end
   end
 

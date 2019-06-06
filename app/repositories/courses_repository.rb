@@ -27,9 +27,7 @@ class CoursesRepository < BaseRepository
       subject: course.subject,
       teacher: course.teacher,
       quota: course.quota,
-      modality: course.modality,
-      laboratory: course.laboratory,
-      projector: course.projector
+      modality: course.modality
     }
   end
 end
