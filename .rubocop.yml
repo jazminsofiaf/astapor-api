@@ -7,7 +7,7 @@ Style/Documentation:
   Enabled: false
 
 RSpec/ExampleLength:
-  Max: 8
+  Max: 10
 Metrics/BlockLength:
   Max: 25
   ExcludedMethods: ['controllers', 'describe', 'context' ]
@@ -32,6 +32,8 @@ RSpec/MessageSpies:
   EnforcedStyle: receive
 RSpec/MultipleExpectations:
   Max: 10
+Metrics/AbcSize:
+  Max: 25
 
 
 

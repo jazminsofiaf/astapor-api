@@ -1,6 +1,7 @@
 require 'json'
 require_relative '../../models/course'
 require_relative '../../app/exceptions/incompatible_request_exception'
+require_relative '../../app/exceptions/erroneous_code'
 
 class CourseFromJson
   CODE_KEY = 'codigo'.freeze
@@ -25,6 +26,7 @@ class CourseFromJson
              laboratory: input[LAB_KEY] }
 
     course = Course.new(args)
+    raise ErroneousCode unless course.errors[:code].empty?
     raise IncompatibleRequestException if course.invalid?
 
     course

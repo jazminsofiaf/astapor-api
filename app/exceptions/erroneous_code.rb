@@ -1,0 +1,2 @@
+class ErroneousCode < AstaporError
+end

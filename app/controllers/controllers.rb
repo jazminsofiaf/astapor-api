@@ -12,22 +12,25 @@ AstaporGuarani::App.controllers do
 
   # method for create new course
   post '/materias' do
-    begin
-      course = CourseFromJson.parse(request.body.read)
-    rescue IncompatibleRequestException
-      status 400
-      { "resultado": 'pedidos_incompatibles' }.to_json
-    end
+    course = CourseFromJson.parse(request.body.read)
+    CoursesRepository.new.save(course)
+    status 201
+    { "resultado": 'materia_creada' }.to_json
+  end
 
-    begin
-      CoursesRepository.new.save(course)
-    rescue DuplicateSubjectException
-      status 400
-      { 'error': 'MATERIA_DUPLICADA' }.to_json
-    else
-      status 201
-      { "resultado": 'materia_creada' }.to_json
-    end
+  error IncompatibleRequestException do
+    status 400
+    { "resultado": 'pedidos_incompatibles' }.to_json
+  end
+
+  error ErroneousCode do
+    status 400
+    { 'resultado': 'CODIGO_ERRONEO' }.to_json
+  end
+
+  error DuplicateSubjectException do
+    status 400
+    { 'error': 'MATERIA_DUPLICADA' }.to_json
   end
 
   post '/reset' do
