@@ -23,9 +23,9 @@ AstaporGuarani::App.controllers do
     when DuplicateSubjectException
       { 'error': 'MATERIA_DUPLICADA' }.to_json
     when IncompatibleRequestException
-      { "resultado": 'pedidos_incompatibles' }.to_json
+      { "error": 'pedidos_incompatibles' }.to_json
     when ErroneousCode
-      { 'resultado': 'CODIGO_ERRONEO' }.to_json
+      { 'error': 'CODIGO_ERRONEO' }.to_json
     end
   end
 
