@@ -2,7 +2,6 @@ Sequel.migration do
   up do
     create_table(:course) do
       primary_key :id
-      Integer :code
       String :subject
       String :teacher
       Integer :quota, default: 30
