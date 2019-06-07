@@ -16,7 +16,7 @@ class CourseFromJson
   def self.parse(json)
     input = JSON.parse(json)
 
-    args = { id: input[CODE_KEY].to_i,
+    args = { code: input[CODE_KEY].to_i,
              subject: input[SUBJECT_NAME_KEY],
              teacher: input[TEACHER_KEY],
              quota: input[QUOTA_KEY],

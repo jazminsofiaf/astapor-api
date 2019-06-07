@@ -6,7 +6,7 @@ describe CoursesRepository do
   let(:repository) { described_class.new }
 
   let(:course) do
-    Course.new(id: 7517, subject: 'Analisis',
+    Course.new(code: 7517, subject: 'Analisis',
                teacher: 'Sirne', quota: 31, modality: 'tp',
                projector: false, laboratory: true)
   end

@@ -6,8 +6,8 @@ class CoursesRepository < BaseRepository
   self.table_name = :course
   self.model_class = 'Course'
 
-  def find_by_id(id)
-    load_collection dataset.where(id: id)
+  def find_by_code(code)
+    load_collection dataset.where(code: code)
   end
 
   def search_by_subject(subject)
@@ -15,7 +15,7 @@ class CoursesRepository < BaseRepository
   end
 
   def save(a_record)
-    raise DuplicateSubjectException unless find_by_id(a_record.id).empty?
+    raise DuplicateSubjectException unless find_by_code(a_record.code).empty?
 
     if find_dataset_by_id(a_record.id).first
       update(a_record).positive?
@@ -33,6 +33,7 @@ class CoursesRepository < BaseRepository
 
   def changeset(course)
     {
+      code: course.code,
       subject: course.subject,
       teacher: course.teacher,
       quota: course.quota,

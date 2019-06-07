@@ -2,18 +2,17 @@ require 'active_model'
 require_relative '../app/exceptions/incompatible_request_exception'
 require_relative '../app/exceptions/duplicate_subject_exception'
 
-# comment
 class Course
   include ActiveModel::Validations
 
-  attr_accessor :id, :subject, :teacher,
+  attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on,
                 :projector, :laboratory
 
-  validates :id, presence: true, numericality: { only_integer: true,
-                                                 # only four digits
-                                                 greater_than: 999,
-                                                 less_than: 10_000 }
+  validates :code, presence: true, numericality: { only_integer: true,
+                                                   # only four digits
+                                                   greater_than: 999,
+                                                   less_than: 10_000 }
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than: 0,
                                                     less_than: 301 }
@@ -25,7 +24,8 @@ class Course
   end
 
   def populate(data)
-    @id = data[:id] # el id el codigo de la materia
+    @id = data[:code]
+    @code = data[:code]
     @teacher = data[:teacher]
     @subject = data[:subject]
     @quota = data[:quota]
@@ -38,7 +38,7 @@ class Course
 
   def to_json(*_args)
     {
-      'code' => @id,
+      'code' => @code,
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,

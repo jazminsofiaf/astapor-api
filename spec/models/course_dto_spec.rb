@@ -21,7 +21,7 @@ describe 'Course dto' do
 
   it 'should create a valid course' do
     course = CourseFromJson.parse(body)
-    course.id = 4444
+    course.code = 4444
     course.quota = 30
     course.teacher = 'Linus Torvalds'
     course.modality = 'tareas'
