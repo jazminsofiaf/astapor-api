@@ -6,7 +6,7 @@ describe CoursesRepository do
   let(:repository) { described_class.new }
 
   let(:course) do
-    Course.new(id: 2, code: 7517, subject: 'Analisis',
+    Course.new(id: 7517, subject: 'Analisis',
                teacher: 'Sirne', quota: 31, modality: 'tp',
                projector: false, laboratory: true)
   end
@@ -16,7 +16,7 @@ describe CoursesRepository do
       expect do
         described_class.new.save(course)
         described_class.new.save(course)
-      end.to raise_exception DuplicateSubjectException
+      end.to raise_error DuplicateSubjectException
     end
   end
 end

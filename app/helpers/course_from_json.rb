@@ -1,10 +1,10 @@
 require 'json'
 require_relative '../../models/course'
-require 'byebug'
+require_relative '../../app/exceptions/incompatible_request_exception'
 
 class CourseFromJson
   CODE_KEY = 'codigo'.freeze
-  SUBJECT_NAME_KEY = 'nombreMateria'.freeze
+  SUBJECT_NAME_KEY = 'materia'.freeze
   TEACHER_KEY = 'docente'.freeze
   QUOTA_KEY = 'cupo'.freeze
   MODALITY_KEY = 'modalidad'.freeze
@@ -16,7 +16,7 @@ class CourseFromJson
   def self.parse(json)
     input = JSON.parse(json)
 
-    args = { code: input[CODE_KEY],
+    args = { id: input[CODE_KEY].to_i,
              subject: input[SUBJECT_NAME_KEY],
              teacher: input[TEACHER_KEY],
              quota: input[QUOTA_KEY],
@@ -24,6 +24,9 @@ class CourseFromJson
              projector: input[PROJECTOR_KEY],
              laboratory: input[LAB_KEY] }
 
-    Course.new(args)
+    course = Course.new(args)
+    raise IncompatibleRequestException if course.invalid?
+
+    course
   end
 end

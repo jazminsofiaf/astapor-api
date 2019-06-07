@@ -10,8 +10,27 @@ describe 'Course dto' do
     }'
   end
 
+  let(:invalid) do
+    '{"codigo": "Sistemas Operativos",
+      "modalidad": "tareas",
+	    "docente": "Linus Torvalds",
+	    "materia": "4444",
+	    "cupo": 30
+    }'
+  end
+
   it 'should create a valid course' do
     course = CourseFromJson.parse(body)
     course.id = 4444
+    course.quota = 30
+    course.teacher = 'Linus Torvalds'
+    course.modality = 'tareas'
+    course.subject = 'Sistemas Operativos'
+  end
+
+  it 'should raise expection forn invalid json' do
+    expect do
+      CourseFromJson.parse(invalid)
+    end.to raise_error(IncompatibleRequestException)
   end
 end

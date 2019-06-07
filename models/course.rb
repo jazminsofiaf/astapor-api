@@ -6,14 +6,14 @@ require_relative '../app/exceptions/duplicate_subject_exception'
 class Course
   include ActiveModel::Validations
 
-  attr_accessor :id, :code, :subject, :teacher,
+  attr_accessor :id, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on,
                 :projector, :laboratory
 
-  validates :code, presence: true, numericality: { only_integer: true,
-                                                   # only four digits
-                                                   greater_than: 999,
-                                                   less_than: 10_000 }
+  validates :id, presence: true, numericality: { only_integer: true,
+                                                 # only four digits
+                                                 greater_than: 999,
+                                                 less_than: 10_000 }
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than: 0,
                                                     less_than: 301 }
@@ -25,8 +25,7 @@ class Course
   end
 
   def populate(data)
-    @id = data[:code]
-    @code = data[:code]
+    @id = data[:id] # el id el codigo de la materia
     @teacher = data[:teacher]
     @subject = data[:subject]
     @quota = data[:quota]
@@ -39,7 +38,7 @@ class Course
 
   def to_json(*_args)
     {
-      'code' => @code,
+      'code' => @id,
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
@@ -50,6 +49,7 @@ class Course
   end
 
   def validate!
+    puts errors.messages if invalid?
     raise IncompatibleRequestException if @projector && @laboratory
   end
 end

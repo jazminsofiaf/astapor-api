@@ -12,7 +12,6 @@ gem 'activemodel', require: 'active_model'
 gem 'pg', '~> 0.18'
 gem 'sequel'
 
-gem 'bcrypt'
 gem 'clockwork'
 gem 'erubis', '~> 2.7.0'
 gem 'json'
