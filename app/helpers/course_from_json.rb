@@ -4,7 +4,7 @@ require_relative '../../app/exceptions/incompatible_request_exception'
 
 class CourseFromJson
   CODE_KEY = 'codigo'.freeze
-  SUBJECT_NAME_KEY = 'materia'.freeze
+  SUBJECT_NAME_KEY = 'nombreMateria'.freeze
   TEACHER_KEY = 'docente'.freeze
   QUOTA_KEY = 'cupo'.freeze
   MODALITY_KEY = 'modalidad'.freeze

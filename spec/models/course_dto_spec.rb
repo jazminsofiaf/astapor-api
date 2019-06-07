@@ -5,7 +5,7 @@ describe 'Course dto' do
     '{"codigo": "4444",
       "modalidad": "tareas",
 	    "docente": "Linus Torvalds",
-	    "materia": "Sistemas Operativos",
+	    "nombreMateria": "Sistemas Operativos",
 	    "cupo": 30
     }'
   end
@@ -14,7 +14,7 @@ describe 'Course dto' do
     '{"codigo": "Sistemas Operativos",
       "modalidad": "tareas",
 	    "docente": "Linus Torvalds",
-	    "materia": "4444",
+	    "nombreMateria": "4444",
 	    "cupo": 30
     }'
   end
