@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'byebug'
 
 require_relative '../../app/repositories/courses_repository'
@@ -16,8 +14,8 @@ describe CoursesRepository do
   describe 'saving' do
     it 'saving the same object two times should throw an error' do
       expect do
-        CoursesRepository.new.save(course)
-        CoursesRepository.new.save(course)
+        described_class.new.save(course)
+        described_class.new.save(course)
       end.to raise_exception DuplicateSubjectException
     end
   end

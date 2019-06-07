@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'active_model'
 require_relative '../app/exceptions/incompatible_request_exception'
 require_relative '../app/exceptions/duplicate_subject_exception'
@@ -12,7 +10,10 @@ class Course
                 :quota, :modality, :updated_on, :created_on,
                 :projector, :laboratory
 
-  validates :code, presence: true, length: { minimum: 4, maximum: 4 }
+  validates :code, presence: true, numericality: { only_integer: true,
+                                                   # only four digits
+                                                   greater_than: 999,
+                                                   less_than: 10_000 }
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than: 0,
                                                     less_than: 301 }
@@ -24,7 +25,7 @@ class Course
   end
 
   def populate(data)
-    @id = data[:id]
+    @id = data[:code]
     @code = data[:code]
     @teacher = data[:teacher]
     @subject = data[:subject]
@@ -37,14 +38,15 @@ class Course
   end
 
   def to_json(*_args)
-    { 'id' => @id,
+    {
       'code' => @code,
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
       'modality' => @modality,
       'projector' => @projector,
-      'laboratory' => @laboratory }.to_json
+      'laboratory' => @laboratory
+    }.to_json
   end
 
   def validate!

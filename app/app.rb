@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../app/repositories/courses_repository'
 require_relative '../models/course'
 require_relative '../app/exceptions/incompatible_request_exception'
@@ -14,29 +12,6 @@ module AstaporGuarani
 
     get '/welcome_message' do
       'Hola desde Guarani'
-    end
-
-    post '/materias' do
-      begin
-        course = CourseFromJson.parse(request.body.read)
-      rescue IncompatibleRequestException
-        status 400
-        { "resultado": 'pedidos_incompatibles' }.to_json
-      end
-
-      begin
-        CoursesRepository.new.save(course)
-      rescue DuplicateSubjectException
-        status 400
-        { 'error': 'MATERIA_DUPLICADA' }.to_json
-      else
-        status 201
-        { "resultado": 'materia_creada' }.to_json
-      end
-    end
-
-    post '/reset' do
-      CoursesRepository.new.delete_all
     end
   end
 end

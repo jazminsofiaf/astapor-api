@@ -6,7 +6,10 @@ MethodLength:
 Style/Documentation:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 8
 Metrics/BlockLength:
+  Max: 25
   ExcludedMethods: ['controllers', 'describe', 'context' ]
 Metrics/LineLength:
   Max: 100
@@ -29,7 +32,6 @@ RSpec/MessageSpies:
   EnforcedStyle: receive
 RSpec/MultipleExpectations:
   Max: 10
-Metrics/ModuleLength:
-  Exclude: "**/*_spec.rb"
+
 
 

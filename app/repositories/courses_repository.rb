@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'base_repository'
 require_relative '../exceptions/duplicate_subject_exception'
 

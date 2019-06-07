@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../../config/database'
 
 # comment
@@ -18,7 +16,7 @@ class BaseRepository
   alias delete destroy
 
   def delete_all
-    dataset.delete
+    dataset.truncate
   end
 
   def all

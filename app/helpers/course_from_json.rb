@@ -1,19 +1,15 @@
-# rubocop:disable Style/Documentation
-
-# frozen_string_literal: true
-
 require 'json'
 require_relative '../../models/course'
 require 'byebug'
 
 class CourseFromJson
-  CODE_KEY = 'codigo'
-  SUBJECT_NAME_KEY = 'nombreMateria'
-  TEACHER_KEY = 'docente'
-  QUOTA_KEY = 'cupo'
-  MODALITY_KEY = 'modalidad'
-  PROJECTOR_KEY = 'proyector'
-  LAB_KEY = 'laboratiorio'
+  CODE_KEY = 'codigo'.freeze
+  SUBJECT_NAME_KEY = 'nombreMateria'.freeze
+  TEACHER_KEY = 'docente'.freeze
+  QUOTA_KEY = 'cupo'.freeze
+  MODALITY_KEY = 'modalidad'.freeze
+  PROJECTOR_KEY = 'proyector'.freeze
+  LAB_KEY = 'laboratiorio'.freeze
   KEYS = [CODE_KEY, SUBJECT_NAME_KEY, TEACHER_KEY, QUOTA_KEY,
           MODALITY_KEY, PROJECTOR_KEY, LAB_KEY].freeze
 
@@ -31,4 +27,3 @@ class CourseFromJson
     Course.new(args)
   end
 end
-# rubocop:enable Style/Documentation
