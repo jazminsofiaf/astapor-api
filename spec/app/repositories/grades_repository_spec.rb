@@ -1,6 +1,5 @@
-require 'rspec'
-require_relative '../../models/grade'
-require_relative '../../app/repositories/grades_repository'
+require 'integration_spec_helper'
+
 describe 'Grades repository' do
   subject(:grade2) { Grade.new(id: 2, student_id: 1, code: 9533, grade: 5) }
 

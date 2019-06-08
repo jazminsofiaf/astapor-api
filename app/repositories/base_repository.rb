@@ -1,4 +1,3 @@
-# comment
 class BaseRepository
   def save(a_record)
     if find_dataset_by_id(a_record.id).first
