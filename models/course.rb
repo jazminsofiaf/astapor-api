@@ -1,5 +1,4 @@
 require 'active_model'
-# comment
 class Course
   include ActiveModel::Validations
 

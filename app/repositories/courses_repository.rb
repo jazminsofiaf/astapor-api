@@ -1,5 +1,5 @@
 require_relative 'base_repository'
-# comment
+
 class CoursesRepository < BaseRepository
   self.table_name = :course
   self.model_class = 'Course'
