@@ -3,7 +3,7 @@ require_relative '../../models/student'
 require_relative '../../exceptions/duplicated_inscription'
 
 describe 'Student' do
-  subject(:student) { Student.new(97_266, 'Jazmin Ferreiro', 'jaz2') }
+  subject(:student) { Student.new(id: 97_266, name: 'Jazmin Ferreiro', user_name: 'jaz2') }
 
   describe 'model' do
     it { is_expected.to respond_to(:name) }

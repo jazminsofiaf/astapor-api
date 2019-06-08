@@ -1,16 +1,15 @@
 Sequel.migration do
   up do
-    create_table(:grade) do
+    create_table(:student) do
       primary_key :id
-      Integer :code
-      Integer :student_id
-      Integer :grade
+      String :name
+      String :user_name
       Date    :created_on
       Date    :updated_on
     end
   end
 
   down do
-    drop_table(:grade)
+    drop_table(:student)
   end
 end

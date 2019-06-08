@@ -1,14 +1,17 @@
 require_relative '../models/course'
 # Student class
 class Student
-  attr_accessor :id, :name, :user_name
+  include ActiveModel::Validations
+  attr_accessor :id, :name, :user_name, :updated_on, :created_on
 
-  def initialize(id, name, user_name)
-    @id = id
-    @name = name
-    @user_name = user_name
+  def initialize(data)
+    @id = data[:id]
+    @name = data[:name]
+    @user_name = data[:user_name]
     @inscriptions = []
     @grades = {}
+    @updated_on = data[:updated_on]
+    @created_on = data[:created_on]
   end
 
   def inscribe_to(course)

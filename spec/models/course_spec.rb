@@ -16,7 +16,7 @@ describe 'Course' do
   end
 
   describe 'when student applys' do
-    student = Student.new(97_266, 'Jazmin Ferreiro', 'jaz2')
+    student = Student.new(id: 97_266, name: 'Jazmin Ferreiro', user_name: 'jaz2')
     it "the course's quota is one less " do
       student.inscribe_to(memo)
       expect(memo.quota).to equal(29)
