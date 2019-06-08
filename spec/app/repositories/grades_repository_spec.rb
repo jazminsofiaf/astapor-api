@@ -15,7 +15,9 @@ describe 'Grades repository' do
     it 'can get all calification' do
       repository.save(grade1)
       repository.save(grade2)
-      repository.find_by_student_id(1)
+      grades = repository.find_by_student_id(1)
+      expect(grades.first.grade).to eq(grade1.grade)
+      expect(grades[1].grade).to eq(grade2.grade)
     end
   end
 end
