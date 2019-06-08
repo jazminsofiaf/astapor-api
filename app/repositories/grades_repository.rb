@@ -17,7 +17,7 @@ class GradesRepository < BaseRepository
   def changeset(grade)
     {
       code: grade.code,
-      sutudent_id: grade.student_id,
+      student_id: grade.student_id,
       grade: grade.grade
     }
   end

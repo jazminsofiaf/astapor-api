@@ -4,7 +4,9 @@ Sequel.migration do
       primary_key :id
       Integer :code
       Integer :student_id
-      Grade :grade
+      Integer :grade
+      Date    :created_on
+      Date    :updated_on
     end
   end
 

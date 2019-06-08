@@ -8,11 +8,11 @@ describe 'Grades repository' do
   let(:grade1) { Grade.new(id: 1, student_id: 1, code: 9532, grade: 10) }
 
   context 'with a  calification' do
-    xit 'can save it ' do
+    it 'can save it ' do
       repository.save(grade1)
     end
 
-    xit 'can get all calification' do
+    it 'can get all calification' do
       repository.save(grade1)
       repository.save(grade2)
       repository.find_by_student_id(1)
