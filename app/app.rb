@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../app/repositories/courses_repository'
 require_relative '../models/course'
 

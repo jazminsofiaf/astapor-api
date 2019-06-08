@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 AstaporGuarani::App.controllers do
   get '/' do
     course_param = { id: 1, code: 7514, subject: 'Algebra',

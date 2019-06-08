@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../models/course'
 # Student class
 class Student
@@ -10,6 +8,7 @@ class Student
     @name = name
     @user_name = user_name
     @inscriptions = []
+    @grades = {}
   end
 
   def inscribe_to(course)

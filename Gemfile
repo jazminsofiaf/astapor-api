@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 source 'https://rubygems.org'
 
 ruby '2.5.1'
@@ -15,7 +13,6 @@ gem 'activemodel', require: 'active_model'
 gem 'pg', '~> 0.18'
 gem 'sequel'
 
-gem 'bcrypt'
 gem 'clockwork'
 gem 'erubis', '~> 2.7.0'
 gem 'json'
@@ -28,11 +25,13 @@ gem 'padrino', '~> 0.14'
 group :development, :test do
   gem 'capybara'
   gem 'cucumber'
+  gem 'debase'
   gem 'rack-test', require: 'rack/test'
   gem 'rspec'
   gem 'rspec_junit_formatter'
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
+  gem 'ruby-debug-ide'
   gem 'simplecov'
 end
 
