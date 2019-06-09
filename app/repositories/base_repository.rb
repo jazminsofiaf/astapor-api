@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+require_relative '../../config/database'
 
 # comment
 class BaseRepository
@@ -16,7 +16,7 @@ class BaseRepository
   alias delete destroy
 
   def delete_all
-    dataset.delete
+    dataset.truncate
   end
 
   def all
@@ -59,6 +59,7 @@ class BaseRepository
       id = dataset.insert(insert_changeset(a_record))
       a_record.id = id
     end
+    puts 'record invalid.. not saving it'
     a_record
   end
 

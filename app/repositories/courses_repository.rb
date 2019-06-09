@@ -1,6 +1,6 @@
-# frozen_string_literal: true
-
 require_relative 'base_repository'
+require_relative '../exceptions/duplicate_subject_exception'
+
 # comment
 class CoursesRepository < BaseRepository
   self.table_name = :course
@@ -12,6 +12,16 @@ class CoursesRepository < BaseRepository
 
   def search_by_subject(subject)
     load_collection dataset.where(Sequel.like(:subject, "%#{subject}%"))
+  end
+
+  def save(a_record)
+    raise DuplicateSubjectException unless find_by_code(a_record.code).empty?
+
+    if find_dataset_by_id(a_record.id).first
+      update(a_record).positive?
+    else
+      !insert(a_record).id.nil?
+    end
   end
 
   protected
@@ -27,7 +37,9 @@ class CoursesRepository < BaseRepository
       subject: course.subject,
       teacher: course.teacher,
       quota: course.quota,
-      modality: course.modality
+      modality: course.modality,
+      projector: course.projector,
+      laboratory: course.laboratory
     }
   end
 end
