@@ -12,6 +12,10 @@ class StudentsRepository < BaseRepository
     !dataset.first(user_name: user_name).nil?
   end
 
+  def find_or_create(data)
+    find_by_user_name(data[:user_name]) || Student.new(data)
+  end
+
   protected
 
   def load_object(a_record)

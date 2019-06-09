@@ -5,7 +5,7 @@ class Course
   attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on
 
-  def initialize(data = {})
+  def initialize(data)
     @id = data[:id]
     @code = data[:code]
     @subject = data[:subject]

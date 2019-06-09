@@ -5,12 +5,12 @@ class CoursesRepository < BaseRepository
   self.model_class = 'Course'
 
   def find_by_code(code)
-    row = dataset.where(code: code)
+    row = dataset.first(code: code)
     load_object(row) unless row.nil?
   end
 
   def search_by_subject(subject)
-    load_collection dataset.where(Sequel.like(:subject, "%#{subject}%"))
+    load_collection dataset.where(Sequel.ilike(:subject, "%#{subject}%"))
   end
 
   protected
