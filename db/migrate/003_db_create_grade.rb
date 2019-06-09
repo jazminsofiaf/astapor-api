@@ -1,9 +1,9 @@
 Sequel.migration do
   up do
-    create_table(:grade) do
+    create_table(:register) do
       primary_key :id
       Integer :code
-      Integer :student_id
+      String  :student_username
       Integer :grade # grade is null while inscription
       Date    :created_on
       Date    :updated_on
@@ -11,6 +11,6 @@ Sequel.migration do
   end
 
   down do
-    drop_table(:grade)
+    drop_table(:register)
   end
 end

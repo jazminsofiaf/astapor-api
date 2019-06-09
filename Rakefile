@@ -25,6 +25,10 @@ task :all do
   end
 end
 
+task :rollback do
+  Rake::Task['db:redo'].invoke
+end
+
 task :build_server do
   ['rake spec_report'].each do |cmd|
     puts "Starting to run #{cmd}..."

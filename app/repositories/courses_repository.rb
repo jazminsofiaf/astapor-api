@@ -5,7 +5,8 @@ class CoursesRepository < BaseRepository
   self.model_class = 'Course'
 
   def find_by_code(code)
-    load_collection dataset.where(code: code)
+    row = dataset.where(code: code)
+    load_object(row) unless row.nil?
   end
 
   def search_by_subject(subject)

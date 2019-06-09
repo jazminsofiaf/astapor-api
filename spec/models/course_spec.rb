@@ -15,8 +15,9 @@ describe 'Course' do
     it { is_expected.to respond_to(:modality) }
   end
 
-  describe 'when student applys' do
-    student = Student.new(id: 97_266, name: 'Jazmin Ferreiro', user_name: 'jaz2')
+  describe 'when student applies' do
+    params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
+    student = Student.new(params)
     it "the course's quota is one less " do
       student.inscribe_to(memo)
       expect(memo.quota).to equal(29)
