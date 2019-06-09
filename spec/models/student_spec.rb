@@ -22,36 +22,28 @@ describe 'Student' do
     expect { Student.new(params) }.to raise_error StudentCreationError
   end
 
-  describe 'given a student' do
+  describe 'given a student and a cpurse' do
+    course_param = { id: 1, code: 9532, subject: 'Memo',
+                     teacher: 'villagra', quota: 1, modality: 'tp' }
+    memo = Course.new(course_param)
+    params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
+    student = Student.new(params)
+
     it 'can enroll in a course' do
-      course_param = { id: 1, code: 9532, subject: 'Memo',
-                       teacher: 'villagra', quota: 1, modality: 'tp' }
-      memo = Course.new(course_param)
-      params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
-      student = Student.new(params)
       student.inscribe_to(memo)
       expect(student.inscriptions).to eq([memo.code])
     end
 
     it 'cant enroll in a course twice in the same semester' do
-      course_param = { id: 1, code: 9532, subject: 'Memo',
-                       teacher: 'villagra', quota: 1, modality: 'tp' }
-      memo = Course.new(course_param)
-      params = { name: 'Jazmin Ferreiro', user_name: 'jaz3' }
-      student = Student.new(params)
-      student.inscribe_to(memo)
       expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscription)
     end
 
+    describe 'when quote course is 0'
+
+    params2 = { name: 'Jazmin Ferreiro', user_name: 'juana' }
+    student2 = Student.new(params2)
+
     it 'cant enroll in a course with no place' do
-      course_param = { id: 1, code: 9532, subject: 'Memo',
-                       teacher: 'villagra', quota: 1, modality: 'tp' }
-      memo = Course.new(course_param)
-      params = { name: 'Jazmin Ferreiro', user_name: 'jaz4' }
-      student = Student.new(params)
-      student.inscribe_to(memo)
-      params2 = { name: 'Jazmin Ferreiro', user_name: 'juana' }
-      student2 = Student.new(params2)
       expect { student2.inscribe_to(memo) }.to raise_error(QuoteError)
     end
   end
