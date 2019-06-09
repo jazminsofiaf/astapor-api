@@ -1,7 +1,6 @@
 require 'json'
 require_relative '../../models/course'
-require_relative '../../app/exceptions/incompatible_request_exception'
-require_relative '../../app/exceptions/erroneous_code'
+require 'byebug'
 
 class CourseFromJson
   CODE_KEY = 'codigo'.freeze
@@ -10,14 +9,12 @@ class CourseFromJson
   QUOTA_KEY = 'cupo'.freeze
   MODALITY_KEY = 'modalidad'.freeze
   PROJECTOR_KEY = 'proyector'.freeze
-  LAB_KEY = 'laboratiorio'.freeze
-  KEYS = [CODE_KEY, SUBJECT_NAME_KEY, TEACHER_KEY, QUOTA_KEY,
-          MODALITY_KEY, PROJECTOR_KEY, LAB_KEY].freeze
+  LAB_KEY = 'laboratorio'.freeze
 
   def self.parse(json)
     input = JSON.parse(json)
 
-    args = { code: input[CODE_KEY].to_i,
+    args = { code: input[CODE_KEY],
              subject: input[SUBJECT_NAME_KEY],
              teacher: input[TEACHER_KEY],
              quota: input[QUOTA_KEY],
@@ -25,10 +22,6 @@ class CourseFromJson
              projector: input[PROJECTOR_KEY],
              laboratory: input[LAB_KEY] }
 
-    course = Course.new(args)
-    raise ErroneousCode unless course.errors[:code].empty?
-    raise IncompatibleRequestException if course.invalid?
-
-    course
+    Course.new(args)
   end
 end

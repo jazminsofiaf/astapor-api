@@ -1,2 +1,0 @@
-class ErroneousCode < AstaporError
-end

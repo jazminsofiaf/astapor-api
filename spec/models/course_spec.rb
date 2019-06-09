@@ -1,4 +1,6 @@
 require_relative '../../models/course'
+require 'byebug'
+
 describe Course do
   describe 'model' do
     it { is_expected.to respond_to(:code) }

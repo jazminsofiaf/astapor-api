@@ -10,31 +10,4 @@ AstaporGuarani::App.controllers do
     content_type :json
     course.to_json
   end
-
-  # method for create new course
-  post '/materias' do
-    course = CourseFromJson.parse(request.body.read)
-    CoursesRepository.new.save(course)
-    status 201
-    { "resultado": 'materia_creada' }.to_json
-  rescue AstaporError => e
-    status 400
-    case e
-    when DuplicateSubjectException
-      { 'error': 'MATERIA_DUPLICADA' }.to_json
-    when IncompatibleRequestException
-      { "error": 'pedidos_incompatibles' }.to_json
-    when ErroneousCode
-      { 'error': 'CODIGO_ERRONEO' }.to_json
-    end
-  end
-
-  error Sinatra::NotFound do
-    content_type 'text/plain'
-    [404, 'todavia no implementado']
-  end
-
-  post '/reset' do
-    CoursesRepository.new.delete_all
-  end
 end

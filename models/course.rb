@@ -2,6 +2,7 @@ require 'active_model'
 require_relative '../app/exceptions/incompatible_request_exception'
 require_relative '../app/exceptions/duplicate_subject_exception'
 
+# comment
 class Course
   include ActiveModel::Validations
 
@@ -9,14 +10,18 @@ class Course
                 :quota, :modality, :updated_on, :created_on,
                 :projector, :laboratory
 
-  validates :code, presence: true, numericality: { only_integer: true,
-                                                   # only four digits
-                                                   greater_than: 999,
-                                                   less_than: 10_000 }
+  validates :code, length: { minimum: 4,
+                             maximum: 4,
+                             message: 'CODIGO_ERRONEO' }
+  validates_presence_of :code, message: 'CODIGO_ERRONEO'
+
   validates :quota, presence: true, numericality: { only_integer: true,
-                                                    greater_than: 0,
-                                                    less_than: 301 }
-  validates :subject, presence: true, length: { maximum: 50 }
+                                                    greater_than: 0 }
+  validates_numericality_of :quota, less_than: 301, message: 'cupo_excedido'
+
+  validates :subject, length: { maximum: 50,
+                                message: 'NOMBRE_ERRONEO' }
+  validates_presence_of :subject, message: 'NOMBRE_ERRONEO'
 
   def initialize(data = {})
     populate(data)
@@ -24,7 +29,7 @@ class Course
   end
 
   def populate(data)
-    @id = data[:code]
+    @id = data[:id]
     @code = data[:code]
     @teacher = data[:teacher]
     @subject = data[:subject]
@@ -37,19 +42,17 @@ class Course
   end
 
   def to_json(*_args)
-    {
+    { 'id' => @id,
       'code' => @code,
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
       'modality' => @modality,
       'projector' => @projector,
-      'laboratory' => @laboratory
-    }.to_json
+      'laboratory' => @laboratory }.to_json
   end
 
   def validate!
-    puts errors.messages if invalid?
     raise IncompatibleRequestException if @projector && @laboratory
   end
 end
