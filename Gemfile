@@ -4,6 +4,9 @@ ruby '2.5.1'
 # Server requirements
 gem 'thin'
 
+# Server requirements
+gem 'thin'
+
 # Project requirements
 gem 'rake'
 
