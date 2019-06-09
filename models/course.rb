@@ -2,6 +2,8 @@ require 'active_model'
 class Course
   include ActiveModel::Validations
 
+  LIMIT = 0
+
   attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on
 
@@ -18,6 +20,7 @@ class Course
 
   def reduce_quota
     @quota -= 1
+    raise QuoteError if @quota < LIMIT
   end
 
   def to_json(*_args)
