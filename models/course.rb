@@ -2,7 +2,6 @@ require 'active_model'
 require_relative '../app/exceptions/incompatible_request_exception'
 require_relative '../app/exceptions/duplicate_subject_exception'
 
-require 'active_model'
 # comment
 class Course
   include ActiveModel::Validations
