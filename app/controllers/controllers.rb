@@ -1,12 +1,12 @@
-# frozen_string_literal: true
-
 AstaporGuarani::App.controllers do
-  get '/' do
-    course_param = { id: 1, code: 7514, subject: 'Algebra',
-                     teacher: 'Sirne', quota: 50, modality: 'tp' }
-    algebra = Course.new(course_param)
-    CoursesRepository.new.save(algebra)
-    course = CoursesRepository.new.search_by_subject('Algebra')
+  # method for testing walking skeleton
+  set :show_exceptions, false
+  get '/a' do
+    analisis = Course.new(id: 2, code: 7557, subject: 'Analisis',
+                          teacher: 'Sirne', quota: 50, modality: 'tp',
+                          projector: false, laboratory: false)
+    CoursesRepository.new.save(analisis)
+    course = CoursesRepository.new.search_by_subject('Analisis')
     content_type :json
     course.to_json
   end

@@ -1,9 +1,6 @@
-# frozen_string_literal: true
-
 source 'https://rubygems.org'
 
 ruby '2.5.1'
-
 # Server requirements
 gem 'thin'
 
@@ -15,7 +12,6 @@ gem 'activemodel', require: 'active_model'
 gem 'pg', '~> 0.18'
 gem 'sequel'
 
-gem 'bcrypt'
 gem 'clockwork'
 gem 'erubis', '~> 2.7.0'
 gem 'json'

@@ -1,3 +1,6 @@
+require 'sequel'
+require 'padrino'
+
 Sequel::Model.raise_on_save_failure = false # Do not throw exceptions on failure
 # frozen_string_literal: true
 DB =
