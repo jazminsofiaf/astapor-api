@@ -1,6 +1,6 @@
 require 'active_model'
-require_relative '../exceptions/parse_inscription_error'
-class ParseInscriptionJson
+require_relative '../../exceptions/parse_inscription_error'
+class InscriptionHelper
   include ActiveModel::Validations
   attr_reader :complete_name, :code, :username
 

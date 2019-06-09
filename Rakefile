@@ -38,13 +38,13 @@ task :build_server do
 end
 
 begin
-    require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(:spec) do |t|
-      t.pattern = './spec/**/*_spec.rb'
-    end
-rescue LoadError
-  puts 'error loading rspec/core/rake_task'
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.pattern = './spec/**/*_spec.rb'
   end
+rescue LoadError
+  puts 'Error al cargar rake-task'
+end
 
 begin
   require 'rspec/core/rake_task'
@@ -53,8 +53,9 @@ begin
     t.rspec_opts = %w[--format RspecJunitFormatter --out reports/spec/spec.xml]
   end
 rescue LoadError
-  puts 'error loading rspec/core/rake_task'
+  puts 'Error al cargar rake-task'
 end
+
 begin
   require 'rubocop/rake_task'
   desc 'Run RuboCop on the lib directory'
@@ -65,7 +66,7 @@ begin
     task.fail_on_error = false
   end
 rescue LoadError
-  puts 'error loading rubocop/rake_task'
+  puts 'Error al cargar rake-task'
 end
 
 task default: [:all]

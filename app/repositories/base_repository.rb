@@ -1,3 +1,5 @@
+require_relative '../../config/database'
+
 class BaseRepository
   def save(a_record)
     if find_dataset_by_id(a_record.id).first
@@ -13,7 +15,7 @@ class BaseRepository
   alias delete destroy
 
   def delete_all
-    dataset.delete
+    dataset.truncate
   end
 
   def all
@@ -56,6 +58,7 @@ class BaseRepository
       id = dataset.insert(insert_changeset(a_record))
       a_record.id = id
     end
+    puts 'record invalid.. not saving it'
     a_record
   end
 

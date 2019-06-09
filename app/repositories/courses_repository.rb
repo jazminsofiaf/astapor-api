@@ -1,5 +1,7 @@
 require_relative 'base_repository'
 
+require_relative '../../exceptions/duplicate_subject_exception'
+
 class CoursesRepository < BaseRepository
   self.table_name = :course
   self.model_class = 'Course'
@@ -11,6 +13,12 @@ class CoursesRepository < BaseRepository
 
   def search_by_subject(subject)
     load_collection dataset.where(Sequel.ilike(:subject, "%#{subject}%"))
+  end
+
+  def save(a_record)
+    raise DuplicateSubjectException unless find_by_code(a_record.code).nil?
+
+    super
   end
 
   protected
@@ -26,7 +34,9 @@ class CoursesRepository < BaseRepository
       subject: course.subject,
       teacher: course.teacher,
       quota: course.quota,
-      modality: course.modality
+      modality: course.modality,
+      projector: course.projector,
+      laboratory: course.laboratory
     }
   end
 end

@@ -1,2 +1,0 @@
-class InscriptionError < AstaporError
-end
