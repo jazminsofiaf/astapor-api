@@ -31,9 +31,15 @@ describe 'calification dto' do
     expect(calification_dto2.grades).to eq [8, 2]
   end
 
-  it 'should be invalid if a grade is grater than 10' do
+  it 'should raise InvalidGradeError if a grade is greater than 10' do
     body3 = '{"codigo_materia":"1001",'\
       '"notas":"[8, 11]","username_alumno":"juanperez"}'
-    expect { CalificationHelper.new(JSON.parse(body3)) }.to raise_error(StandardError)
+    expect { CalificationHelper.new(JSON.parse(body3)) }.to raise_error(InvalidGradeError)
+  end
+
+  it 'should raise InvalidGradeError if a grade is equal to 0' do
+    body4 = '{"codigo_materia":"1001",'\
+      '"notas":"[8, 0]","username_alumno":"juanperez"}'
+    expect { CalificationHelper.new(JSON.parse(body4)) }.to raise_error(InvalidGradeError)
   end
 end
