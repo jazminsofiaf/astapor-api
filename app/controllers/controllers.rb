@@ -1,5 +1,6 @@
 require_relative '../../exceptions/course_not_found_error'
 require_relative '../../exceptions/astapor_error'
+require_relative '../../exceptions/incompatible_request_exception'
 
 AstaporGuarani::App.controllers do
   # walking skeleton
@@ -15,14 +16,14 @@ AstaporGuarani::App.controllers do
 
   post '/materias' do
     course = CourseHelper.parse(request.body.read)
-    if not (course.valid?)
+    unless course.valid?
       status 400
-      return { 'error': course.errors.messages.values.flatten[0]}.to_json
+      return { 'resultado': course.errors.messages.values.flatten[0],
+               'error': course.errors.messages.values.flatten[0] }.to_json
     end
     CoursesRepository.new.save(course)
     status 201
     { 'resultado': 'materia_creada' }.to_json
-
   end
 
   post '/alumnos' do
@@ -36,6 +37,11 @@ AstaporGuarani::App.controllers do
     student.inscribe_to(course)
     status 200
     { 'resultado': 'inscripcion_creada' }.to_json
+  end
+
+  error IncompatibleRequestException do |error|
+    status 400
+    { 'resultado': spanish_error_msg(error) }.to_json
   end
 
   error AstaporError do |error|

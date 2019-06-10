@@ -29,7 +29,7 @@ describe 'Course dto' do
 
   it 'should create invalid course with errors' do
     course = CourseHelper.parse(invalid)
-    expect(course.valid?).to be_falsey
-    expect(course.errors.empty?).to be_falsey
+    expect(course).not_to be_valid
+    expect(course.errors).not_to be_empty
   end
 end
