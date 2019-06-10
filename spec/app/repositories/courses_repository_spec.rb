@@ -1,6 +1,4 @@
-require 'byebug'
-
-require_relative '../../app/repositories/courses_repository'
+require 'integration_spec_helper'
 
 describe CoursesRepository do
   let(:repository) { described_class.new }
@@ -12,11 +10,10 @@ describe CoursesRepository do
   end
 
   describe 'saving' do
-    it 'saving the same object two times should throw an error' do
-      expect do
-        described_class.new.save(course)
-        described_class.new.save(course)
-      end.to raise_error DuplicateSubjectException
+    it 'saving the same object two times should not throw an error' do
+      described_class.new.save(course)
+
+      described_class.new.save(course)
     end
   end
 end

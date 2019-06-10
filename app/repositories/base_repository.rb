@@ -1,6 +1,5 @@
 require_relative '../../config/database'
 
-# comment
 class BaseRepository
   def save(a_record)
     if find_dataset_by_id(a_record.id).first
@@ -58,8 +57,9 @@ class BaseRepository
     if a_record.valid?
       id = dataset.insert(insert_changeset(a_record))
       a_record.id = id
+    else
+      puts 'record invalid.. not saving it'
     end
-    puts 'record invalid.. not saving it'
     a_record
   end
 
