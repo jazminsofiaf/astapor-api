@@ -1,6 +1,11 @@
 # class thar reepresents a parser that works with courses
+
 class CoursesOffersParser
   def parse(courses)
-    courses
+    info_courses = []
+    courses.each do |course|
+      info_courses.push('nombre': course.subject)
+    end
+    info_courses
   end
 end
