@@ -41,4 +41,11 @@ describe 'Course Offers Parser' do
     expect(result.size).to eq 1
     expect(result[0][:cupo]).to eq course1.quota
   end
+
+  it 'when one course is parsed it should create an array with the info modalidad and
+ the modality of the course' do
+   result = parser.parse([course1])
+   expect(result.size).to eq 1
+   expect(result[0][:modalidad]).to eq course1.modality
+ end
 end
