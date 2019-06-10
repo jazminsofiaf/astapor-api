@@ -4,8 +4,10 @@ class CalificationHelper
   attr_reader :code, :grades, :username
 
   CODE = 'codigo_materia'.freeze
+  NOTAS = 'notas'.freeze
 
   def initialize(data)
     @code = data[CODE].to_i
+    @grades = data[NOTAS].to_i
   end
 end

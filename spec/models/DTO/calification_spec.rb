@@ -14,4 +14,8 @@ describe 'calification dto' do
   it 'should have course code' do
     expect(calification_dto.code).to eq 1001
   end
+
+  it 'should have grade' do
+    expect(calification_dto.grades).to eq 8
+  end
 end
