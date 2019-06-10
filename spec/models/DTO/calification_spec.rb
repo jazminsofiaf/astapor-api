@@ -1,6 +1,7 @@
 require 'rspec'
 require 'json'
 require_relative '../../../app/helpers/calification_helper'
+require_relative '../../../exceptions/invalid_grade_error'
 
 describe 'calification dto' do
   context 'created from json string'
@@ -28,5 +29,11 @@ describe 'calification dto' do
       '"notas":"[8, 2]","username_alumno":"juanperez"}'
     calification_dto2 = CalificationHelper.new(JSON.parse(body2))
     expect(calification_dto2.grades).to eq [8, 2]
+  end
+
+  it 'should be invalid if a grade is grater than 10' do
+    body3 = '{"codigo_materia":"1001",'\
+      '"notas":"[8, 11]","username_alumno":"juanperez"}'
+    expect { CalificationHelper.new(JSON.parse(body3)) }.to raise_error(StandardError)
   end
 end
