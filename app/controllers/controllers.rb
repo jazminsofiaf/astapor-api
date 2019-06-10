@@ -40,10 +40,7 @@ AstaporGuarani::App.controllers do
 
       student.course_calification_with(calification_request.code, calification_request.grades)
       StudentsRepository.new.save(student)
-    rescue InvalidGradeError => e
-      status 400
-      return { 'error': e.message }.to_json
-    rescue StudentNotInscriptedError => e
+    rescue AstaporError => e
       status 400
       return { 'error': e.message }.to_json
     end
