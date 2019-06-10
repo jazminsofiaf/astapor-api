@@ -24,6 +24,10 @@ class CoursesRepository < BaseRepository
     end
   end
 
+  def load_dataset
+    load_collection dataset
+  end
+
   protected
 
   def load_object(a_record)
