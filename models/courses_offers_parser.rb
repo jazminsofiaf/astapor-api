@@ -5,7 +5,7 @@ class CoursesOffersParser
     info_courses = []
     courses.each do |course|
       info_courses.push('nombre': course.subject, 'codigo': course.code,
-                        'docente': course.teacher)
+                        'docente': course.teacher, 'cupo': course.quota)
     end
     info_courses
   end
