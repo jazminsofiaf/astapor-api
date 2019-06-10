@@ -1,6 +1,6 @@
 require 'rspec'
-require_relative '../../models/courses_offers_parser'
-require_relative '../../models/course'
+require_relative '../../../app/helpers/courses_offers_parser'
+require_relative '../../../models/course'
 
 describe 'Course Offers Parser' do
   let(:course1) do

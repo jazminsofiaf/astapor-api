@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'padrino-core/cli/rake'
 require 'English'
 
-RACK_ENV = ENV['RACK_ENV'] ||= 'test' unless defined?(RACK_ENV)
+RACK_ENV = ENV['RACK_ENV'] ||= ENV['RACK_ENV'] ||= 'test' unless defined?(RACK_ENV)
 
 task :version do
   require './lib/version.rb'
@@ -23,6 +23,10 @@ task :all do
     system("export DISPLAY=:99.0 && bundle exec #{cmd}")
     puts "#{cmd} failed!" unless $CHILD_STATUS.exitstatus.zero?
   end
+end
+
+task :rollback do
+  Rake::Task['db:redo'].invoke
 end
 
 task :build_server do

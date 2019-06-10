@@ -1,27 +1,18 @@
 require_relative 'base_repository'
-require_relative '../exceptions/duplicate_subject_exception'
 
-# comment
+require_relative '../../exceptions/duplicate_subject_exception'
+
 class CoursesRepository < BaseRepository
   self.table_name = :course
   self.model_class = 'Course'
 
   def find_by_code(code)
-    load_collection dataset.where(code: code)
+    row = dataset.first(code: code)
+    load_object(row) unless row.nil?
   end
 
   def search_by_subject(subject)
-    load_collection dataset.where(Sequel.like(:subject, "%#{subject}%"))
-  end
-
-  def save(a_record)
-    raise DuplicateSubjectException unless find_by_code(a_record.code).empty?
-
-    if find_dataset_by_id(a_record.id).first
-      update(a_record).positive?
-    else
-      !insert(a_record).id.nil?
-    end
+    load_collection dataset.where(Sequel.ilike(:subject, "%#{subject}%"))
   end
 
   def load_dataset

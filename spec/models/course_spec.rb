@@ -1,5 +1,6 @@
 require_relative '../../models/course'
-require 'byebug'
+require_relative '../../models/student'
+require_relative '../../exceptions/quote_error'
 
 describe Course do
   describe 'model' do
@@ -71,6 +72,30 @@ describe Course do
                                      laboratory: false)
       expect(analisis).not_to be_valid
       expect(analisis.errors).to have_key(:subject)
+    end
+  end
+
+  course_param = { id: 1, code: 9532, subject: 'Memo',
+                   teacher: 'villagra', quota: 1, modality: 'tp' }
+  subject(:memo) { described_class.new(course_param) }
+
+  describe 'when student applies' do
+    course_param = { id: 1, code: 9532, subject: 'Memo',
+                     teacher: 'villagra', quota: 1, modality: 'tp' }
+    memo = described_class.new(course_param)
+
+    params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
+    student = Student.new(params)
+    student.inscribe_to(memo)
+    it "the course's quota is one less " do
+      expect(memo.quota).to equal(0)
+    end
+
+    params2 = { name: 'Jazmin Ferreiro', user_name: 'juana' }
+    student2 = Student.new(params2)
+
+    it 'the course can accept more student outside quota' do
+      expect { student2.inscribe_to(memo) }.to raise_error(QuoteError)
     end
   end
 end

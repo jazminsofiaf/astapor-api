@@ -2,7 +2,7 @@ Arquitectura elegida:
 
 -Bot Api de Telegram para crear el bot.
 -Ruby 2.5.1 como lenguaje.
--La librería para aplicación web Sinatra.
+-La librería para aplicación web: Sinatra (usando Padrino que ya viene con Sinatra).
 -La herramienta de testeo rspec en su versión 3.8.0.
 -La herramienta de testeo automático FitNesse.
 -El sistema de gestión para base de datos PostgreSQL.

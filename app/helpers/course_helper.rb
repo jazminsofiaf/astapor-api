@@ -1,8 +1,8 @@
 require 'json'
 require_relative '../../models/course'
-require 'byebug'
+require_relative '../../exceptions/invalid_course_error'
 
-class CourseFromJson
+class CourseHelper
   CODE_KEY = 'codigo'.freeze
   SUBJECT_NAME_KEY = 'nombreMateria'.freeze
   TEACHER_KEY = 'docente'.freeze
