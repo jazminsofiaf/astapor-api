@@ -27,4 +27,11 @@ describe 'Course Offers Parser' do
     expect(result.size).to eq 1
     expect(result[0][:codigo]).to eq course1.code
   end
+
+  it 'when one course is parsed it should create an array with the info docente and the name
+  of the teacher of the course' do
+    result = parser.parse([course1])
+    expect(result.size).to eq 1
+    expect(result[0][:docente]).to eq course1.teacher
+  end
 end

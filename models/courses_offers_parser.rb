@@ -4,7 +4,8 @@ class CoursesOffersParser
   def parse(courses)
     info_courses = []
     courses.each do |course|
-      info_courses.push('nombre': course.subject, 'codigo': course.code)
+      info_courses.push('nombre': course.subject, 'codigo': course.code,
+                        'docente': course.teacher)
     end
     info_courses
   end
