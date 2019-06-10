@@ -22,9 +22,6 @@ class CourseHelper
              projector: input[PROJECTOR_KEY],
              laboratory: input[LAB_KEY] }
 
-    course = Course.new(args)
-    raise InvalidCourseError unless course.valid?
-
-    course
+    Course.new(args)
   end
 end

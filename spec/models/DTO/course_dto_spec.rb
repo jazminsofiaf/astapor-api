@@ -14,7 +14,7 @@ describe 'Course dto' do
     '{"codigo": "a",
       "modalidad": "tareas",
 	    "docente": "Linus Torvalds",
-	    "cupo": 30
+	    "cupo": 3000
     }'
   end
 
@@ -27,7 +27,9 @@ describe 'Course dto' do
     course.subject = 'Sistemas Operativos'
   end
 
-  it 'should raise exeption for invalid course' do
-    expect { CourseHelper.parse(invalid) }.to raise_error(InvalidCourseError)
+  it 'should create invalid course with errors' do
+    course = CourseHelper.parse(invalid)
+    expect(course.valid?).to be_falsey
+    expect(course.errors.empty?).to be_falsey
   end
 end

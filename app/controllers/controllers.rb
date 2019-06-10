@@ -1,4 +1,5 @@
 require_relative '../../exceptions/course_not_found_error'
+require_relative '../../exceptions/astapor_error'
 
 AstaporGuarani::App.controllers do
   # walking skeleton
@@ -14,13 +15,14 @@ AstaporGuarani::App.controllers do
 
   post '/materias' do
     course = CourseHelper.parse(request.body.read)
+    if not (course.valid?)
+      status 400
+      return { 'error': course.errors.messages.values.flatten[0]}.to_json
+    end
     CoursesRepository.new.save(course)
     status 201
-    { "resultado": 'materia_creada' }.to_json
-  rescue InvalidCourseError
-    status 400
-    return { "error": course.errors.messages.values.flatten[0],
-             "resultado": course.errors.messages.values.flatten[0] }.to_json
+    { 'resultado': 'materia_creada' }.to_json
+
   end
 
   post '/alumnos' do
@@ -33,6 +35,7 @@ AstaporGuarani::App.controllers do
 
     student.inscribe_to(course)
     status 200
+    { 'resultado': 'inscripcion_creada' }.to_json
   end
 
   error AstaporError do |error|

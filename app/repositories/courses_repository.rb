@@ -17,7 +17,6 @@ class CoursesRepository < BaseRepository
 
   def save(a_record)
     raise DuplicateSubjectException unless find_by_code(a_record.code).nil?
-
     super
   end
 
