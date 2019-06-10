@@ -42,4 +42,10 @@ describe 'calification dto' do
       '"notas":"[8, 0]","username_alumno":"juanperez"}'
     expect { CalificationHelper.new(JSON.parse(body4)) }.to raise_error(InvalidGradeError)
   end
+
+  it 'should raise InvalidGradeError if a grade is negative' do
+    body5 = '{"codigo_materia":"1001",'\
+      '"notas":"[8, -5]","username_alumno":"juanperez"}'
+    expect { CalificationHelper.new(JSON.parse(body5)) }.to raise_error(InvalidGradeError)
+  end
 end

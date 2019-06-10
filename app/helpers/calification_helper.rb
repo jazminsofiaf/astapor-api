@@ -35,7 +35,7 @@ class CalificationHelper
 
   def grade_validation
     grades.each do |grade|
-      errors.add(:grades, 'The grade must be lesser than 10 ') if grade > 10 || grade.zero?
+      errors.add(:grades, 'The grade must be lesser than 10 ') if grade > 10 || grade < 1
     end
   end
 
