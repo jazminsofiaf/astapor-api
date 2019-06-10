@@ -57,8 +57,9 @@ class BaseRepository
     if a_record.valid?
       id = dataset.insert(insert_changeset(a_record))
       a_record.id = id
+    else
+      puts 'record invalid.. not saving it'
     end
-    puts 'record invalid.. not saving it'
     a_record
   end
 

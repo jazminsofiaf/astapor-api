@@ -11,8 +11,8 @@ AstaporGuarani::App.helpers do
   SPANISH_DEFAULT_ERROR_MSG = 'Astapor Internal Errir'.freeze
   SPANISH_ERROR_MSG = { IncompatibleRequestException => 'pedidos_incompatibles',
                         DuplicateSubjectException => 'Materia_Duplicada',
-                        DuplicatedInscription => 'Inscripcion duplicada',
-                        QuoteError => 'Cupo completo',
+                        DuplicatedInscription => 'Inscripcion_duplicada',
+                        QuoteError => 'Cupo_completo',
                         ParseInscriptionError => 'Error de inscripcion',
                         CourseNotFoundError => 'Materia Inexistente' }.freeze
   def spanish_error_msg(error)

@@ -15,12 +15,6 @@ class CoursesRepository < BaseRepository
     load_collection dataset.where(Sequel.ilike(:subject, "%#{subject}%"))
   end
 
-  def save(a_record)
-    raise DuplicateSubjectException unless find_by_code(a_record.code).nil?
-
-    super
-  end
-
   protected
 
   def load_object(a_record)

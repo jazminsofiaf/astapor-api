@@ -21,12 +21,13 @@ class StudentsRepository < BaseRepository
   def load_object(a_record)
     registers = RegisterRepository.new.find_by_student_username(a_record[:user_name])
     inscriptions = registers.map(&:code)
-    params = { id: a_record[:id],
-               name: a_record[:name],
-               user_name: a_record[:user_name],
-               inscriptions: inscriptions,
-               created_on: a_record[:created_on],
-               updated_on: a_record[:updated_on] }
+    params = {
+      name: a_record[:name],
+      user_name: a_record[:user_name],
+      inscriptions: inscriptions,
+      created_on: a_record[:created_on],
+      updated_on: a_record[:updated_on]
+    }
     Student.new(params)
   end
 

@@ -18,7 +18,7 @@ class Course
   validates_presence_of :code, message: 'CODIGO_ERRONEO'
 
   validates :quota, presence: true, numericality: { only_integer: true,
-                                                    greater_than: 0 }
+                                                    greater_than_or_equal_to: 0 }
   validates_numericality_of :quota, less_than: 301, message: 'cupo_excedido'
 
   validates :subject, length: { maximum: 50,

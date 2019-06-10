@@ -12,6 +12,8 @@ AstaporGuarani::App.controllers do
 
   post '/reset' do
     CoursesRepository.new.delete_all
+    StudentsRepository.new.delete_all
+    RegisterRepository.new.delete_all
   end
 
   post '/materias' do
@@ -21,6 +23,8 @@ AstaporGuarani::App.controllers do
       return { 'resultado': course.errors.messages.values.flatten[0],
                'error': course.errors.messages.values.flatten[0] }.to_json
     end
+    raise DuplicateSubjectException if CoursesRepository.new.find_by_code(course.code)
+
     CoursesRepository.new.save(course)
     status 201
     { 'resultado': 'materia_creada' }.to_json
@@ -35,7 +39,9 @@ AstaporGuarani::App.controllers do
     raise CourseNotFoundError if course.nil?
 
     student.inscribe_to(course)
-    status 200
+    StudentsRepository.new.save(student)
+    CoursesRepository.new.save(course)
+    status 201
     { 'resultado': 'inscripcion_creada' }.to_json
   end
 
