@@ -15,6 +15,10 @@ class CoursesRepository < BaseRepository
     load_collection dataset.where(Sequel.ilike(:subject, "%#{subject}%"))
   end
 
+  def load_dataset
+    load_collection dataset
+  end
+
   protected
 
   def load_object(a_record)

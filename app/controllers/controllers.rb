@@ -1,3 +1,4 @@
+require_relative '../helpers/courses_offers_parser'
 require_relative '../../exceptions/course_not_found_error'
 require_relative '../../exceptions/astapor_error'
 require_relative '../../exceptions/incompatible_request_exception'
@@ -8,6 +9,12 @@ AstaporGuarani::App.controllers do
     course = CoursesRepository.new.search_by_subject('memo')
     content_type :json
     course.to_json
+  end
+
+  get '/materias' do
+    courses = CoursesRepository.new.load_dataset
+    courses_response = CoursesOffersParser.new.parse(courses)
+    { 'oferta': courses_response }.to_json
   end
 
   post '/reset' do
