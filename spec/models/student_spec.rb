@@ -22,7 +22,7 @@ describe 'Student' do
     expect { Student.new(params) }.to raise_error StudentCreationError
   end
 
-  describe 'given a student and a cpurse' do
+  describe 'given a student and a course' do
     course_param = { id: 1, code: 9532, subject: 'Memo',
                      teacher: 'villagra', quota: 1, modality: 'tp' }
     memo = Course.new(course_param)
@@ -45,6 +45,12 @@ describe 'Student' do
 
     it 'cant enroll in a course with no place' do
       expect { student2.inscribe_to(memo) }.to raise_error(QuoteError)
+    end
+
+    it 'should have an 8 and 9 on his grades when he is calificated with an 8 and a 9' do
+      student.course_calification_with(9532, [8, 9])
+      aux = { 9532 => [8, 9] }
+      expect(student.grades).to eq aux
     end
   end
 end

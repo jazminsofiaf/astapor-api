@@ -30,4 +30,9 @@ class Student
 
     true
   end
+
+  def course_calification_with(code_course, grades)
+    # aca se lo debe desincribir al alumno
+    @grades[code_course] = grades
+  end
 end

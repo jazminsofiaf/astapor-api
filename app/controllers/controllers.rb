@@ -1,6 +1,8 @@
 require_relative '../../exceptions/course_not_found_error'
 require_relative '../../exceptions/astapor_error'
 require_relative '../../exceptions/incompatible_request_exception'
+require_relative '../../exceptions/student_not_inscripted_error'
+require_relative '../../exceptions/invalid_grade_error'
 
 AstaporGuarani::App.controllers do
   # walking skeleton
@@ -28,6 +30,26 @@ AstaporGuarani::App.controllers do
     CoursesRepository.new.save(course)
     status 201
     { 'resultado': 'materia_creada' }.to_json
+  end
+
+  post '/calificar' do
+    begin
+      calification_request = CalificationHelper.new(JSON.parse(request.body.read))
+      student = StudentsRepository.new.find_by_user_name(calification_request.username)
+      raise StudentNotInscriptedError if student.nil?
+
+      student.course_calification_with(calification_request.code, calification_request.grades)
+      StudentsRepository.new.save(student)
+    rescue InvalidGradeError => e
+      status 400
+      return { 'error': e.message }.to_json
+    rescue StudentNotInscriptedError => e
+      status 400
+      return { 'error': e.message }.to_json
+    end
+
+    status 200
+    { 'resultado': 'notas_creadas' }.to_json
   end
 
   post '/alumnos' do

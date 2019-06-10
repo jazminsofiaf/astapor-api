@@ -41,7 +41,6 @@ class CalificationHelper
 
   def validation
     valid?
-    puts invalid?
-    raise InvalidGradeError, errors.messages.values.first if invalid?
+    raise InvalidGradeError if invalid?
   end
 end

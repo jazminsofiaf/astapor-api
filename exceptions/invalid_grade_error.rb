@@ -1,6 +1,7 @@
 require_relative 'astapor_error'
 class InvalidGradeError < AstaporError
-  def initialize(msg = 'invalid grade')
-    super(msg)
+  attr_reader :message
+  def initialize(msg = 'NOTA_INVALIDA')
+    @message = msg
   end
 end
