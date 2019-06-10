@@ -16,6 +16,17 @@ describe 'calification dto' do
   end
 
   it 'should have grade' do
-    expect(calification_dto.grades).to eq 8
+    expect(calification_dto.grades).to eq [8]
+  end
+
+  it 'should have the username asociated' do
+    expect(calification_dto.username).to eq 'juanperez'
+  end
+
+  it 'should accept many notes' do
+    body2 = '{"codigo_materia":"1001",'\
+      '"notas":"[8, 2]","username_alumno":"juanperez"}'
+    calification_dto2 = CalificationHelper.new(JSON.parse(body2))
+    expect(calification_dto2.grades).to eq [8, 2]
   end
 end
