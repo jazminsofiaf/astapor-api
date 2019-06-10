@@ -11,7 +11,7 @@ class CalificationHelper
 
   ERROR_INVALID_GRADE = 'NOTA_INVALIDA'.freeze
 
-  CORCHETE = '['.freeze
+  BRACE = '['.freeze
 
   validates :grade_validation, presence: { message: ERROR_INVALID_GRADE }
 
@@ -23,7 +23,7 @@ class CalificationHelper
   end
 
   def parsear_notas(str_notas)
-    if str_notas.include? CORCHETE
+    if str_notas.include? BRACE
       array_str_notas = str_notas[1, str_notas.length - 1].split(',')
       array_int_notas = array_str_notas.collect(&:to_i)
       return array_int_notas
@@ -35,7 +35,7 @@ class CalificationHelper
 
   def grade_validation
     grades.each do |grade|
-      errors.add(:grades, 'The grade must be lesser than 10 ') if grade > 10 || grade < 1
+      errors.add(:grades, 'The grade must be lesser than 10 ') if grade > 10 || grade.negative?
     end
   end
 
