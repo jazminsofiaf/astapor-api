@@ -1,5 +1,4 @@
 require_relative '../models/course'
-require_relative '../exceptions/duplicated_inscription'
 
 class Student
   include ActiveModel::Validations
@@ -23,7 +22,7 @@ class Student
   end
 
   def inscribe_to(course)
-    raise DuplicatedInscription if @inscriptions.include?(course.code)
+    raise DuplicatedInscriptionError if @inscriptions.include?(course.code)
 
     course.reduce_quota
     @inscriptions << course.code

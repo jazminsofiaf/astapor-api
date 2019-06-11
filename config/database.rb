@@ -1,7 +1,7 @@
 require 'sequel'
 require 'padrino'
 
-Sequel::Model.raise_on_save_failure = false # Do not throw exceptions on failure
+Sequel::Model.raise_on_save_failure = false # Do not throw error on failure
 DB =
   case Padrino.env
   when :development

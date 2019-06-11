@@ -1,9 +1,7 @@
 require 'rspec'
-require_relative '../../exceptions/student_creation_error'
+
 require_relative '../../models/student'
 require_relative '../../app/repositories/students_repository'
-require_relative '../../exceptions/duplicated_inscription'
-require_relative '../../exceptions/quote_error'
 
 describe 'Student' do
   subject(:student) do
@@ -35,7 +33,7 @@ describe 'Student' do
     end
 
     it 'cant enroll in a course twice in the same semester' do
-      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscription)
+      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscriptionError)
     end
 
     describe 'when quote course is 0'

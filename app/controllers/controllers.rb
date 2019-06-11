@@ -1,8 +1,3 @@
-require_relative '../helpers/courses_offers_parser'
-require_relative '../../exceptions/course_not_found_error'
-require_relative '../../exceptions/astapor_error'
-require_relative '../../exceptions/incompatible_request_exception'
-
 AstaporGuarani::App.controllers do
   # walking skeleton
   get '/' do
@@ -14,6 +9,7 @@ AstaporGuarani::App.controllers do
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
     courses_response = CoursesOffersParser.new.parse(courses)
+    status 200
     { 'oferta': courses_response }.to_json
   end
 
@@ -30,7 +26,7 @@ AstaporGuarani::App.controllers do
       return { 'resultado': course.errors.messages.values.flatten[0],
                'error': course.errors.messages.values.flatten[0] }.to_json
     end
-    raise DuplicateSubjectException if CoursesRepository.new.find_by_code(course.code)
+    raise DuplicateSubjectError if CoursesRepository.new.find_by_code(course.code)
 
     CoursesRepository.new.save(course)
     status 201
@@ -52,13 +48,11 @@ AstaporGuarani::App.controllers do
     { 'resultado': 'inscripcion_creada' }.to_json
   end
 
-  error IncompatibleRequestException do |error|
-    status 400
-    { 'resultado': spanish_error_msg(error) }.to_json
+  error AstaporException do |exception|
+    handle_exception(exception)
   end
 
   error AstaporError do |error|
-    status 400
-    { 'error': spanish_error_msg(error).upcase }.to_json
+    handle_error(error)
   end
 end

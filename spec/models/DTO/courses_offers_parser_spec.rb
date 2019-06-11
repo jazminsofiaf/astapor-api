@@ -5,7 +5,7 @@ require_relative '../../../models/course'
 describe 'Course Offers Parser' do
   let(:course1) do
     Course.new(code: 7515, subject: 'Analisis',
-               teacher: 'Sirne', quota: 301, modality: 'tp',
+               teacher: 'Sirne', quota: 300, modality: 'tp',
                projector: false, laboratory: false)
   end
   let(:parser) { CoursesOffersParser.new }

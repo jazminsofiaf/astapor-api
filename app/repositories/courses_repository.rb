@@ -1,7 +1,5 @@
 require_relative 'base_repository'
 
-require_relative '../../exceptions/duplicate_subject_exception'
-
 class CoursesRepository < BaseRepository
   self.table_name = :course
   self.model_class = 'Course'
