@@ -16,19 +16,6 @@ class StudentsRepository < BaseRepository
     find_by_user_name(data[:user_name]) || Student.new(data)
   end
 
-  def load_registers(a_record)
-    registers = RegisterRepository.new.find_by_student_username(a_record[:user_name])
-    inscription_registers, grades_registers = registers.partition do |register|
-      register.grade.nil?
-    end
-    inscriptions = inscription_registers.map(&:code)
-    grades = Hash.new([])
-    grades_registers.each do |register|
-      grades[register.code] = grades[register.code].push(register.grade)
-    end
-    [inscriptions, grades]
-  end
-
   def load_object(a_record)
     inscriptions, grades = load_registers(a_record)
     params = {
@@ -63,5 +50,20 @@ class StudentsRepository < BaseRepository
       name: student.name,
       user_name: student.user_name
     }
+  end
+
+  private
+
+  def load_registers(a_record)
+    registers = RegisterRepository.new.find_by_student_username(a_record[:user_name])
+    inscription_registers, grades_registers = registers.partition do |register|
+      register.grade.nil?
+    end
+    inscriptions = inscription_registers.map(&:code)
+    grades = Hash.new([])
+    grades_registers.each do |register|
+      grades[register.code] = grades[register.code].push(register.grade)
+    end
+    [inscriptions, grades]
   end
 end
