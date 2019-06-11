@@ -1,7 +1,9 @@
 require 'rspec'
 require_relative '../../exceptions/student_creation_error'
 require_relative '../../models/student'
+require_relative '../../models/register'
 require_relative '../../app/repositories/students_repository'
+require_relative '../../app/repositories/register_repository'
 require_relative '../../exceptions/duplicated_inscription'
 require_relative '../../exceptions/quote_error'
 
@@ -59,6 +61,17 @@ describe 'Student' do
       rec = student.obtain_record
       expect(rec[:name]).to eq 'Jazmin Ferreiro'
       expect(rec[:user_name]).to eq 'jaz2'
+    end
+  end
+
+  describe 'verifying if student is inscripted on a course' do
+    subject(:register) do
+      Register.new(id: 1, student_username: 'ram', code: 9532, grade: 10)
+    end
+
+    it 'should return false when a student isnt inscripted in the course' do
+      RegisterRepository.new.save(register)
+      expect(student.is_inscripted_on(9532)).to eq false
     end
   end
 end

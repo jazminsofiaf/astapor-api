@@ -16,8 +16,6 @@ class StudentsRepository < BaseRepository
     find_by_user_name(data[:user_name]) || Student.new(data)
   end
 
-  protected
-
   def load_object(a_record)
     registers = RegisterRepository.new.find_by_student_username(a_record[:user_name])
     inscriptions = registers.map(&:code)
@@ -30,6 +28,8 @@ class StudentsRepository < BaseRepository
     }
     Student.new(params)
   end
+
+  protected
 
   def changeset(student)
     student.inscriptions
