@@ -13,17 +13,16 @@ AstaporGuarani::App.helpers do
                         QuoteError => 'cupo_completo',
                         ParseInscriptionError => 'inscripcion_erronea',
                         CourseNotFoundError => 'materia_inexistente' }.freeze
-  RESULT = 'resultado'.freeze
-  ERROR = 'error'.freeze
+
   def handle_exception(exception)
     message = SPANISH_ERROR_MSG[exception.class] || exception.msg
     status 400
-    { RESULT: message.upcase }.to_json
+    { 'resultado': message }.to_json
   end
 
-  def spanish_error(error)
-    message = SPANISH_ERROR_MSG[error.class].upcase || error.msg
+  def handle_error(error)
+    message = SPANISH_ERROR_MSG[error.class] || error.msg
     status 400
-    { ERROR: message.upcase }.to_json
+    { 'error': message.upcase }.to_json
   end
 end

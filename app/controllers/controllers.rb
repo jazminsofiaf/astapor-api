@@ -1,3 +1,5 @@
+require_relative '../../app/helpers/error/astapor_error'
+require_relative '../../app/helpers/error/exception/astapor_exception'
 AstaporGuarani::App.controllers do
   # walking skeleton
   get '/' do
@@ -21,11 +23,6 @@ AstaporGuarani::App.controllers do
 
   post '/materias' do
     course = CourseHelper.parse(request.body.read)
-    unless course.valid?
-      status 400
-      return { 'resultado': course.errors.messages.values.flatten[0],
-               'error': course.errors.messages.values.flatten[0] }.to_json
-    end
     raise DuplicateSubjectError if CoursesRepository.new.find_by_code(course.code)
 
     CoursesRepository.new.save(course)

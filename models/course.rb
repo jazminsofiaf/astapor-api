@@ -1,4 +1,7 @@
 require 'active_model'
+require_relative '../app/helpers/error/exception/quota_request'
+require_relative '../app/helpers/error/exception/incompatible_request'
+require_relative '../app/helpers/error/course_error'
 
 # comment
 class Course
