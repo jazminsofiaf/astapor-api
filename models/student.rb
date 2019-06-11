@@ -35,4 +35,9 @@ class Student
     # aca se lo debe desincribir al alumno
     @grades[code_course] = grades
   end
+
+  def obtain_record
+    { id: @id, name: @name, user_name: @user_name,
+      updated_on: @updated_on, created_on: @created_on }
+  end
 end

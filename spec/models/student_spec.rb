@@ -53,4 +53,12 @@ describe 'Student' do
       expect(student.grades).to eq aux
     end
   end
+
+  describe 'asking for a record of the student' do
+    it 'should return a record with the name and user name when ask for the student record' do
+      rec = student.obtain_record
+      expect(rec[:name]).to eq 'Jazmin Ferreiro'
+      expect(rec[:user_name]).to eq 'jaz2'
+    end
+  end
 end
