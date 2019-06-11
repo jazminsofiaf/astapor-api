@@ -59,25 +59,17 @@ describe 'Student' do
     describe 'when save grades for the student'
 
     it 'should have an 8 and 9 on his grades when he is calificated with an 8 and a 9' do
-      calification = CalificationHelper.new(JSON.parse(body))
-      student.calificate(calification)
+      calification = GradeHelper.new(JSON.parse(body))
+      student.add_grade(calification)
       aux = { 9532 => [8, 9] }
       expect(student.grades).to eq aux
     end
 
     it 'should save every grade on a register' do
-      calification = CalificationHelper.new(JSON.parse(body))
-      student.calificate(calification)
+      calification = GradeHelper.new(JSON.parse(body))
+      student.add_grade(calification)
       reg = RegisterRepository.new.find_by_student_username(calification.username)
       expect(reg.nil?).to eq false
-    end
-  end
-
-  describe 'asking for a record of the student' do
-    it 'should return a record with the name and user name when ask for the student record' do
-      rec = student.obtain_record
-      expect(rec[:name]).to eq 'Jazmin Ferreiro'
-      expect(rec[:user_name]).to eq 'jaz2'
     end
   end
 end

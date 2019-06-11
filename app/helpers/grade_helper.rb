@@ -3,12 +3,12 @@ require_relative 'error/invalid_grade_error'
 require_relative '../repositories/register_repository'
 require_relative '../../models/register'
 
-class CalificationHelper
+class GradeHelper
   include ActiveModel::Validations
   attr_reader :code, :grades, :username, :grades_string
 
   CODE = 'codigo_materia'.freeze
-  NOTAS = 'notas'.freeze
+  GRADE = 'notas'.freeze
   USERNAME = 'username_alumno'.freeze
 
   ERROR_INVALID_GRADE = 'NOTA_INVALIDA'.freeze
@@ -20,9 +20,9 @@ class CalificationHelper
   validates :grade_validation, presence: { message: ERROR_INVALID_GRADE }
 
   def initialize(data)
-    @grades_string = data[NOTAS]
+    @grades_string = data[GRADE]
     @code = data[CODE].to_i
-    @grades = parse_grades(data[NOTAS])
+    @grades = parse_grades(data[GRADE])
     @username = data[USERNAME]
     validation
   end

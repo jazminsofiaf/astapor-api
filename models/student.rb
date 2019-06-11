@@ -30,14 +30,11 @@ class Student
     true
   end
 
-  def calificate(calification)
+  def add_grade(grade)
+    # si no esta inscripto deberia lanzar excepcion
+    @grades[grade.code] = grade.grades
     # aca se lo debe desincribir al alumno
-    @grades[calification.code] = calification.grades
-    @grades[calification.code].each do |grade|
-      reg = Register.new(code: calification.code, grade: grade,
-                         student_username: calification.username)
-      StudentsRepository.new.save_register(reg)
-    end
+    @inscriptions.delete(grade.code)
   end
 
   # def is_inscribed_in(course_code)
@@ -47,9 +44,4 @@ class Student
   # end
   # false
   # end
-
-  def obtain_record
-    { id: @id, name: @name, user_name: @user_name,
-      updated_on: @updated_on, created_on: @created_on }
-  end
 end
