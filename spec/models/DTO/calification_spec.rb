@@ -2,6 +2,8 @@ require 'rspec'
 require 'json'
 require_relative '../../../app/helpers/calification_helper'
 require_relative '../../../exceptions/invalid_grade_error'
+require_relative '../../../app/repositories/register_repository'
+require_relative '../../../models/register'
 
 describe 'calification dto' do
   context 'created from json string'

@@ -1,5 +1,7 @@
 require 'active_model'
 require_relative '../../exceptions/invalid_grade_error'
+require_relative '../repositories/register_repository'
+require_relative '../../models/register'
 
 class CalificationHelper
   include ActiveModel::Validations
@@ -21,6 +23,13 @@ class CalificationHelper
     @grades = parse_grades(data[NOTAS])
     @username = data[USERNAME]
     validation
+  end
+
+  def save_registers
+    grades.each do |grade|
+      reg = Register.new(code: @code, grade: grade, student_username: @username)
+      RegisterRepository.new.save(reg)
+    end
   end
 
   private

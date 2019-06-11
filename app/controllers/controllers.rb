@@ -33,12 +33,13 @@ AstaporGuarani::App.controllers do
   end
 
   post '/calificar' do
-    calification_request = CalificationHelper.new(JSON.parse(request.body.read))
-    student = StudentsRepository.new.find_by_user_name(calification_request.username)
+    calification = CalificationHelper.new(JSON.parse(request.body.read))
+    student = StudentsRepository.new.find_by_user_name(calification.username)
     raise StudentNotInscriptedError if student.nil?
 
-    student.course_calification_with(calification_request.code, calification_request.grades)
+    student.course_calification_with(calification.code, calification.grades)
     StudentsRepository.new.save(student)
+    calification.save_registers
     status 200
     { 'resultado': 'notas_creadas' }.to_json
   end
