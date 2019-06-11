@@ -26,10 +26,4 @@ describe 'Course dto' do
     course.modality = 'tareas'
     course.subject = 'Sistemas Operativos'
   end
-
-  it 'should create invalid course with errors' do
-    course = CourseHelper.parse(invalid)
-    expect(course).not_to be_valid
-    expect(course.errors).not_to be_empty
-  end
 end

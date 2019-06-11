@@ -1,8 +1,5 @@
-require_relative '../../exceptions/course_not_found_error'
-require_relative '../../exceptions/astapor_error'
-require_relative '../../exceptions/incompatible_request_exception'
-require_relative '../../exceptions/student_not_inscripted_error'
-require_relative '../../exceptions/invalid_grade_error'
+require_relative '../../app/helpers/error/astapor_error'
+require_relative '../../app/helpers/error/exception/astapor_exception'
 
 AstaporGuarani::App.controllers do
   # walking skeleton
@@ -10,6 +7,13 @@ AstaporGuarani::App.controllers do
     course = CoursesRepository.new.search_by_subject('memo')
     content_type :json
     course.to_json
+  end
+
+  get '/materias' do
+    courses = CoursesRepository.new.load_dataset
+    courses_response = CoursesOffersParser.new.parse(courses)
+    status 200
+    { 'oferta': courses_response }.to_json
   end
 
   post '/reset' do
@@ -20,12 +24,7 @@ AstaporGuarani::App.controllers do
 
   post '/materias' do
     course = CourseHelper.parse(request.body.read)
-    unless course.valid?
-      status 400
-      return { 'resultado': course.errors.messages.values.flatten[0],
-               'error': course.errors.messages.values.flatten[0] }.to_json
-    end
-    raise DuplicateSubjectException if CoursesRepository.new.find_by_code(course.code)
+    raise DuplicateSubjectError if CoursesRepository.new.find_by_code(course.code)
 
     CoursesRepository.new.save(course)
     status 201
@@ -35,7 +34,7 @@ AstaporGuarani::App.controllers do
   post '/calificar' do
     calification = CalificationHelper.new(JSON.parse(request.body.read))
     student = StudentsRepository.new.find_by_user_name(calification.username)
-    #raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
+    # raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
 
     student.course_calification_with(calification.code, calification.grades)
     StudentsRepository.new.save(student)
@@ -59,13 +58,11 @@ AstaporGuarani::App.controllers do
     { 'resultado': 'inscripcion_creada' }.to_json
   end
 
-  error IncompatibleRequestException do |error|
-    status 400
-    { 'resultado': spanish_error_msg(error) }.to_json
+  error AstaporException do |exception|
+    handle_exception(exception)
   end
 
   error AstaporError do |error|
-    status 400
-    { 'error': spanish_error_msg(error).upcase }.to_json
+    handle_error(error)
   end
 end

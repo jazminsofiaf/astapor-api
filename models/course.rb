@@ -1,12 +1,14 @@
 require 'active_model'
-require_relative '../exceptions/incompatible_request_exception'
-require_relative '../exceptions/duplicate_subject_exception'
+require_relative '../app/helpers/error/exception/quota_request'
+require_relative '../app/helpers/error/exception/incompatible_request'
+require_relative '../app/helpers/error/course_error'
 
 # comment
 class Course
   include ActiveModel::Validations
 
   LIMIT = 0
+  MSG = 1
 
   attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on,
@@ -14,20 +16,20 @@ class Course
 
   validates :code, length: { minimum: 4,
                              maximum: 4,
-                             message: 'CODIGO_ERRONEO' }
-  validates_presence_of :code, message: 'CODIGO_ERRONEO'
+                             message: 'codigo_erroneo' }
+  validates_presence_of :code, message: 'codigo_erroneo'
 
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than_or_equal_to: 0 }
   validates_numericality_of :quota, less_than: 301, message: 'cupo_excedido'
 
   validates :subject, length: { maximum: 50,
-                                message: 'NOMBRE_ERRONEO' }
-  validates_presence_of :subject, message: 'NOMBRE_ERRONEO'
+                                message: 'nombre_erroneo' }
+  validates_presence_of :subject, message: 'nombre_erroneo'
 
   def initialize(data = {})
     populate(data)
-    validate!
+    validation
   end
 
   def populate(data)
@@ -41,6 +43,18 @@ class Course
     @created_on = data[:created_on]
     @projector = data[:projector]
     @laboratory = data[:laboratory]
+  end
+
+  def validation
+    begin
+      validate!
+    rescue ActiveModel::ValidationError
+      msg = errors.messages.first[MSG].first
+      raise QuotaRequest, msg if errors.details.keys.first.equal?(:quota)
+
+      raise CourseError, msg
+    end
+    raise IncompatibleRequest if @laboratory && @projector
   end
 
   def reduce_quota
@@ -57,9 +71,5 @@ class Course
       'modality' => @modality,
       'projector' => @projector,
       'laboratory' => @laboratory }.to_json
-  end
-
-  def validate!
-    raise IncompatibleRequestException if @projector && @laboratory
   end
 end

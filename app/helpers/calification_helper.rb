@@ -1,5 +1,5 @@
 require 'active_model'
-require_relative '../../exceptions/invalid_grade_error'
+require_relative 'error/invalid_grade_error'
 require_relative '../repositories/register_repository'
 require_relative '../../models/register'
 

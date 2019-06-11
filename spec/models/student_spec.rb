@@ -1,11 +1,11 @@
 require 'rspec'
-require_relative '../../exceptions/student_creation_error'
+
 require_relative '../../models/student'
 require_relative '../../models/register'
 require_relative '../../app/repositories/students_repository'
 require_relative '../../app/repositories/register_repository'
-require_relative '../../exceptions/duplicated_inscription'
-require_relative '../../exceptions/quote_error'
+require_relative '../../app/helpers/error/duplicated_inscription_error'
+require_relative '../../app/helpers/error/quote_error'
 
 describe 'Student' do
   subject(:student) do
@@ -37,7 +37,7 @@ describe 'Student' do
     end
 
     it 'cant enroll in a course twice in the same semester' do
-      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscription)
+      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscriptionError)
     end
 
     describe 'when quote course is 0'
@@ -61,19 +61,6 @@ describe 'Student' do
       rec = student.obtain_record
       expect(rec[:name]).to eq 'Jazmin Ferreiro'
       expect(rec[:user_name]).to eq 'jaz2'
-    end
-  end
-
-  describe 'verifying if student is inscribed into a course' do
-    subject(:register) do
-      Register.new(id: 1, student_username: 'ram', code: 9532, grade: 10)
-    end
-    subject(:register2) do
-      Register.new(id: 1, student_username: 'matiasfirpo', code: 9533, grade: 10)
-    end
-    subject(:student2) do
-      params = { name: 'Matias Firpo', user_name: 'matiasfirpo' }
-      Student.new(params)
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'rspec'
 require 'json'
 require_relative '../../../app/helpers/calification_helper'
-require_relative '../../../exceptions/invalid_grade_error'
+require_relative '../../../app/helpers/error/invalid_grade_error'
 require_relative '../../../app/repositories/register_repository'
 require_relative '../../../models/register'
 
