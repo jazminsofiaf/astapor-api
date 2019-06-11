@@ -6,14 +6,19 @@ require_relative 'error/duplicated_inscription_error'
 require_relative 'error/quote_error'
 require_relative 'error/parse_inscription_error'
 require_relative 'error/course_not_found_error'
-AstaporGuarani::App.helpers do
-  SPANISH_ERROR_MSG = { IncompatibleRequest => 'pedidos_incompatibles',
-                        DuplicateSubjectError => 'materia_Duplicada',
-                        DuplicatedInscriptionError => 'inscripcion_duplicada',
-                        QuoteError => 'cupo_completo',
-                        ParseInscriptionError => 'inscripcion_erronea',
-                        CourseNotFoundError => 'materia_inexistente' }.freeze
+require_relative 'error/invalid_grade_error'
+require_relative 'error/student_not_inscripted_error'
 
+AstaporGuarani::App.helpers do
+  SPANISH_DEFAULT_ERROR_MSG = 'Astapor Internal Error'.freeze
+  SPANISH_ERROR_MSG = { IncompatibleRequest => 'pedidos_incompatibles',
+                        DuplicateSubjectError => 'Materia_Duplicada',
+                        DuplicatedInscriptionError => 'Inscripcion_duplicada',
+                        QuoteError => 'Cupo_completo',
+                        ParseInscriptionError => 'Error de inscripcion',
+                        CourseNotFoundError => 'Materia Inexistente',
+                        InvalidGradeError => 'nota_invalida',
+                        StudentNotInscriptedError => 'alumno_incorrecto' }.freeze
   def handle_exception(exception)
     message = SPANISH_ERROR_MSG[exception.class] || exception.msg
     status 400

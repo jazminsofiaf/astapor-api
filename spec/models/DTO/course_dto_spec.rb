@@ -4,17 +4,17 @@ describe 'Course dto' do
   let(:body) do
     '{"codigo": "4444",
       "modalidad": "tareas",
-	    "docente": "Linus Torvalds",
-	    "nombreMateria": "Sistemas Operativos",
-	    "cupo": 30
+      "docente": "Linus Torvalds",
+      "nombreMateria": "Sistemas Operativos",
+      "cupo": 30
     }'
   end
 
   let(:invalid) do
     '{"codigo": "a",
       "modalidad": "tareas",
-	    "docente": "Linus Torvalds",
-	    "cupo": 3000
+      "docente": "Linus Torvalds",
+      "cupo": 3000
     }'
   end
 

@@ -7,12 +7,12 @@ describe 'Registers repository' do
 
   let(:grade2) { Register.new(id: 1, student_username: 'jaz', code: 9532, grade: 10) }
 
-  context 'with a  calification' do
+  context 'with a  grade' do
     it 'can save it ' do
       repository.save(grade1)
     end
 
-    it 'can get all calification' do
+    it 'can get all grades' do
       repository.save(grade1)
       repository.save(grade2)
       grades = repository.find_by_student_username('jaz')

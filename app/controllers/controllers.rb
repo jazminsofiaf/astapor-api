@@ -1,5 +1,6 @@
 require_relative '../../app/helpers/error/astapor_error'
 require_relative '../../app/helpers/error/exception/astapor_exception'
+
 AstaporGuarani::App.controllers do
   # walking skeleton
   get '/' do
@@ -28,6 +29,17 @@ AstaporGuarani::App.controllers do
     CoursesRepository.new.save(course)
     status 201
     { 'resultado': 'materia_creada' }.to_json
+  end
+
+  post '/calificar' do
+    grade = GradeHelper.new(JSON.parse(request.body.read))
+    student = StudentsRepository.new.find_by_user_name(grade.username)
+    # raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
+
+    student.add_grade(grade)
+    StudentsRepository.new.save(student)
+    status 200
+    { 'resultado': 'notas_creadas' }.to_json
   end
 
   post '/alumnos' do
