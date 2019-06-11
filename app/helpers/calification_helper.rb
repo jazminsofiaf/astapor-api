@@ -3,7 +3,7 @@ require_relative '../../exceptions/invalid_grade_error'
 
 class CalificationHelper
   include ActiveModel::Validations
-  attr_reader :code, :grades, :username
+  attr_reader :code, :grades, :username, :grades_string
 
   CODE = 'codigo_materia'.freeze
   NOTAS = 'notas'.freeze
@@ -16,31 +16,33 @@ class CalificationHelper
   validates :grade_validation, presence: { message: ERROR_INVALID_GRADE }
 
   def initialize(data)
+    @grades_string = data[NOTAS]
     @code = data[CODE].to_i
-    @grades = parsear_notas(data[NOTAS])
+    @grades = parse_grades(data[NOTAS])
     @username = data[USERNAME]
     validation
-  end
-
-  def parsear_notas(str_notas)
-    if str_notas.include? BRACE
-      array_str_notas = str_notas[1, str_notas.length - 1].split(',')
-      array_int_notas = array_str_notas.collect(&:to_i)
-      return array_int_notas
-    end
-    [str_notas.to_i]
   end
 
   private
 
   def grade_validation
+    errors.add(:grades, 'invalid grade') if grades.include?(0) && !grades_string.include?('0')
     grades.each do |grade|
-      errors.add(:grades, 'The grade must be lesser than 10 ') if grade > 10 || grade.negative?
+      errors.add(:grades, 'invalid grade') if grade > 10 || grade.negative?
     end
   end
 
   def validation
     valid?
-    raise InvalidGradeError if invalid?
+    raise InvalidGradeError, errors.messages.values.first if invalid?
+  end
+
+  def parse_grades(str_grades)
+    if str_grades.include? BRACE
+      array_str_grades = str_grades[1, str_grades.length - 1].split(',')
+      array_int_grades = array_str_grades.collect(&:to_i)
+      return array_int_grades
+    end
+    [str_grades.to_i]
   end
 end
