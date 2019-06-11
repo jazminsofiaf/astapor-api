@@ -28,3 +28,11 @@ job_deploy:
     - dpl --provider=heroku --app=astapor-api --api-key=1eef7d7f-9679-4f40-8ce4-49b1bea812f2
   only:
     - master
+
+job_deploy_develop:
+  stage: deploy
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=astapor-develop --api-key=1eef7d7f-9679-4f40-8ce4-49b1bea812f2
+  only:
+    - develop
