@@ -54,4 +54,10 @@ describe 'calification dto' do
       '"notas":"[]","username_alumno":"juanperez"}'
     expect { CalificationHelper.new(JSON.parse(body7)) }.to raise_error(InvalidGradeError)
   end
+
+  it 'should raise InvalidGradeError if the struct of the grade is empty' do
+    body8 = '{"codigo_materia":"1001",'\
+      '"notas":"","username_alumno":"juanperez"}'
+    expect { CalificationHelper.new(JSON.parse(body8)) }.to raise_error(InvalidGradeError)
+  end
 end
