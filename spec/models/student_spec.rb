@@ -64,14 +64,16 @@ describe 'Student' do
     end
   end
 
-  describe 'verifying if student is inscripted on a course' do
+  describe 'verifying if student is inscribed into a course' do
     subject(:register) do
       Register.new(id: 1, student_username: 'ram', code: 9532, grade: 10)
     end
-
-    it 'should return false when a student isnt inscripted in the course' do
-      RegisterRepository.new.save(register)
-      expect(student.is_inscripted_on(9532)).to eq false
+    subject(:register2) do
+      Register.new(id: 1, student_username: 'matiasfirpo', code: 9533, grade: 10)
+    end
+    subject(:student2) do
+      params = { name: 'Matias Firpo', user_name: 'matiasfirpo' }
+      Student.new(params)
     end
   end
 end

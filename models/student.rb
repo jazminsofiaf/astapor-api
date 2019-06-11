@@ -36,13 +36,13 @@ class Student
     @grades[code_course] = grades
   end
 
-  def is_inscripted_on(course_code)
-    new_student = StudentsRepository.new.load_object(obtain_record)
-    new_student.inscriptions.each do |code|
-      return true if course_code == code
-    end
-    false
-  end
+  #def is_inscribed_in(course_code)
+    #new_student = StudentsRepository.new.load_object(obtain_record)
+    #new_student.inscriptions.each do |code|
+     # return true if course_code == code && 
+    #end
+    #false
+  #end
 
   def obtain_record
     { id: @id, name: @name, user_name: @user_name,

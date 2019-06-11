@@ -35,7 +35,7 @@ AstaporGuarani::App.controllers do
   post '/calificar' do
     calification = CalificationHelper.new(JSON.parse(request.body.read))
     student = StudentsRepository.new.find_by_user_name(calification.username)
-    raise StudentNotInscriptedError if student.nil? || student.is_inscripted_on(calification.code)
+    #raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
 
     student.course_calification_with(calification.code, calification.grades)
     StudentsRepository.new.save(student)
