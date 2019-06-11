@@ -15,6 +15,8 @@ class CalificationHelper
 
   BRACE = '['.freeze
 
+  MAX_GRADE = 10
+
   validates :grade_validation, presence: { message: ERROR_INVALID_GRADE }
 
   def initialize(data)
@@ -31,7 +33,7 @@ class CalificationHelper
     errors.add(:grades, 'invalid grade') if grades.include?(0) && !grades_string.include?('0')
 
     grades.each do |grade|
-      errors.add(:grades, 'invalid grade') if grade > 10 || grade.negative?
+      errors.add(:grades, 'invalid grade') if grade > MAX_GRADE || grade.negative?
     end
   end
 
