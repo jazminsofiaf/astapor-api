@@ -30,9 +30,14 @@ class Student
     true
   end
 
-  def course_calification_with(code_course, grades)
+  def calificate(calification)
     # aca se lo debe desincribir al alumno
-    @grades[code_course] = grades
+    @grades[calification.code] = calification.grades
+    @grades[calification.code].each do |grade|
+      reg = Register.new(code: calification.code, grade: grade,
+                         student_username: calification.username)
+      StudentsRepository.new.save_register(reg)
+    end
   end
 
   # def is_inscribed_in(course_code)

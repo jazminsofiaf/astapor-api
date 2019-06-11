@@ -29,6 +29,10 @@ class StudentsRepository < BaseRepository
     Student.new(params)
   end
 
+  def save_register(register)
+    RegisterRepository.new.save(register)
+  end
+
   protected
 
   def changeset(student)

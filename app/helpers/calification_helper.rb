@@ -25,17 +25,11 @@ class CalificationHelper
     validation
   end
 
-  def save_registers
-    grades.each do |grade|
-      reg = Register.new(code: @code, grade: grade, student_username: @username)
-      RegisterRepository.new.save(reg)
-    end
-  end
-
   private
 
   def grade_validation
     errors.add(:grades, 'invalid grade') if grades.include?(0) && !grades_string.include?('0')
+
     grades.each do |grade|
       errors.add(:grades, 'invalid grade') if grade > 10 || grade.negative?
     end

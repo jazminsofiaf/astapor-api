@@ -36,9 +36,8 @@ AstaporGuarani::App.controllers do
     student = StudentsRepository.new.find_by_user_name(calification.username)
     # raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
 
-    student.course_calification_with(calification.code, calification.grades)
+    student.calificate(calification)
     StudentsRepository.new.save(student)
-    calification.save_registers
     status 200
     { 'resultado': 'notas_creadas' }.to_json
   end

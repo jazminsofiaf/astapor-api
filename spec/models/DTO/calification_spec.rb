@@ -2,8 +2,6 @@ require 'rspec'
 require 'json'
 require_relative '../../../app/helpers/calification_helper'
 require_relative '../../../app/helpers/error/invalid_grade_error'
-require_relative '../../../app/repositories/register_repository'
-require_relative '../../../models/register'
 
 describe 'calification dto' do
   context 'created from json string'
@@ -61,12 +59,5 @@ describe 'calification dto' do
     body8 = '{"codigo_materia":"1001",'\
       '"notas":"","username_alumno":"juanperez"}'
     expect { CalificationHelper.new(JSON.parse(body8)) }.to raise_error(InvalidGradeError)
-  end
-
-  it 'should save the register with the grades of the calification' do
-    calific = CalificationHelper.new(JSON.parse(body))
-    calific.save_registers
-    register = RegisterRepository.new.find_by_student_username('juanperez')
-    expect(register.nil?).to eq false
   end
 end
