@@ -62,4 +62,11 @@ describe 'calification dto' do
       '"notas":"","username_alumno":"juanperez"}'
     expect { CalificationHelper.new(JSON.parse(body8)) }.to raise_error(InvalidGradeError)
   end
+
+  it 'should save the register with the grades of the calification' do
+    calific = CalificationHelper.new(JSON.parse(body))
+    calific.save_registers
+    register = RegisterRepository.new.find_by_student_username('juanperez')
+    expect(register.nil?).to eq false
+  end
 end
