@@ -1,6 +1,7 @@
 require_relative '../../app/helpers/error/astapor_error'
 require_relative '../../app/helpers/error/exception/astapor_exception'
 require_relative '../../app/helpers/error/exception/not_enrolled_exception'
+require_relative '../../models/grades_calculator'
 require 'byebug'
 
 AstaporGuarani::App.controllers do
@@ -49,10 +50,13 @@ AstaporGuarani::App.controllers do
     subject_code = params['codigoMateria']
 
     student = StudentsRepository.new.find_or_create(user_name: user_name)
+    subject = CoursesRepository.new.find_by_code(subject_code)
 
     raise NotEnrolledException unless student.is_inscribed_in(subject_code.to_i)
 
-    { 'estado': 'OTRO', 'nota_final': 7 }.to_json
+    final_results = GradesCalculator.new.calculate_final_grade(student, subject)
+
+    { 'estado': final_results['status'], 'nota_final': final_results['final_grade'] }.to_json
 
   rescue NotEnrolledException
     { 'estado': 'NO_INSCRIPTO', 'nota_final': nil }.to_json

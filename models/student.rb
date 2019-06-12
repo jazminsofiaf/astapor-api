@@ -30,6 +30,7 @@ class Student
     true
   end
 
+  # Grade is a grade_helper instace
   def add_grade(grade)
     # si no esta inscripto deberia lanzar excepcion
     @grades[grade.code] = grade.grades
