@@ -27,7 +27,7 @@ AstaporGuarani::App.controllers do
 
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'materia_creada' }.to_json
+    { 'resultado': 'MATERIA_CREADA' }.to_json
   end
 
   post '/calificar' do

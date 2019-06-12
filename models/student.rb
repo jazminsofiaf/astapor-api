@@ -24,7 +24,7 @@ class Student
   def inscribe_to(course)
     raise DuplicatedInscriptionError if @inscriptions.include?(course.code)
 
-    course.add_student
+    course.reduce_quota
     @inscriptions << course.code
 
     true

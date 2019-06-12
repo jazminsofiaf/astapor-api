@@ -5,7 +5,7 @@ require_relative '../../models/register'
 require_relative '../../app/repositories/students_repository'
 require_relative '../../app/repositories/register_repository'
 require_relative '../../app/helpers/error/duplicated_inscription_error'
-require_relative '../../app/helpers/error/quote_error'
+require_relative '../../app/helpers/error/quote_complete_error'
 require_relative '../../app/repositories/register_repository'
 require_relative '../../models/register'
 require_relative '../../app/helpers/grade_helper'
@@ -49,7 +49,7 @@ describe 'Student' do
     student2 = Student.new(params2)
 
     it 'cant enroll in a course with no place' do
-      expect { student2.inscribe_to(memo) }.to raise_error(QuoteError)
+      expect { student2.inscribe_to(memo) }.to raise_error(QuoteCompleteError)
     end
   end
 

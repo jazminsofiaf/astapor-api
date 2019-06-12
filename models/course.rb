@@ -1,5 +1,5 @@
 require 'active_model'
-require_relative '../app/helpers/error/quote_error'
+require_relative '../app/helpers/error/quote_complete_error'
 require_relative '../app/helpers/error/incompatible_request'
 require_relative '../app/helpers/error/course_error'
 
@@ -22,7 +22,6 @@ class Course
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than_or_equal_to: 0 }
   validates_numericality_of :quota, less_than: 301, message: 'cupo_excedido'
-  validates_numericality_of :quota, greater_than: 0, message: 'cupo_erroneo'
 
   validates :subject, length: { maximum: 50,
                                 message: 'nombre_erroneo' }
@@ -39,7 +38,6 @@ class Course
     @subject = data[:subject]
     @teacher = data[:teacher]
     @quota = data[:quota]
-    @students = data[:students] || 0
     @modality = data[:modality]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
@@ -57,10 +55,10 @@ class Course
     raise IncompatibleRequest if @laboratory && @projector
   end
 
-  def add_student
-    raise QuoteError if @students == @quota
+  def reduce_quota
+    raise QuoteCompleteError if @quota <= LIMIT
 
-    @students += 1
+    @quota -= 1
   end
 
   def to_json(*_args)

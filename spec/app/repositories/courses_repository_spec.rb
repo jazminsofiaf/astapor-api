@@ -16,11 +16,11 @@ describe CoursesRepository do
     end
 
     it 'saving the course and then get it with the same amount of students' do
-      course.add_student
-      course.add_student
+      course.reduce_quota
+      course.reduce_quota
       described_class.new.save(course)
       founded = described_class.new.find_by_code(course.code)
-      expect(founded.students).to eq(2)
+      expect(founded.quota).to eq(29)
     end
   end
 end
