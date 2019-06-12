@@ -1,5 +1,4 @@
 require_relative '../../app/helpers/error/astapor_error'
-require_relative '../../app/helpers/error/exception/astapor_exception'
 
 AstaporGuarani::App.controllers do
   # walking skeleton
@@ -56,10 +55,7 @@ AstaporGuarani::App.controllers do
     status 201
     { 'resultado': 'inscripcion_creada' }.to_json
   end
-
-  error AstaporException do |exception|
-    handle_exception(exception)
-  end
+  
 
   error AstaporError do |error|
     handle_error(error)

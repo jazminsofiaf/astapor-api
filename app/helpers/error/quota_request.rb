@@ -1,5 +1,5 @@
-require_relative 'astapor_exception'
-class QuotaRequest < AstaporException
+require_relative 'astapor_error'
+class QuotaRequest < AstaporError
   def initialize(msg = 'quote over limit exception')
     super(msg)
   end
