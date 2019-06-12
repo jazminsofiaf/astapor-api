@@ -33,7 +33,7 @@ AstaporGuarani::App.controllers do
   post '/calificar' do
     grade = GradeHelper.new(JSON.parse(request.body.read))
     student = StudentsRepository.new.find_by_user_name(grade.username)
-    # raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
+    raise StudentNotInscribedError if student.nil?
 
     student.add_grade(grade)
     StudentsRepository.new.save(student)

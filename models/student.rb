@@ -31,9 +31,10 @@ class Student
   end
 
   def add_grade(grade)
-    # si no esta inscripto deberia lanzar excepcion
+    raise StudentNotInscribedError unless @inscriptions.include? grade.code
+
     @grades[grade.code] = grade.grades
-    # aca se lo debe desincribir al alumno
+
     @inscriptions.delete(grade.code)
   end
 
