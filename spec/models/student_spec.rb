@@ -31,7 +31,9 @@ describe 'Student' do
                      teacher: 'villagra', quota: 1, modality: 'tp' }
     memo = Course.new(course_param)
     params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
+    other_params = { name: 'Mariano Martin', user_name: 'mar2' }
     student = Student.new(params)
+    another_student = Student.new(other_params)
 
     let(:body) do
       '{"codigo_materia":"9532",'\
@@ -43,8 +45,12 @@ describe 'Student' do
       expect(student.inscriptions).to eq([memo.code])
     end
 
-    it 'xxx' do
+    it 'can check being enrolled in a course' do
       expect(student.is_inscribed_in(memo.code)).to eq(true)
+    end
+
+    it 'can check not being enrolled in a course' do
+      expect(another_student.is_inscribed_in(memo.code)).to eq(false)
     end
 
     it 'cant enroll in a course twice in the same semester' do
