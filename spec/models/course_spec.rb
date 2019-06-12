@@ -48,7 +48,7 @@ describe Course do
       described_class.new(code: 7515, subject: 'Analisis',
                           teacher: 'Sirne', quota: 301, modality: 'tp',
                           projector: false, laboratory: false)
-    rescue QuotaRequest => e
+    rescue CourseError => e
       expect(e.msg).to eq('cupo_excedido')
     end
 
@@ -80,6 +80,26 @@ describe Course do
     rescue CourseError => e
       expect(e.msg).to eq('nombre_erroneo')
     end
+
+    it 'should be invalid when couta is less or equal 0' do
+      described_class.new(code: 7513,
+                          subject: nil,
+                          teacher: 'Sirne',
+                          quota: 0, modality: 'tp',
+                          projector: false,
+                          laboratory: false)
+    rescue CourseError => e
+      expect(e.msg).to eq('cupo_erroneo')
+    end
+  end
+
+  describe 'when a course is created first time' do
+    it 'should have 0 students inscribed' do
+      analisis = described_class.new(code: 7557, subject: 'Analisis',
+                                     teacher: 'Sirne', quota: 50, modality: 'tp',
+                                     projector: false, laboratory: false)
+      expect(analisis.students).to eq(0)
+    end
   end
 
   course_param = { id: 1, code: 9532, subject: 'Memo',
@@ -94,8 +114,12 @@ describe Course do
     params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
     student = Student.new(params)
     student.inscribe_to(memo)
-    it "the course's quota is one less " do
-      expect(memo.quota).to equal(0)
+
+    it "the course's quota is the same " do
+      expect(memo.quota).to equal(1)
+    end
+    it "the course's students is one more " do
+      expect(memo.students).to equal(1)
     end
 
     params2 = { name: 'Jazmin Ferreiro', user_name: 'juana' }

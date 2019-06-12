@@ -53,9 +53,8 @@ AstaporGuarani::App.controllers do
     StudentsRepository.new.save(student)
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'inscripcion_creada' }.to_json
+    { 'resultado': 'INSCRIPCION_CREADA' }.to_json
   end
-  
 
   error AstaporError do |error|
     handle_error(error)

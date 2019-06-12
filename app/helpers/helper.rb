@@ -11,14 +11,14 @@ require_relative 'error/student_not_inscribed_error'
 
 AstaporGuarani::App.helpers do
   SPANISH_DEFAULT_ERROR_MSG = 'Astapor Internal Error'.freeze
-  SPANISH_ERROR_MSG = {IncompatibleRequest => 'pedidos_incompatibles',
-                       DuplicateSubjectError => 'Materia_Duplicada',
-                       DuplicatedInscriptionError => 'Inscripcion_duplicada',
-                       QuoteError => 'Cupo_completo',
-                       ParseInscriptionError => 'Error de inscripcion',
-                       CourseNotFoundError => 'Materia Inexistente',
-                       InvalidGradeError => 'nota_invalida',
-                       StudentNotInscribedError => 'alumno_incorrecto' }.freeze
+  SPANISH_ERROR_MSG = { IncompatibleRequest => 'pedidos_incompatibles',
+                        DuplicateSubjectError => 'materia_duplicada',
+                        DuplicatedInscriptionError => 'inscripcion_duplicada',
+                        QuoteError => 'cupo_completo',
+                        ParseInscriptionError => 'error_de_inscripcion',
+                        CourseNotFoundError => 'materia_no_existente',
+                        InvalidGradeError => 'nota_invalida',
+                        StudentNotInscribedError => 'alumno_incorrecto' }.freeze
 
   def handle_error(error)
     message = SPANISH_ERROR_MSG[error.class] || error.msg

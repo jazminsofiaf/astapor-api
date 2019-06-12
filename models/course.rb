@@ -1,5 +1,5 @@
 require 'active_model'
-require_relative '../app/helpers/error/quota_request'
+require_relative '../app/helpers/error/quote_error'
 require_relative '../app/helpers/error/incompatible_request'
 require_relative '../app/helpers/error/course_error'
 
@@ -10,7 +10,7 @@ class Course
   LIMIT = 0
   MSG = 1
 
-  attr_accessor :id, :code, :subject, :teacher,
+  attr_accessor :id, :code, :subject, :teacher, :students,
                 :quota, :modality, :updated_on, :created_on,
                 :projector, :laboratory
 
@@ -22,6 +22,7 @@ class Course
   validates :quota, presence: true, numericality: { only_integer: true,
                                                     greater_than_or_equal_to: 0 }
   validates_numericality_of :quota, less_than: 301, message: 'cupo_excedido'
+  validates_numericality_of :quota, greater_than: 0, message: 'cupo_erroneo'
 
   validates :subject, length: { maximum: 50,
                                 message: 'nombre_erroneo' }
@@ -38,6 +39,7 @@ class Course
     @subject = data[:subject]
     @teacher = data[:teacher]
     @quota = data[:quota]
+    @students = data[:students] || 0
     @modality = data[:modality]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
@@ -50,16 +52,15 @@ class Course
       validate!
     rescue ActiveModel::ValidationError
       msg = errors.messages.first[MSG].first
-      raise QuotaRequest, msg if errors.details.keys.first.equal?(:quota)
-
       raise CourseError, msg
     end
     raise IncompatibleRequest if @laboratory && @projector
   end
 
-  def reduce_quota
-    @quota -= 1
-    raise QuoteError if @quota < LIMIT
+  def add_student
+    raise QuoteError if @students == @quota
+
+    @students += 1
   end
 
   def to_json(*_args)
@@ -68,6 +69,7 @@ class Course
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
+      'students' => @students,
       'modality' => @modality,
       'projector' => @projector,
       'laboratory' => @laboratory }.to_json
