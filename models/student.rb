@@ -1,5 +1,7 @@
 require_relative '../models/course'
 
+CODE = 'codigo'.freeze
+
 class Student
   include ActiveModel::Validations
   attr_accessor :id, :name, :user_name, :inscriptions, :grades, :updated_on, :created_on
@@ -34,15 +36,16 @@ class Student
     raise StudentNotInscribedError unless @inscriptions.include? grade.code
 
     @grades[grade.code] = grade.grades
-
     @inscriptions.delete(grade.code)
   end
 
-  # def is_inscribed_in(course_code)
-  # new_student = StudentsRepository.new.load_object(obtain_record)
-  # new_student.inscriptions.each do |code|
-  # return true if course_code == code &&
-  # end
-  # false
-  # end
+  def filter_courses_by_no_approved(courses)
+    courses_filtered = []
+    courses.each do |course|
+      next if grades.key?(course[:codigo])
+
+      courses_filtered.push(course)
+    end
+    courses_filtered
+  end
 end
