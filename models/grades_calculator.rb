@@ -8,7 +8,11 @@ class GradesCalculator
       sum += grade
     end
     # Refactor out magic numbers
-    mean = sum / 2
+    mean = if sum > 2
+             sum / 2
+           else
+             1
+           end
     estado = mean > 6 ? 'APROBADO' : 'DESAPROBADO'
 
     { 'status' => estado, 'final_grade' => mean }

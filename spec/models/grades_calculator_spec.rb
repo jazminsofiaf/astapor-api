@@ -8,7 +8,7 @@ require_relative '../../app/helpers/grade_helper'
 describe 'GradesCalculator' do
   grades_calculator = GradesCalculator.new
 
-  describe 'Calculation with exams modality' do
+  describe 'Calculation with exams modality - Pass' do
     params = { name: 'Mariano Martin', user_name: 'mar2' }
     student = Student.new(params)
     course_param = { id: 1, code: 9532, subject: 'Memo',
@@ -27,7 +27,7 @@ describe 'GradesCalculator' do
     end
   end
 
-  describe 'Calculation with exams modality' do
+  describe 'Calculation with exams modality - Does not pass' do
     params = { name: 'A A', user_name: 'AA' }
     student = Student.new(params)
     course_param = { id: 1, code: 9532, subject: 'Memo',
@@ -43,6 +43,25 @@ describe 'GradesCalculator' do
 
       expect(result['status']).to eq 'DESAPROBADO'
       expect(result['final_grade']).to eq 5
+    end
+  end
+
+  describe 'Minimum grade' do
+    params = { name: 'A A A', user_name: 'AAA' }
+    student = Student.new(params)
+    course_param = { id: 1, code: 9532, subject: 'Memo',
+                     teacher: 'villagra', quota: 1, modality: 'parciales' }
+    subject = Course.new(course_param)
+    student.inscribe_to(subject)
+    grade = GradeHelper.new('codigo_materia' => '9532', 'notas' => '[0,0]',
+                            'username_alumno' => 'mar2')
+    student.add_grade(grade)
+
+    it 'minimum grade is 1' do
+      result = grades_calculator.calculate_final_grade(student, subject)
+
+      expect(result['status']).to eq 'DESAPROBADO'
+      expect(result['final_grade']).to eq 1
     end
   end
 end
