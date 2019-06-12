@@ -42,6 +42,18 @@ AstaporGuarani::App.controllers do
     { 'resultado': 'notas_creadas' }.to_json
   end
 
+  get '/materias/estado' do
+    student_name = params['usernameAlumno']
+    subject_code = params['codigoMateria']
+
+    student = StudentsRepository.new.find_by_user_name(student_name)
+
+    unless student.is_inscribed_in(subject_code)
+      return { 'estado': params['usernameAlumno'],
+               'nota_final': params['codigoMateria'] }.to_json
+    end
+  end
+
   post '/alumnos' do
     inscription_request = InscriptionHelper.new(JSON.parse(request.body.read))
     student_params = { name: inscription_request.complete_name,

@@ -43,6 +43,10 @@ describe 'Student' do
       expect(student.inscriptions).to eq([memo.code])
     end
 
+    it 'xxx' do
+      expect(student.is_inscribed_in(memo.code)).to eq(true)
+    end
+
     it 'cant enroll in a course twice in the same semester' do
       expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscriptionError)
     end

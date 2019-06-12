@@ -37,11 +37,10 @@ class Student
     @inscriptions.delete(grade.code)
   end
 
-  # def is_inscribed_in(course_code)
-  # new_student = StudentsRepository.new.load_object(obtain_record)
-  # new_student.inscriptions.each do |code|
-  # return true if course_code == code &&
-  # end
-  # false
-  # end
+  def is_inscribed_in(course_code)
+    inscriptions.each do |code|
+      return true if course_code == code
+    end
+    false
+  end
 end
