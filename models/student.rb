@@ -33,9 +33,9 @@ class Student
   end
 
   def add_grade(grade)
-    # si no esta inscripto deberia lanzar excepcion
+    raise StudentNotInscribedError unless @inscriptions.include? grade.code
+
     @grades[grade.code] = grade.grades
-    # aca se lo desincribe al alumno
     @inscriptions.delete(grade.code)
   end
 
@@ -48,12 +48,4 @@ class Student
     end
     courses_filtered
   end
-
-  # def is_inscribed_in(course_code)
-  # new_student = StudentsRepository.new.load_object(obtain_record)
-  # new_student.inscriptions.each do |code|
-  # return true if course_code == code &&
-  # end
-  # false
-  # end
 end

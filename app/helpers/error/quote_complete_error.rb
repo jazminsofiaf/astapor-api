@@ -1,5 +1,5 @@
 require_relative 'astapor_error'
-class QuoteError < AstaporError
+class QuoteCompleteError < AstaporError
   def initialize(msg = 'limit quote')
     super(msg)
   end

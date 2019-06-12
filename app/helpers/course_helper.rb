@@ -1,5 +1,6 @@
 require 'json'
 require_relative '../../models/course'
+require_relative '../../app/helpers/error/quota_error'
 
 class CourseHelper
   CODE_KEY = 'codigo'.freeze
@@ -9,6 +10,7 @@ class CourseHelper
   MODALITY_KEY = 'modalidad'.freeze
   PROJECTOR_KEY = 'proyector'.freeze
   LAB_KEY = 'laboratorio'.freeze
+  LIMIT = 0
 
   def self.parse(json)
     input = JSON.parse(json)
@@ -20,6 +22,8 @@ class CourseHelper
              modality: input[MODALITY_KEY],
              projector: input[PROJECTOR_KEY],
              laboratory: input[LAB_KEY] }
+
+    raise QuotaError if args[:quota] == LIMIT
 
     Course.new(args)
   end
