@@ -39,7 +39,7 @@ class Student
     @inscriptions.delete(grade.code)
   end
 
-  def filter_courses_by_no_inscribed(courses)
+  def filter_courses_by_no_approved(courses)
     courses_filtered = []
     courses.each do |course|
       next if grades.key?(course[:codigo])

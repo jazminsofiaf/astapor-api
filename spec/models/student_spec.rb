@@ -96,7 +96,7 @@ describe 'Student' do
                   'docente': 'paez', 'cupo': 1,
                   'modalidad': 'tp' }
       courses_array = [course1, course2]
-      expect(student2.filter_courses_by_no_inscribed(courses_array).size).to eq 0
+      expect(student2.filter_courses_by_no_approved(courses_array).size).to eq 0
     end
   end
 end
