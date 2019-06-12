@@ -12,6 +12,8 @@ AstaporGuarani::App.controllers do
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
     courses_response = CoursesOffersParser.new.parse(courses)
+    student = StudentsRepository.new.find_by_user_name(params['usernameAlumno'])
+    courses_response = student.filter_courses_by_no_inscribed(courses_response) unless student.nil?
     status 200
     { 'oferta': courses_response }.to_json
   end

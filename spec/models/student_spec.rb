@@ -38,6 +38,15 @@ describe 'Student' do
       '"notas":"[8, 9]","username_alumno":"jaz2"}'
     end
 
+    let(:body3) do
+      '{"codigo_materia":"9521",'\
+      '"notas":"10","username_alumno":"jaz2"}'
+    end
+    let(:body2) do
+      '{"codigo_materia":"9502",'\
+      '"notas":"8","username_alumno":"jaz2"}'
+    end
+
     it 'can enroll in a course' do
       student.inscribe_to(memo)
       expect(student.inscriptions).to eq([memo.code])
@@ -70,6 +79,24 @@ describe 'Student' do
       student.add_grade(calification)
       reg = RegisterRepository.new.find_by_student_username(calification.username)
       expect(reg.nil?).to eq false
+    end
+
+    describe 'when filtering courses by no inscribed'
+
+    params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
+    student2 = Student.new(params)
+
+    it 'should return empty array when all the courses to offer have been calificated' do
+      student2.add_grade(GradeHelper.new(JSON.parse(body2)))
+      student2.add_grade(GradeHelper.new(JSON.parse(body3)))
+      course1 = { 'nombre': 'Memo', 'codigo': 9502,
+                  'docente': 'villagra', 'cupo': 1,
+                  'modalidad': 'tp' }
+      course2 = { 'nombre': 'Memo2', 'codigo': 9521,
+                  'docente': 'paez', 'cupo': 1,
+                  'modalidad': 'tp' }
+      courses_array = [course1, course2]
+      expect(student2.filter_courses_by_no_inscribed(courses_array).size).to eq 0
     end
   end
 end

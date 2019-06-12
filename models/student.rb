@@ -1,5 +1,7 @@
 require_relative '../models/course'
 
+CODE = 'codigo'.freeze
+
 class Student
   include ActiveModel::Validations
   attr_accessor :id, :name, :user_name, :inscriptions, :grades, :updated_on, :created_on
@@ -33,8 +35,18 @@ class Student
   def add_grade(grade)
     # si no esta inscripto deberia lanzar excepcion
     @grades[grade.code] = grade.grades
-    # aca se lo debe desincribir al alumno
+    # aca se lo desincribe al alumno
     @inscriptions.delete(grade.code)
+  end
+
+  def filter_courses_by_no_inscribed(courses)
+    courses_filtered = []
+    courses.each do |course|
+      next if grades.key?(course[:codigo])
+
+      courses_filtered.push(course)
+    end
+    courses_filtered
   end
 
   # def is_inscribed_in(course_code)
