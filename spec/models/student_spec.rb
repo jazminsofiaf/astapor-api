@@ -1,9 +1,13 @@
 require 'rspec'
-require_relative '../../exceptions/student_creation_error'
+
 require_relative '../../models/student'
+require_relative '../../models/register'
 require_relative '../../app/repositories/students_repository'
-require_relative '../../exceptions/duplicated_inscription'
-require_relative '../../exceptions/quote_error'
+require_relative '../../app/repositories/register_repository'
+require_relative '../../app/helpers/error/duplicated_inscription_error'
+require_relative '../../app/helpers/error/quote_error'
+require_relative '../../app/repositories/register_repository'
+require_relative '../../models/register'
 
 describe 'Student' do
   subject(:student) do
@@ -22,12 +26,17 @@ describe 'Student' do
     expect { Student.new(params) }.to raise_error StudentCreationError
   end
 
-  describe 'given a student and a cpurse' do
+  describe 'given a student and a course' do
     course_param = { id: 1, code: 9532, subject: 'Memo',
                      teacher: 'villagra', quota: 1, modality: 'tp' }
     memo = Course.new(course_param)
     params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
     student = Student.new(params)
+
+    let(:body) do
+      '{"codigo_materia":"9532",'\
+      '"notas":"[8, 9]","username_alumno":"jaz2"}'
+    end
 
     it 'can enroll in a course' do
       student.inscribe_to(memo)
@@ -35,7 +44,7 @@ describe 'Student' do
     end
 
     it 'cant enroll in a course twice in the same semester' do
-      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscription)
+      expect { student.inscribe_to(memo) }.to raise_error(DuplicatedInscriptionError)
     end
 
     describe 'when quote course is 0'
@@ -45,6 +54,22 @@ describe 'Student' do
 
     it 'cant enroll in a course with no place' do
       expect { student2.inscribe_to(memo) }.to raise_error(QuoteError)
+    end
+
+    describe 'when save grades for the student'
+
+    it 'should have an 8 and 9 on his grades when he is calificated with an 8 and a 9' do
+      calification = GradeHelper.new(JSON.parse(body))
+      student.add_grade(calification)
+      aux = { 9532 => [8, 9] }
+      expect(student.grades).to eq aux
+    end
+
+    it 'should save every grade on a register' do
+      calification = GradeHelper.new(JSON.parse(body))
+      student.add_grade(calification)
+      reg = RegisterRepository.new.find_by_student_username(calification.username)
+      expect(reg.nil?).to eq false
     end
   end
 end

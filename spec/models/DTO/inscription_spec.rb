@@ -1,7 +1,6 @@
 require 'rspec'
 require 'json'
 require_relative '../../../app/helpers/inscription_helper'
-require_relative '../../../exceptions/parse_inscription_error'
 describe 'inscription dto' do
   context 'created from json string'
 

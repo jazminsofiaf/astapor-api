@@ -4,17 +4,17 @@ describe 'Course dto' do
   let(:body) do
     '{"codigo": "4444",
       "modalidad": "tareas",
-	    "docente": "Linus Torvalds",
-	    "nombreMateria": "Sistemas Operativos",
-	    "cupo": 30
+      "docente": "Linus Torvalds",
+      "nombreMateria": "Sistemas Operativos",
+      "cupo": 30
     }'
   end
 
   let(:invalid) do
     '{"codigo": "a",
       "modalidad": "tareas",
-	    "docente": "Linus Torvalds",
-	    "cupo": 3000
+      "docente": "Linus Torvalds",
+      "cupo": 3000
     }'
   end
 
@@ -25,11 +25,5 @@ describe 'Course dto' do
     course.teacher = 'Linus Torvalds'
     course.modality = 'tareas'
     course.subject = 'Sistemas Operativos'
-  end
-
-  it 'should create invalid course with errors' do
-    course = CourseHelper.parse(invalid)
-    expect(course).not_to be_valid
-    expect(course.errors).not_to be_empty
   end
 end

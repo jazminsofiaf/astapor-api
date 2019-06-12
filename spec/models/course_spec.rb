@@ -1,6 +1,5 @@
 require_relative '../../models/course'
 require_relative '../../models/student'
-require_relative '../../exceptions/quote_error'
 
 describe Course do
   describe 'model' do
@@ -21,28 +20,36 @@ describe Course do
       expect(analisis).to be_valid
     end
 
+    it 'should raise exception when course is invalid' do
+      expect do
+        described_class.new(code: 751_57, subject: 'Analisis',
+                            teacher: 'Sirne', quota: 50, modality: 'tp',
+                            projector: false, laboratory: false)
+      end.to raise_error(CourseError)
+    end
+
     it 'should be invalid when code has more than four digits' do
-      analisis = described_class.new(code: 751_57, subject: 'Analisis',
-                                     teacher: 'Sirne', quota: 50, modality: 'tp',
-                                     projector: false, laboratory: false)
-      expect(analisis).not_to be_valid
-      expect(analisis.errors).to have_key(:code)
+      described_class.new(code: 751_57, subject: 'Analisis',
+                          teacher: 'Sirne', quota: 50, modality: 'tp',
+                          projector: false, laboratory: false)
+    rescue CourseError => e
+      expect(e.msg).to eq('codigo_erroneo')
     end
 
     it 'should be invalid when code has less than four digits' do
-      analisis = described_class.new(code: 751, subject: 'Analisis',
-                                     teacher: 'Sirne', quota: 50, modality: 'tp',
-                                     projector: false, laboratory: false)
-      expect(analisis).not_to be_valid
-      expect(analisis.errors).to have_key(:code)
+      described_class.new(code: 751, subject: 'Analisis',
+                          teacher: 'Sirne', quota: 50, modality: 'tp',
+                          projector: false, laboratory: false)
+    rescue CourseError => e
+      expect(e.msg).to eq('codigo_erroneo')
     end
 
     it 'should be invalid when code has a quota greater than 300' do
-      analisis = described_class.new(code: 7515, subject: 'Analisis',
-                                     teacher: 'Sirne', quota: 301, modality: 'tp',
-                                     projector: false, laboratory: false)
-      expect(analisis).not_to be_valid
-      expect(analisis.errors).to have_key(:quota)
+      described_class.new(code: 7515, subject: 'Analisis',
+                          teacher: 'Sirne', quota: 301, modality: 'tp',
+                          projector: false, laboratory: false)
+    rescue QuotaRequest => e
+      expect(e.msg).to eq('cupo_excedido')
     end
 
     it 'should be invalid when it requests both lab and projector' do
@@ -50,28 +57,28 @@ describe Course do
         described_class.new(code: 7515, subject: 'Analisis',
                             teacher: 'Sirne', quota: 31, modality: 'tp',
                             projector: true, laboratory: true)
-      end.to raise_error(IncompatibleRequestException)
+      end.to raise_error(IncompatibleRequest)
     end
 
     it 'should be invalid when title has more than 50 characters' do
-      analisis = described_class.new(code: 7513,
-                                     subject: 'Analisis12345678912345678912
-                                     3456789123456789123456gdfgd7',
-                                     teacher: 'Sirne', quota: 30, modality: 'tp',
-                                     projector: false, laboratory: false)
-      expect(analisis).not_to be_valid
-      expect(analisis.errors).to have_key(:subject)
+      described_class.new(code: 7513,
+                          subject: 'Analisis12345678912345678912
+                                   3456789123456789123456gdfgd7',
+                          teacher: 'Sirne', quota: 30, modality: 'tp',
+                          projector: false, laboratory: false)
+    rescue CourseError => e
+      expect(e.msg).to eq('nombre_erroneo')
     end
 
     it 'should be invalid when title is not present' do
-      analisis = described_class.new(code: 7513,
-                                     subject: nil,
-                                     teacher: 'Sirne',
-                                     quota: 31, modality: 'tp',
-                                     projector: false,
-                                     laboratory: false)
-      expect(analisis).not_to be_valid
-      expect(analisis.errors).to have_key(:subject)
+      described_class.new(code: 7513,
+                          subject: nil,
+                          teacher: 'Sirne',
+                          quota: 31, modality: 'tp',
+                          projector: false,
+                          laboratory: false)
+    rescue CourseError => e
+      expect(e.msg).to eq('nombre_erroneo')
     end
   end
 

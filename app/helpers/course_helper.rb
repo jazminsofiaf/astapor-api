@@ -1,6 +1,5 @@
 require 'json'
 require_relative '../../models/course'
-require_relative '../../exceptions/invalid_course_error'
 
 class CourseHelper
   CODE_KEY = 'codigo'.freeze

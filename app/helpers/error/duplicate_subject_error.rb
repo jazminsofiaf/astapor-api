@@ -1,5 +1,5 @@
 require_relative 'astapor_error'
-class DuplicateSubjectException < AstaporError
+class DuplicateSubjectError < AstaporError
   def initialize(msg = 'duplicated subject')
     super(msg)
   end

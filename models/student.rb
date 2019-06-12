@@ -1,5 +1,4 @@
 require_relative '../models/course'
-require_relative '../exceptions/duplicated_inscription'
 
 class Student
   include ActiveModel::Validations
@@ -23,11 +22,26 @@ class Student
   end
 
   def inscribe_to(course)
-    raise DuplicatedInscription if @inscriptions.include?(course.code)
+    raise DuplicatedInscriptionError if @inscriptions.include?(course.code)
 
     course.reduce_quota
     @inscriptions << course.code
 
     true
   end
+
+  def add_grade(grade)
+    # si no esta inscripto deberia lanzar excepcion
+    @grades[grade.code] = grade.grades
+    # aca se lo debe desincribir al alumno
+    @inscriptions.delete(grade.code)
+  end
+
+  # def is_inscribed_in(course_code)
+  # new_student = StudentsRepository.new.load_object(obtain_record)
+  # new_student.inscriptions.each do |code|
+  # return true if course_code == code &&
+  # end
+  # false
+  # end
 end
