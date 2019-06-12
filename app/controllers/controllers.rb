@@ -1,5 +1,7 @@
 require_relative '../../app/helpers/error/astapor_error'
 require_relative '../../app/helpers/error/exception/astapor_exception'
+require_relative '../../app/helpers/error/exception/not_enrolled_exception'
+require 'byebug'
 
 AstaporGuarani::App.controllers do
   # walking skeleton
@@ -43,15 +45,17 @@ AstaporGuarani::App.controllers do
   end
 
   get '/materias/estado' do
-    student_name = params['usernameAlumno']
+    user_name = params['usernameAlumno']
     subject_code = params['codigoMateria']
 
-    student = StudentsRepository.new.find_by_user_name(student_name)
+    student = StudentsRepository.new.find_or_create(user_name: user_name)
 
-    unless student.is_inscribed_in(subject_code)
-      return { 'estado': params['usernameAlumno'],
-               'nota_final': params['codigoMateria'] }.to_json
-    end
+    raise NotEnrolledException unless student.is_inscribed_in(subject_code.to_i)
+
+    { 'estado': 'OTRO', 'nota_final': 7 }.to_json
+
+  rescue NotEnrolledException
+    { 'estado': 'NO_INSCRIPTO', 'nota_final': nil }.to_json
   end
 
   post '/alumnos' do
