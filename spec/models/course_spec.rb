@@ -48,7 +48,7 @@ describe Course do
       described_class.new(code: 7515, subject: 'Analisis',
                           teacher: 'Sirne', quota: 301, modality: 'tp',
                           projector: false, laboratory: false)
-    rescue CourseError => e
+    rescue QuotaRequest => e
       expect(e.msg).to eq('cupo_excedido')
     end
 
@@ -80,17 +80,6 @@ describe Course do
     rescue CourseError => e
       expect(e.msg).to eq('nombre_erroneo')
     end
-
-    it 'should not be invalid when couta is less or equal 0' do
-      course = described_class.new(code: 7513,
-                                   subject: 'Analisis',
-                                   teacher: 'Sirne',
-                                   quota: 0, modality: 'tp',
-                                   projector: false,
-                                   laboratory: false)
-
-      expect(course.quota).to eq(0)
-    end
   end
 
   course_param = { id: 1, code: 9532, subject: 'Memo',
@@ -105,8 +94,7 @@ describe Course do
     params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
     student = Student.new(params)
     student.inscribe_to(memo)
-
-    it "the course's quota is the same " do
+    it "the course's quota is one less " do
       expect(memo.quota).to equal(0)
     end
 
@@ -114,7 +102,7 @@ describe Course do
     student2 = Student.new(params2)
 
     it 'the course can accept more student outside quota' do
-      expect { student2.inscribe_to(memo) }.to raise_error(QuoteCompleteError)
+      expect { student2.inscribe_to(memo) }.to raise_error(QuoteError)
     end
   end
 end

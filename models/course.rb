@@ -1,6 +1,6 @@
 require 'active_model'
-require_relative '../app/helpers/error/quote_complete_error'
-require_relative '../app/helpers/error/incompatible_request'
+require_relative '../app/helpers/error/exception/quota_request'
+require_relative '../app/helpers/error/exception/incompatible_request'
 require_relative '../app/helpers/error/course_error'
 
 # comment
@@ -10,7 +10,7 @@ class Course
   LIMIT = 0
   MSG = 1
 
-  attr_accessor :id, :code, :subject, :teacher, :students,
+  attr_accessor :id, :code, :subject, :teacher,
                 :quota, :modality, :updated_on, :created_on,
                 :projector, :laboratory
 
@@ -50,15 +50,16 @@ class Course
       validate!
     rescue ActiveModel::ValidationError
       msg = errors.messages.first[MSG].first
+      raise QuotaRequest, msg if errors.details.keys.first.equal?(:quota)
+
       raise CourseError, msg
     end
     raise IncompatibleRequest if @laboratory && @projector
   end
 
   def reduce_quota
-    raise QuoteCompleteError if @quota <= LIMIT
-
     @quota -= 1
+    raise QuoteError if @quota < LIMIT
   end
 
   def to_json(*_args)
@@ -67,7 +68,6 @@ class Course
       'subject' => @subject,
       'teacher' => @teacher,
       'quota' => @quota,
-      'students' => @students,
       'modality' => @modality,
       'projector' => @projector,
       'laboratory' => @laboratory }.to_json
