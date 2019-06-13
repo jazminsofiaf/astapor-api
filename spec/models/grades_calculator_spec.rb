@@ -102,7 +102,7 @@ describe 'GradesCalculator' do
     end
   end
 
-  describe 'Calculation with homework' do
+  describe 'Calculation with homework - passes' do
     params = { name: 'AB', user_name: 'AB' }
     student = Student.new(params)
     course_param = { id: 3, code: 9534, subject: 'Memo3',
@@ -119,6 +119,26 @@ describe 'GradesCalculator' do
 
       expect(result['status']).to eq 'APROBADO'
       expect(result['final_grade']).to eq 6
+    end
+  end
+
+  describe 'Calculation with homework - does not pass' do
+    params = { name: 'AB', user_name: 'AB' }
+    student = Student.new(params)
+    course_param = { id: 3, code: 9534, subject: 'Memo3',
+                     teacher: 'villagra', quota: 1, modality: 'tareas' }
+    subject = Course.new(course_param)
+    student.inscribe_to(subject)
+    grade = GradeHelper.new('codigo_materia' => '9534', 'notas' => '[10, 1, 1]',
+                            'username_alumno' => 'AB')
+    student.add_grade(grade)
+    grades_calculator = GradesCalculator.new(student, subject)
+
+    it 'failed homeworks must be less than two in order to pass' do
+      result = grades_calculator.calculate_final_grade
+
+      expect(result['status']).to eq 'DESAPROBADO'
+      expect(result['final_grade']).to eq 1
     end
   end
 

@@ -8,6 +8,7 @@ class GradesCalculator
   MINIMUM_PASS_WITH_EXAMS = 6
   MINIMUM_PASS_WITH_COLLOQUIUMS = 4
   MINIMUM_PASS_WITH_HOMEWORK = 6
+  MAXIMUM_FAILS_ALLOWED = 2
 
   def initialize(student, subject)
     @student = student
@@ -40,9 +41,14 @@ class GradesCalculator
   end
 
   def calculate_with_homework
-    mean = get_mean(MINIMUM_GRADE)
-
-    status = mean >= MINIMUM_PASS_WITH_HOMEWORK ? 'APROBADO' : 'DESAPROBADO'
+    failed_homeworks = @grades.select { |item| item < 4 }.length
+    if failed_homeworks < MAXIMUM_FAILS_ALLOWED
+      mean = get_mean(MINIMUM_GRADE)
+      status = mean >= MINIMUM_PASS_WITH_HOMEWORK ? 'APROBADO' : 'DESAPROBADO'
+    else
+      mean = MINIMUM_GRADE
+      status = 'DESAPROBADO'
+    end
 
     { 'status' => status, 'final_grade' => mean }
   end
