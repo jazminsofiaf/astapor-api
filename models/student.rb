@@ -35,7 +35,19 @@ class Student
     # si no esta inscripto deberia lanzar excepcion
     @grades[grade.code] = grade.grades
     # aca se lo debe desincribir al alumno
+    #
+    #
     @inscriptions.delete(grade.code)
+  end
+
+  def filter_courses_by_no_approved(courses)
+    courses_filtered = []
+    courses.each do |course|
+      next if grades.key?(course[:codigo])
+
+      courses_filtered.push(course)
+    end
+    courses_filtered
   end
 
   def is_inscribed_in(course_code)
