@@ -1,20 +1,45 @@
 require 'byebug'
 
 class GradesCalculator
-  def calculate_final_grade(student, subject)
-    grades = student.grades[subject.code.to_i]
+  MODALITIES = { 'parciales' => 'calculate_with_exams',
+                 'coloquio' => 'calculate_with_colloquium' }.freeze
+  MINIMUM_GRADE = 1
+  MINIMUM_PASS_WITH_EXAMS = 6
+  MINIMUM_PASS_WITH_COLLOQUIUMS = 4
+
+  def initialize(student, subject)
+    @student = student
+    @subject = subject
+    @grades = []
+  end
+
+  def calculate_final_grade
+    @grades = @student.grades[@subject.code.to_i]
+    send(MODALITIES[@subject.modality])
+  end
+
+  private
+
+  # TODO: - Refactor to avoid repeating code
+
+  def calculate_with_exams
     sum = 0
-    grades.each do |grade|
+    @grades.each do |grade|
       sum += grade
     end
-    # Refactor out magic numbers
-    mean = if sum > 2
-             sum / 2
+    mean = if sum >= @grades.length
+             sum / @grades.length
            else
-             1
+             MINIMUM_GRADE
            end
-    estado = mean > 6 ? 'APROBADO' : 'DESAPROBADO'
+    status = mean >= MINIMUM_PASS_WITH_EXAMS ? 'APROBADO' : 'DESAPROBADO'
 
-    { 'status' => estado, 'final_grade' => mean }
+    { 'status' => status, 'final_grade' => mean }
+  end
+
+  def calculate_with_colloquium
+    status = @grades.first >= MINIMUM_PASS_WITH_COLLOQUIUMS ? 'APROBADO' : 'DESAPROBADO'
+
+    { 'status' => status, 'final_grade' => @grades.first }
   end
 end

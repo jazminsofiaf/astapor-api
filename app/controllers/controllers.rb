@@ -54,7 +54,7 @@ AstaporGuarani::App.controllers do
 
     raise NotEnrolledException unless student.is_inscribed_in(subject_code.to_i)
 
-    final_results = GradesCalculator.new.calculate_final_grade(student, subject)
+    final_results = GradesCalculator.new(student, subject).calculate_final_grade
 
     { 'estado': final_results['status'], 'nota_final': final_results['final_grade'] }.to_json
 
