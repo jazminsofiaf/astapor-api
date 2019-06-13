@@ -1,5 +1,5 @@
+require_relative '../../app/helpers/error/astapor_error'
 require 'byebug'
-
 USERNAME = 'usernameAlumno'.freeze
 CODE = 'codigoMateria'.freeze
 
@@ -19,6 +19,8 @@ AstaporGuarani::App.controllers do
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
     courses_response = CoursesOffersParser.new.parse(courses)
+    student = StudentsRepository.new.find_by_user_name(params[USERNAME])
+    courses_response = student.filter_courses_by_no_approved(courses_response) unless student.nil?
     status 200
     { 'oferta': courses_response }.to_json
   end
@@ -35,13 +37,13 @@ AstaporGuarani::App.controllers do
 
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'materia_creada' }.to_json
+    { 'resultado': 'MATERIA_CREADA' }.to_json
   end
 
   post '/calificar' do
     grade = GradeHelper.new(JSON.parse(request.body.read))
     student = StudentsRepository.new.find_by_user_name(grade.username)
-    # raise StudentNotInscriptedError if student.nil? || student.is_inscribed_in(calification.code)
+    raise StudentNotInscribedError if student.nil?
 
     student.add_grade(grade)
     StudentsRepository.new.save(student)
@@ -72,13 +74,18 @@ AstaporGuarani::App.controllers do
                        user_name: inscription_request.username }
     student = StudentsRepository.new.find_or_create(student_params)
     course = CoursesRepository.new.find_by_code(inscription_request.code)
-    raise CourseNotFoundError if course.nil?
+    # esto queda comentado hasta que se arregle fitnesse
+    # raise CourseNotFoundError if course.nil?
+    if course.nil?
+      status 400 # arreglar fitnesse para que diga error y no resultado
+      return { 'resultado': 'MATERIA_NO_EXISTE' }.to_json
+    end
 
     student.inscribe_to(course)
     StudentsRepository.new.save(student)
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'inscripcion_creada' }.to_json
+    { 'resultado': 'INSCRIPCION_CREADA' }.to_json
   end
 
   error AstaporException do |exception|

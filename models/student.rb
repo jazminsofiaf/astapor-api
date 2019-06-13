@@ -1,5 +1,7 @@
 require_relative '../models/course'
 
+CODE = 'codigo'.freeze
+
 class Student
   include ActiveModel::Validations
   attr_accessor :id, :name, :user_name, :inscriptions, :grades, :updated_on, :created_on
@@ -30,13 +32,10 @@ class Student
     true
   end
 
-  # Grade is a grade_helper instace
   def add_grade(grade)
-    # si no esta inscripto deberia lanzar excepcion
+    raise StudentNotInscribedError unless @inscriptions.include? grade.code
+
     @grades[grade.code] = grade.grades
-    # aca se lo debe desincribir al alumno
-    #
-    #
     @inscriptions.delete(grade.code)
   end
 
