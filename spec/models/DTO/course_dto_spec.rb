@@ -1,5 +1,6 @@
 require 'rspec'
 require_relative '../../../app/helpers/course_helper'
+require_relative '../../../app/helpers/error/quota_error'
 describe 'Course dto' do
   let(:body) do
     '{"codigo": "4444",
@@ -11,10 +12,11 @@ describe 'Course dto' do
   end
 
   let(:invalid) do
-    '{"codigo": "a",
+    '{"codigo": "4444",
       "modalidad": "tareas",
       "docente": "Linus Torvalds",
-      "cupo": 3000
+      "nombreMateria": "Sistemas Operativos",
+      "cupo": 0
     }'
   end
 
@@ -25,5 +27,9 @@ describe 'Course dto' do
     course.teacher = 'Linus Torvalds'
     course.modality = 'tareas'
     course.subject = 'Sistemas Operativos'
+  end
+
+  it 'should raise exception when quota is 0' do
+    expect { CourseHelper.parse(invalid) }.to raise_error(QuotaError)
   end
 end
