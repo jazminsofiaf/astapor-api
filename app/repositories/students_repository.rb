@@ -37,6 +37,7 @@ class StudentsRepository < BaseRepository
   def load_object(a_record)
     inscriptions, grades = load_registers(a_record)
     params = {
+      id: a_record[:id],
       name: a_record[:name],
       user_name: a_record[:user_name],
       inscriptions: inscriptions,
