@@ -14,7 +14,9 @@ class GradesCalculator
   end
 
   def calculate_final_grade
-    @grades = @student.grades[@subject.code.to_i]
+    @grades = @student.grades[@subject.code.to_i] || []
+    return { 'status' => 'EN_CURSO', 'final_grade' => nil } if @grades.empty?
+
     send(MODALITIES[@subject.modality])
   end
 
