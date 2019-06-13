@@ -59,7 +59,7 @@ class GradesCalculator
       sum += grade
     end
     mean = if sum >= @grades.length
-             sum / @grades.length
+             sum.to_f / @grades.length
            else
              MINIMUM_GRADE
            end
