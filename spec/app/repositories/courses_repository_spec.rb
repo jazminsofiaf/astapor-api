@@ -5,7 +5,7 @@ describe CoursesRepository do
   let(:repository) { described_class.new }
 
   let(:course) do
-    Course.new(id: 7, code: 7517, subject: 'Analisis',
+    Course.new(code: 7517, subject: 'Analisis',
                teacher: 'Sirne', quota: 31, modality: 'tp',
                projector: false, laboratory: true)
   end
@@ -16,7 +16,6 @@ describe CoursesRepository do
       described_class.new.save(course)
     end
 
-    described_class.new.delete_all
     it 'saving the course and then get it with the same amount of students' do
       course.reduce_quota
       course.reduce_quota

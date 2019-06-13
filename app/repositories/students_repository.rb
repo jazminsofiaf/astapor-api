@@ -3,6 +3,14 @@ class StudentsRepository < BaseRepository
   self.table_name = :student
   self.model_class = 'Student'
 
+  def save(a_record)
+    if find_dataset_by_username(a_record.user_name).first
+      update(a_record).positive?
+    else
+      !insert(a_record).id.nil?
+    end
+  end
+
   def find_by_user_name(user_name)
     row = dataset.first(user_name: user_name)
     load_object(row) unless row.nil?
@@ -14,6 +22,16 @@ class StudentsRepository < BaseRepository
 
   def find_or_create(data)
     find_by_user_name(data[:user_name]) || Student.new(data)
+  end
+
+  def save_register(register)
+    RegisterRepository.new.save(register)
+  end
+
+  protected
+
+  def find_dataset_by_username(user_name)
+    dataset.where(user_name: user_name)
   end
 
   def load_object(a_record)
@@ -28,12 +46,6 @@ class StudentsRepository < BaseRepository
     }
     Student.new(params)
   end
-
-  def save_register(register)
-    RegisterRepository.new.save(register)
-  end
-
-  protected
 
   def changeset(student)
     student.inscriptions

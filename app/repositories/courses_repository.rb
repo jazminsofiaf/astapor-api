@@ -4,6 +4,14 @@ class CoursesRepository < BaseRepository
   self.table_name = :course
   self.model_class = 'Course'
 
+  def save(a_record)
+    if find_dataset_by_code(a_record.code).first
+      update(a_record).positive?
+    else
+      !insert(a_record).id.nil?
+    end
+  end
+
   def find_by_code(code)
     row = dataset.first(code: code)
     load_object(row) unless row.nil?
@@ -18,6 +26,10 @@ class CoursesRepository < BaseRepository
   end
 
   protected
+
+  def find_dataset_by_code(code)
+    dataset.where(code: code)
+  end
 
   def load_object(a_record)
     curse = super
