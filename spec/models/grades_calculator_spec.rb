@@ -66,6 +66,26 @@ describe 'GradesCalculator' do
     end
   end
 
+  describe 'Calculation with colloquium - Does not pass' do
+    params = { name: 'AB', user_name: 'AB' }
+    student = Student.new(params)
+    course_param = { id: 2, code: 9533, subject: 'Memo2',
+                     teacher: 'villagra', quota: 1, modality: 'coloquio' }
+    subject = Course.new(course_param)
+    student.inscribe_to(subject)
+    grade = GradeHelper.new('codigo_materia' => '9533', 'notas' => '3',
+                            'username_alumno' => 'AB')
+    student.add_grade(grade)
+    grades_calculator = GradesCalculator.new(student, subject)
+
+    it 'colloquium grade must be greater or equal than 4' do
+      result = grades_calculator.calculate_final_grade
+
+      expect(result['status']).to eq 'DESAPROBADO'
+      expect(result['final_grade']).to eq 3
+    end
+  end
+
   describe 'Minimum grade' do
     params = { name: 'A A A', user_name: 'AAA' }
     student = Student.new(params)
