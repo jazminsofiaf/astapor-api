@@ -17,7 +17,7 @@ AstaporGuarani::App.helpers do
                         DuplicatedInscriptionError => 'inscripcion_duplicada',
                         QuoteCompleteError => 'cupo_completo',
                         ParseInscriptionError => 'error_de_inscripcion',
-                        CourseNotFoundError => 'materia_no_existente',
+                        CourseNotFoundError => 'materia_no_existe',
                         InvalidGradeError => 'nota_invalida',
                         StudentNotInscribedError => 'alumno_incorrecto',
                         QuotaError => 'cupo_erroneo' }.freeze

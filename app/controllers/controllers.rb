@@ -74,12 +74,7 @@ AstaporGuarani::App.controllers do
                        user_name: inscription_request.username }
     student = StudentsRepository.new.find_or_create(student_params)
     course = CoursesRepository.new.find_by_code(inscription_request.code)
-    # esto queda comentado hasta que se arregle fitnesse
-    # raise CourseNotFoundError if course.nil?
-    if course.nil?
-      status 400 # arreglar fitnesse para que diga error y no resultado
-      return { 'resultado': 'MATERIA_NO_EXISTE' }.to_json
-    end
+    raise CourseNotFoundError if course.nil?
 
     student.inscribe_to(course)
     StudentsRepository.new.save(student)
