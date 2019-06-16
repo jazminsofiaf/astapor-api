@@ -12,7 +12,7 @@ class GradePointAverage
     average.round(2)
   end
 
-  def passed_courses
+  def passed_courses_final_grades
     passed = []
     final_grades = []
 
@@ -20,13 +20,13 @@ class GradePointAverage
       course = CoursesRepository.new.find_by_code(code)
       final_grade = course.final_grade(grades)
       final_grades << final_grade
-      passed << course if course.success(final_grade)
+      passed << course.code if course.success(final_grade)
     end
     [passed, final_grades]
   end
 
   def calculate
-    passed, final_grades = passed_courses
+    passed, final_grades = passed_courses_final_grades
     { materiasAprobadas: passed.size, notaPromedio: average(final_grades) }
   end
 end

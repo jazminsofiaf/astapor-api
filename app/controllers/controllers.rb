@@ -11,11 +11,10 @@ AstaporGuarani::App.controllers do
 
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
-    student = StudentsRepository.new.find_by_user_name(ParamsHelper.user_name(params))
-    unless student.nil?
-      courses = courses.reject do |course|
-        student.passed_courses.include?(course.code)
-      end
+    GradePointAverage.new(ParamsHelper.user_name(params))
+    passed_courses = passed_courses_final_grades[0]
+    courses = courses.reject do |course|
+      passed_courses.include?(course.code)
     end
     courses_response = CoursesOffersParser.new.parse(courses)
 

@@ -17,15 +17,6 @@ describe 'Student' do
     Student.new(params)
   end
 
-  let(:body2) do
-    '{"codigo_materia":"9502",'\
-    '"notas":"8","username_alumno":"jaz2"}'
-  end
-  let(:body3) do
-    '{"codigo_materia":"9532",'\
-    '"notas":"10","username_alumno":"jaz2"}'
-  end
-
   describe 'model' do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:user_name) }
@@ -90,25 +81,6 @@ describe 'Student' do
     it 'should raise exception when student isnt enrolled' do
       grade = GradeHelper.new(JSON.parse(algebra_grade))
       expect { student.add_grade(grade) }.to raise_error(StudentNotEnrolledError)
-    end
-  end
-
-  describe 'get passed courses' do
-    course3_param = { id: 3, code: 9532, subject: 'Memo',
-                      teacher: 'villagra', quota: 20, modality: 'tp' }
-    other_course = ExamCourse.new(course3_param)
-    course2_param = { id: 4, code: 9502, subject: 'Memo2',
-                      teacher: 'paez', quota: 20, modality: 'tp' }
-    memo2 = ExamCourse.new(course2_param)
-
-    it 'should return empty array when all the courses to offer have been calificated' do
-      student.inscribe_to(other_course)
-      student.inscribe_to(memo2)
-      student.add_grade(GradeHelper.new(JSON.parse(body2)))
-      student.add_grade(GradeHelper.new(JSON.parse(body3)))
-
-      expect(student.passed_courses).to include(9502)
-      expect(student.passed_courses).to include(9532)
     end
   end
 end
