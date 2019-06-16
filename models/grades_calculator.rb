@@ -16,60 +16,21 @@ class GradesCalculator
 
   def initialize(student, subject)
     @student = student
-    @subject = subject
+    @course = subject
     @grades = []
   end
 
   def calculate_final_grade
-    @grades = @student.grades[@subject.code.to_i] || []
+    @grades = @student.grades[@course.code.to_i] || []
     if @grades.empty?
-      return { status: IN_COURSE, final_grade: nil } if @student.is_inscribed_in(@subject)
+      return { status: IN_COURSE, final_grade: nil } if @student.is_inscribed_in(@course)
 
       return { status: NOT_ENROLLED, final_grade: nil }
     end
-    send(MODALITIES[@subject.modality])
-  end
 
-  private
-
-  # TODO: - Refactor to avoid repeating code
-
-  def calculate_with_exams
-    mean = get_mean(MINIMUM_GRADE)
-    status = mean >= MINIMUM_PASS_WITH_EXAMS ? PASS : FAIL
-
-    { status: status, final_grade: mean }
-  end
-
-  def calculate_with_colloquium
-    status = @grades.first >= MINIMUM_PASS_WITH_COLLOQUIUMS ? PASS : FAIL
-
-    { status: status, final_grade: @grades.first }
-  end
-
-  def calculate_with_homework
-    failed_homeworks = @grades.select { |item| item < 4 }.length
-    if failed_homeworks < MAXIMUM_FAILS_ALLOWED
-      mean = get_mean(MINIMUM_GRADE)
-      status = mean >= MINIMUM_PASS_WITH_HOMEWORK ? PASS : FAIL
-    else
-      mean = MINIMUM_GRADE
-      status = FAIL
-    end
-
-    { status: status, final_grade: mean }
-  end
-
-  def get_mean(_minimum_grade)
-    sum = 0
-    @grades.each do |grade|
-      sum += grade
-    end
-    mean = if sum >= @grades.length
-             sum.to_f / @grades.length
-           else
-             MINIMUM_GRADE
-           end
-    mean
+    final_grade = @course.final_grade(@grades)
+    pass = @course.success(final_grade)
+    status = pass ? PASS : FAIL
+    { status: status, final_grade: final_grade }
   end
 end
