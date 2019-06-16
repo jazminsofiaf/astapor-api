@@ -22,7 +22,7 @@ AstaporGuarani::App.controllers do
     { oferta: courses_response }.to_json
   end
 
-  get '/promedio' do
+  get '/alumnos/promedio' do
     status 200
     GradePointAverage.new(ParamsHelper.user_name(params)).calculate.to_json
   end

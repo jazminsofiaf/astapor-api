@@ -9,7 +9,7 @@ class GradePointAverage
     return nil if final_grades.empty?
 
     average = final_grades.inject { |sum, grade| sum + grade }.to_f / final_grades.size
-    average.round(2)
+    average.round(1)
   end
 
   def passed_courses_final_grades
@@ -27,6 +27,6 @@ class GradePointAverage
 
   def calculate
     passed, final_grades = passed_courses_final_grades
-    { materiasAprobadas: passed.size, notaPromedio: average(final_grades) }
+    { materias_aprobadas: passed.size, nota_promedio: average(final_grades) }
   end
 end

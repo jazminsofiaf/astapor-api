@@ -11,8 +11,8 @@ describe 'Grade Avarage point ' do
   context 'when no grades where set' do
     it 'should have a no grade avarage if student has no grades' do
       response = GradePointAverage.new('m').calculate
-      expect(response[:notaPromedio]).to be_nil
-      expect(response[:materiasAprobadas]).to eq(0)
+      expect(response[:nota_promedio]).to be_nil
+      expect(response[:materias_aprobadas]).to eq(0)
     end
   end
 
@@ -35,8 +35,8 @@ describe 'Grade Avarage point ' do
       StudentsRepository.new.save(student)
       CoursesRepository.new.save(subject)
       response = GradePointAverage.new('jaz').calculate
-      expect(response[:notaPromedio]).to eq(10)
-      expect(response[:materiasAprobadas]).to eq(1)
+      expect(response[:nota_promedio]).to eq(10)
+      expect(response[:materias_aprobadas]).to eq(1)
     end
   end
 
