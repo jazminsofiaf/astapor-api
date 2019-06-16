@@ -66,7 +66,12 @@ class Course
   end
 
   def average(grades)
-    grades.inject { |sum, grade| sum + grade }.to_f / grades.size
+    average = grades.inject { |sum, grade| sum + grade }.to_f / grades.size
+    average.round(2)
+  end
+
+  def success(final_grade)
+    final_grade >= self.class::MINIMUM_REQUIRED
   end
 
   def to_json(*_args)

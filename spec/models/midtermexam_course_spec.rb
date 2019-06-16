@@ -16,5 +16,17 @@ describe 'Mid Term exams course' do
     it 'final grade should be equal to avarage' do
       expect(course.final_grade([5, 6, 7, 8])).to eq(6.5)
     end
+
+    it 'pass with more than 4' do
+      expect(course.success(7)).to eq(true)
+    end
+
+    it 'pass with a 4' do
+      expect(course.success(6)).to eq(true)
+    end
+
+    it 'fail with a less than 4' do
+      expect(course.success(5.9)).to eq(false)
+    end
   end
 end

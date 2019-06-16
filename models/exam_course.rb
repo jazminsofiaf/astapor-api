@@ -11,8 +11,4 @@ class ExamCourse < Course
   def final_grade(grades)
     grades.first
   end
-
-  def success(final_grade)
-    final_grade >= MINIMUM_REQUIRED
-  end
 end
