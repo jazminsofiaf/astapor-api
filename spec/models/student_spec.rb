@@ -47,7 +47,7 @@ describe 'Student' do
   describe 'given a student and a course' do
     it 'can enroll in a course' do
       student.inscribe_to(memo)
-      expect(student.inscriptions).to eq([memo.code])
+      expect(student.inscriptions).to eq(Set[memo.code])
     end
 
     it 'cant enroll in a course twice in the same semester' do

@@ -1,12 +1,12 @@
 require 'rspec'
 require_relative '../../../app/helpers/courses_offers_parser'
-require_relative '../../../models/course'
+require_relative '../../../models/exam_course'
 
 describe 'Course Offers Parser' do
   let(:course1) do
-    Course.new(code: 7515, subject: 'Analisis',
-               teacher: 'Sirne', quota: 300, students: 100, modality: 'tp',
-               projector: false, laboratory: false)
+    ExamCourse.new(code: 7515, subject: 'Analisis',
+                   teacher: 'Sirne', quota: 300, students: 100, modality: 'tp',
+                   projector: false, laboratory: false)
   end
   let(:parser) { CoursesOffersParser.new }
 

@@ -25,7 +25,7 @@ AstaporGuarani::App.controllers do
 
   get '/inscripciones' do
     student = StudentsRepository.new.find_by_user_name(ParamsHelper.user_name(params))
-    codes = student.nil? ? []: student.inscriptions
+    codes = student.nil? ? [] : student.inscriptions
     courses = codes.map do |code|
       CoursesRepository.new.find_by_code(code)
     end
@@ -33,7 +33,6 @@ AstaporGuarani::App.controllers do
     status 200
     { 'inscripciones': courses_response }.to_json
   end
-
 
   post '/reset' do
     CoursesRepository.new.delete_all

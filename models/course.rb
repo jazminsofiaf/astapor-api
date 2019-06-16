@@ -11,7 +11,7 @@ class Course
   MSG = 1
 
   attr_accessor :id, :code, :subject, :teacher, :students,
-                :quota, :modality, :updated_on, :created_on,
+                :quota, :updated_on, :created_on,
                 :projector, :laboratory
 
   validates :code, length: { minimum: 4,
@@ -34,12 +34,11 @@ class Course
 
   def populate(data)
     @id = data[:id]
-    @code = data[:code]
+    @code = data[:code].to_i
     @subject = data[:subject]
     @teacher = data[:teacher]
-    @quota = data[:quota]
-    @students = data[:students] || 0
-    @modality = data[:modality]
+    @quota = data[:quota].to_i
+    @students = data[:students].to_i || 0
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
     @projector = data[:projector]

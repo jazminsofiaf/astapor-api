@@ -8,7 +8,6 @@ describe Course do
     it { is_expected.to respond_to(:teacher) }
     it { is_expected.to respond_to(:quota) }
     it { is_expected.to respond_to(:students) }
-    it { is_expected.to respond_to(:modality) }
     it { is_expected.to respond_to(:projector) }
     it { is_expected.to respond_to(:laboratory) }
   end

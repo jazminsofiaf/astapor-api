@@ -1,13 +1,12 @@
 require 'integration_spec_helper'
-require 'byebug'
-
+require_relative '../../../models/exam_course'
 describe CoursesRepository do
   let(:repository) { described_class.new }
 
   let(:course) do
-    Course.new(code: 7517, subject: 'Analisis',
-               teacher: 'Sirne', quota: 31, modality: 'tp',
-               projector: false, laboratory: true)
+    ExamCourse.new(code: 7517, subject: 'Analisis',
+                   teacher: 'Sirne', quota: 31, modality: 'tp',
+                   projector: false, laboratory: true)
   end
 
   describe 'saving' do

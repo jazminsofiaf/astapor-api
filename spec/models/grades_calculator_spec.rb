@@ -18,7 +18,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'final grade should be equal to the average grade' do
+    xit 'final grade should be equal to the average grade' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'APROBADO'
@@ -38,7 +38,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'mean must be greater or equal than 6 in order to pass' do
+    xit 'mean must be greater or equal than 6 in order to pass' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'DESAPROBADO'
@@ -58,7 +58,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'colloquium grade must be greater or equal than 4' do
+    xit 'colloquium grade must be greater or equal than 4' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'APROBADO'
@@ -78,7 +78,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'colloquium grade must be greater or equal than 4' do
+    xit 'colloquium grade must be greater or equal than 4' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'DESAPROBADO'
@@ -95,7 +95,7 @@ describe 'GradesCalculator' do
     student.inscribe_to(subject)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'cant get final grade of a non-completed course' do
+    xit 'cant get final grade of a non-completed course' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'EN_CURSO'
@@ -114,7 +114,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'mean must be greater or equal than 6 in order to pass' do
+    xit 'mean must be greater or equal than 6 in order to pass' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'APROBADO'
@@ -134,7 +134,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'failed homeworks must be less than two in order to pass' do
+    xit 'failed homeworks must be less than two in order to pass' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'DESAPROBADO'
@@ -154,7 +154,7 @@ describe 'GradesCalculator' do
     student.add_grade(grade)
     grades_calculator = GradesCalculator.new(student, subject)
 
-    it 'minimum grade is 1' do
+    xit 'minimum grade is 1' do
       result = grades_calculator.calculate_final_grade
 
       expect(result[:status]).to eq 'DESAPROBADO'
