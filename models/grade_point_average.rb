@@ -12,15 +12,21 @@ class GradePointAverage
     average.round(2)
   end
 
-  def calculate
+  def passed_courses
+    passed = []
     final_grades = []
-    passed = 0
+
     @student&.grades&.map do |code, grades|
       course = CoursesRepository.new.find_by_code(code)
       final_grade = course.final_grade(grades)
       final_grades << final_grade
-      passed += 1 if course.success(final_grade)
+      passed << course if course.success(final_grade)
     end
-    { materiasAprobadas: passed, notaPromedio: average(final_grades) }
+    [passed, final_grades]
+  end
+
+  def calculate
+    passed, final_grades = passed_courses
+    { materiasAprobadas: passed.size, notaPromedio: average(final_grades) }
   end
 end
