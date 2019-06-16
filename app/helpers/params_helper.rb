@@ -11,6 +11,6 @@ class ParamsHelper
   end
 
   def self.status_parse(params)
-    [user_name(params),code(params)]
+    [user_name(params), code(params)]
   end
 end

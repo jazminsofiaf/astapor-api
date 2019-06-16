@@ -107,7 +107,8 @@ describe 'Student' do
       student.add_grade(GradeHelper.new(JSON.parse(body2)))
       student.add_grade(GradeHelper.new(JSON.parse(body3)))
 
-      expect(student.passed_courses).to eq [9502, 9532]
+      expect(student.passed_courses).to include(9502)
+      expect(student.passed_courses).to include(9532)
     end
   end
 end

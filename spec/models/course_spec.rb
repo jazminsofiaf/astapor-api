@@ -7,6 +7,7 @@ describe Course do
     it { is_expected.to respond_to(:subject) }
     it { is_expected.to respond_to(:teacher) }
     it { is_expected.to respond_to(:quota) }
+    it { is_expected.to respond_to(:students) }
     it { is_expected.to respond_to(:modality) }
     it { is_expected.to respond_to(:projector) }
     it { is_expected.to respond_to(:laboratory) }
@@ -107,7 +108,11 @@ describe Course do
     student.inscribe_to(memo)
 
     it "the course's quota is the same " do
-      expect(memo.quota).to equal(0)
+      expect(memo.quota).to equal(1)
+    end
+
+    it 'the student be one more ' do
+      expect(memo.students).to equal(1)
     end
 
     params2 = { name: 'Jazmin Ferreiro', user_name: 'juana' }

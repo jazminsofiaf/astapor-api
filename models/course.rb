@@ -38,6 +38,7 @@ class Course
     @subject = data[:subject]
     @teacher = data[:teacher]
     @quota = data[:quota]
+    @students = data[:students] || 0
     @modality = data[:modality]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
@@ -56,9 +57,9 @@ class Course
   end
 
   def reduce_quota
-    raise QuoteCompleteError if @quota <= LIMIT
+    raise QuoteCompleteError if @quota == @students
 
-    @quota -= 1
+    @students += 1
   end
 
   def to_json(*_args)

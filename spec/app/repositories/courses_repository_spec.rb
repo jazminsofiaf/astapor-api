@@ -21,7 +21,8 @@ describe CoursesRepository do
       course.reduce_quota
       described_class.new.save(course)
       founded = described_class.new.find_by_code(course.code)
-      expect(founded.quota).to eq(29)
+      expect(founded.quota).to eq(31)
+      expect(founded.students).to eq(2)
     end
   end
 end
