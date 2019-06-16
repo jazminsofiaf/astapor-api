@@ -7,7 +7,7 @@ require_relative 'error/quote_complete_error'
 require_relative 'error/parse_inscription_error'
 require_relative 'error/course_not_found_error'
 require_relative 'error/invalid_grade_error'
-require_relative 'error/student_not_inscribed_error'
+require_relative 'error/student_not_enrolled_error'
 require_relative '../../app/helpers/error/quota_error'
 
 AstaporGuarani::App.helpers do
@@ -19,7 +19,7 @@ AstaporGuarani::App.helpers do
                         ParseInscriptionError => 'error_de_inscripcion',
                         CourseNotFoundError => 'materia_no_existe',
                         InvalidGradeError => 'nota_invalida',
-                        StudentNotInscribedError => 'alumno_incorrecto',
+                        StudentNotEnrolledError => 'alumno_incorrecto',
                         QuotaError => 'cupo_erroneo' }.freeze
 
   def handle_error(error)

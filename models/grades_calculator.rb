@@ -9,6 +9,10 @@ class GradesCalculator
   MINIMUM_PASS_WITH_COLLOQUIUMS = 4
   MINIMUM_PASS_WITH_HOMEWORK = 6
   MAXIMUM_FAILS_ALLOWED = 2
+  IN_COURSE = 'EN_CURSO'.freeze
+  NOT_ENROLLED = 'NO_INSCRIPTO'.freeze
+  FAIL = 'DESAPROBADO'.freeze
+  PASS = 'APROBADO'.freeze
 
   def initialize(student, subject)
     @student = student
@@ -18,8 +22,11 @@ class GradesCalculator
 
   def calculate_final_grade
     @grades = @student.grades[@subject.code.to_i] || []
-    return { 'status' => 'EN_CURSO', 'final_grade' => nil } if @grades.empty?
+    if @grades.empty?
+      return { status: IN_COURSE, final_grade: nil } if @student.is_inscribed_in(@subject)
 
+      return { status: NOT_ENROLLED, final_grade: nil }
+    end
     send(MODALITIES[@subject.modality])
   end
 
@@ -29,28 +36,28 @@ class GradesCalculator
 
   def calculate_with_exams
     mean = get_mean(MINIMUM_GRADE)
-    status = mean >= MINIMUM_PASS_WITH_EXAMS ? 'APROBADO' : 'DESAPROBADO'
+    status = mean >= MINIMUM_PASS_WITH_EXAMS ? PASS : FAIL
 
-    { 'status' => status, 'final_grade' => mean }
+    { status: status, final_grade: mean }
   end
 
   def calculate_with_colloquium
-    status = @grades.first >= MINIMUM_PASS_WITH_COLLOQUIUMS ? 'APROBADO' : 'DESAPROBADO'
+    status = @grades.first >= MINIMUM_PASS_WITH_COLLOQUIUMS ? PASS : FAIL
 
-    { 'status' => status, 'final_grade' => @grades.first }
+    { status: status, final_grade: @grades.first }
   end
 
   def calculate_with_homework
     failed_homeworks = @grades.select { |item| item < 4 }.length
     if failed_homeworks < MAXIMUM_FAILS_ALLOWED
       mean = get_mean(MINIMUM_GRADE)
-      status = mean >= MINIMUM_PASS_WITH_HOMEWORK ? 'APROBADO' : 'DESAPROBADO'
+      status = mean >= MINIMUM_PASS_WITH_HOMEWORK ? PASS : FAIL
     else
       mean = MINIMUM_GRADE
       status = 'DESAPROBADO'
     end
 
-    { 'status' => status, 'final_grade' => mean }
+    { status: status, final_grade: mean }
   end
 
   def get_mean(_minimum_grade)

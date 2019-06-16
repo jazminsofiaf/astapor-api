@@ -21,8 +21,8 @@ describe 'GradesCalculator' do
     it 'final grade should be equal to the average grade' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'APROBADO'
-      expect(result['final_grade']).to eq 8
+      expect(result[:status]).to eq 'APROBADO'
+      expect(result[:final_grade]).to eq 8
     end
   end
 
@@ -41,8 +41,8 @@ describe 'GradesCalculator' do
     it 'mean must be greater or equal than 6 in order to pass' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'DESAPROBADO'
-      expect(result['final_grade']).to eq 5
+      expect(result[:status]).to eq 'DESAPROBADO'
+      expect(result[:final_grade]).to eq 5
     end
   end
 
@@ -61,8 +61,8 @@ describe 'GradesCalculator' do
     it 'colloquium grade must be greater or equal than 4' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'APROBADO'
-      expect(result['final_grade']).to eq 5
+      expect(result[:status]).to eq 'APROBADO'
+      expect(result[:final_grade]).to eq 5
     end
   end
 
@@ -81,8 +81,8 @@ describe 'GradesCalculator' do
     it 'colloquium grade must be greater or equal than 4' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'DESAPROBADO'
-      expect(result['final_grade']).to eq 3
+      expect(result[:status]).to eq 'DESAPROBADO'
+      expect(result[:final_grade]).to eq 3
     end
   end
 
@@ -98,7 +98,7 @@ describe 'GradesCalculator' do
     it 'cant get final grade of a non-completed course' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'EN_CURSO'
+      expect(result[:status]).to eq 'EN_CURSO'
     end
   end
 
@@ -117,8 +117,8 @@ describe 'GradesCalculator' do
     it 'mean must be greater or equal than 6 in order to pass' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'APROBADO'
-      expect(result['final_grade']).to eq 6
+      expect(result[:status]).to eq 'APROBADO'
+      expect(result[:final_grade]).to eq 6
     end
   end
 
@@ -137,8 +137,8 @@ describe 'GradesCalculator' do
     it 'failed homeworks must be less than two in order to pass' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'DESAPROBADO'
-      expect(result['final_grade']).to eq 1
+      expect(result[:status]).to eq 'DESAPROBADO'
+      expect(result[:final_grade]).to eq 1
     end
   end
 
@@ -157,8 +157,8 @@ describe 'GradesCalculator' do
     it 'minimum grade is 1' do
       result = grades_calculator.calculate_final_grade
 
-      expect(result['status']).to eq 'DESAPROBADO'
-      expect(result['final_grade']).to eq 1
+      expect(result[:status]).to eq 'DESAPROBADO'
+      expect(result[:final_grade]).to eq 1
     end
   end
 end

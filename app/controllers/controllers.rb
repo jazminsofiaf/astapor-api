@@ -1,11 +1,5 @@
 require_relative '../../app/helpers/error/astapor_error'
-require 'byebug'
-USERNAME = 'usernameAlumno'.freeze
-CODE = 'codigoMateria'.freeze
-
 require_relative '../../app/helpers/error/astapor_error'
-require_relative '../../app/helpers/error/exception/astapor_exception'
-require_relative '../../app/helpers/error/exception/not_enrolled_exception'
 require_relative '../../models/grades_calculator'
 
 AstaporGuarani::App.controllers do
@@ -20,7 +14,7 @@ AstaporGuarani::App.controllers do
     courses = CoursesRepository.new.load_dataset
     courses_response = CoursesOffersParser.new.parse(courses)
     student = StudentsRepository.new.find_by_user_name(params[USERNAME])
-    courses_response = student.filter_courses_by_no_approved(courses_response) unless student.nil?
+    courses_response = student.failed_courses(courses_response) unless student.nil?
     status 200
     { 'oferta': courses_response }.to_json
   end
@@ -43,7 +37,7 @@ AstaporGuarani::App.controllers do
   post '/calificar' do
     grade = GradeHelper.new(JSON.parse(request.body.read))
     student = StudentsRepository.new.find_by_user_name(grade.username)
-    raise StudentNotInscribedError if student.nil?
+    raise StudentNotEnrolledError if student.nil?
 
     student.add_grade(grade)
     StudentsRepository.new.save(student)
@@ -52,20 +46,12 @@ AstaporGuarani::App.controllers do
   end
 
   get '/materias/estado' do
-    user_name = params['USERNAME']
-    subject_code = params['CODE']
-
+    user_name, subject_code = StatusHelper.parse(params)
     student = StudentsRepository.new.find_or_create(user_name: user_name)
     subject = CoursesRepository.new.find_by_code(subject_code)
-
-    raise NotEnrolledException unless student.is_inscribed_in(subject_code.to_i)
-
     final_results = GradesCalculator.new(student, subject).calculate_final_grade
 
     { 'estado': final_results['status'], 'nota_final': final_results['final_grade'] }.to_json
-
-  rescue NotEnrolledException
-    { 'estado': 'NO_INSCRIPTO', 'nota_final': nil }.to_json
   end
 
   post '/alumnos' do
@@ -81,10 +67,6 @@ AstaporGuarani::App.controllers do
     CoursesRepository.new.save(course)
     status 201
     { 'resultado': 'INSCRIPCION_CREADA' }.to_json
-  end
-
-  error AstaporException do |exception|
-    handle_exception(exception)
   end
 
   error AstaporError do |error|

@@ -33,7 +33,7 @@ class Student
   end
 
   def add_grade(grade)
-    raise StudentNotInscribedError unless @inscriptions.include? grade.code
+    raise StudentNotEnrolledError unless @inscriptions.include? grade.code
 
     @grades[grade.code] = grade.grades
     @inscriptions.delete(grade.code)
@@ -49,10 +49,7 @@ class Student
     courses_filtered
   end
 
-  def is_inscribed_in(course_code)
-    inscriptions.each do |code|
-      return true if course_code == code
-    end
-    false
+  def is_inscribed_in(course)
+    @inscriptions.include?(course.code)
   end
 end

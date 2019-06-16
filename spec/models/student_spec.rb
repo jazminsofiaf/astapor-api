@@ -5,6 +5,7 @@ require_relative '../../models/register'
 require_relative '../../app/repositories/students_repository'
 require_relative '../../app/repositories/register_repository'
 require_relative '../../app/helpers/error/duplicated_inscription_error'
+require_relative '../../app/helpers/error/student_not_enrolled_error'
 require_relative '../../app/helpers/error/quote_complete_error'
 require_relative '../../app/repositories/register_repository'
 require_relative '../../models/register'
@@ -86,13 +87,13 @@ describe 'Student' do
       '{"codigo_materia":"1705",'\
       '"notas":"[8, 9]","username_alumno":"jaz2"}'
 
-    it 'should raise exception when student isnt inscibed' do
+    it 'should raise exception when student isnt enrolled' do
       grade = GradeHelper.new(JSON.parse(algebra_grade))
-      expect { student.add_grade(grade) }.to raise_error(StudentNotInscribedError)
+      expect { student.add_grade(grade) }.to raise_error(StudentNotEnrolledError)
     end
+  end
 
-    describe 'when filtering courses by no inscribed'
-
+  describe 'when filtering courses by no inscribed' do
     course3_param = { id: 3, code: 9532, subject: 'Memo',
                       teacher: 'villagra', quota: 20, modality: 'tp' }
     other_memo = Course.new(course3_param)
