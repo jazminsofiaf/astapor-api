@@ -11,8 +11,8 @@ AstaporGuarani::App.controllers do
 
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
-    GradePointAverage.new(ParamsHelper.user_name(params))
-    passed_courses = passed_courses_final_grades[0]
+    grades_calculator = GradePointAverage.new(ParamsHelper.user_name(params))
+    passed_courses = grades_calculator.passed_courses_final_grades[0]
     courses = courses.reject do |course|
       passed_courses.include?(course.code)
     end
@@ -20,6 +20,11 @@ AstaporGuarani::App.controllers do
 
     status 200
     { oferta: courses_response }.to_json
+  end
+
+  get '/promedio' do
+    status 200
+    GradePointAverage.new(ParamsHelper.user_name(params)).calculate.to_json
   end
 
   get '/inscripciones' do
