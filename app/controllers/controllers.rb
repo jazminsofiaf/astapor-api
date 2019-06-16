@@ -65,8 +65,8 @@ AstaporGuarani::App.controllers do
     student = StudentsRepository.new.find_or_create(user_name: user_name)
     subject = CoursesRepository.new.find_by_code(subject_code)
     final_results = GradesCalculator.new(student, subject).calculate_final_grade
+    final_results.to_json
 
-    { 'estado': final_results[:status], 'nota_final': final_results[:final_grade] }.to_json
   end
 
   post '/alumnos' do

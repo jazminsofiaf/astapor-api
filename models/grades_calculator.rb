@@ -23,14 +23,14 @@ class GradesCalculator
   def calculate_final_grade
     @grades = @student.grades[@course.code.to_i] || []
     if @grades.empty?
-      return { status: IN_COURSE, final_grade: nil } if @student.is_inscribed_in(@course)
+      return { :estado =>  IN_COURSE, :nota_final => nil } if @student.is_inscribed_in(@course)
 
-      return { status: NOT_ENROLLED, final_grade: nil }
+      return { :estado =>  NOT_ENROLLED, :nota_final => nil }
     end
 
     final_grade = @course.final_grade(@grades)
     pass = @course.success(final_grade)
     status = pass ? PASS : FAIL
-    { status: status, final_grade: final_grade }
+    { :estado => status, :nota_final => final_grade }
   end
 end
