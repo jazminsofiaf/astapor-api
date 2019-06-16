@@ -6,4 +6,8 @@ class ExamCourse < Course
     @modality = self.class.to_s
     super(data)
   end
+
+  def final_grade(grades)
+    grades.first
+  end
 end
