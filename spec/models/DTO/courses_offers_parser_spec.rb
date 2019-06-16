@@ -47,7 +47,7 @@ describe 'Course Offers Parser' do
     it 'it should create modalidad from the modality of the course' do
       result = parser.parse([course1])
       expect(result.size).to eq 1
-      expect(result[0][:modalidad]).to eq course1.modality
+      expect(result[0][:modalidad]).to eq 'coloquio'
     end
   end
 end

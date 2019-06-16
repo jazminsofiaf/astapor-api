@@ -15,6 +15,12 @@ describe CoursesRepository do
       described_class.new.save(course)
     end
 
+    it 'should be the same modality' do
+      described_class.new.save(course)
+      founded = described_class.new.find_by_code(course.code)
+      expect(founded.modality).to eq('ExamCourse')
+    end
+
     it 'saving the course and then get it with the same amount of students' do
       course.reduce_quota
       course.reduce_quota

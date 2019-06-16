@@ -61,6 +61,10 @@ class Course
     @students += 1
   end
 
+  def final_grade(_grades)
+    raise 'Subclass must implement'
+  end
+
   def to_json(*_args)
     { 'id' => @id,
       'code' => @code,

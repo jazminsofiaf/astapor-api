@@ -34,7 +34,7 @@ describe 'Course dto' do
     expect(course.code).to eq 4444
     expect(course.quota).to eq 30
     expect(course.teacher).to eq 'Linus Torvalds'
-    expect(course.modality).to eq 'tareas'
+    expect(course.modality).to eq 'HomeWorkCourse'
     expect(course.subject).to eq 'Sistemas Operativos'
   end
 

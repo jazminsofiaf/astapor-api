@@ -1,6 +1,9 @@
-# class thar reepresents a parser that works with courses
-
 class CoursesOffersParser
+  COURSES_MODALITIES = {
+    'MidTermExamsCourse' => 'parciales',
+    'HomeWorkCourse' => 'tareas',
+    'ExamCourse' => 'coloquio'
+  }.freeze
   def parse(courses)
     info_courses = []
     courses.each do |course|
@@ -8,7 +11,7 @@ class CoursesOffersParser
       info_courses.push('nombre': course.subject, 'codigo': course.code,
                         'docente': course.teacher, 'cupo': course.quota,
                         'cupo_disponible': available_quota,
-                        'modalidad': course.modality)
+                        'modalidad': COURSES_MODALITIES[course.modality])
     end
     info_courses
   end

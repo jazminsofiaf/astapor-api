@@ -1,10 +1,9 @@
 require_relative 'course'
 class ExamCourse < Course
-  MODALITY = 'coloquio'.freeze
   attr_reader :modality
 
   def initialize(data)
-    @modality = MODALITY
+    @modality = self.class.to_s
     super(data)
   end
 end
