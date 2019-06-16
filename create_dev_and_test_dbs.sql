@@ -1,3 +1,4 @@
+DROP ROLE IF EXISTS astapor;
 CREATE ROLE astapor WITH LOGIN PASSWORD 'astapor'  CREATEDB;
 
 CREATE DATABASE astapor_development;
