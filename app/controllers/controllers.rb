@@ -23,6 +23,18 @@ AstaporGuarani::App.controllers do
     { 'oferta': courses_response }.to_json
   end
 
+  get '/inscripciones' do
+    student = StudentsRepository.new.find_by_user_name(ParamsHelper.user_name(params))
+    codes = student.nil? ? []: student.inscriptions
+    courses = codes.map do |code|
+      CoursesRepository.new.find_by_code(code)
+    end
+    courses_response = CoursesOffersParser.new.parse(courses)
+    status 200
+    { 'inscripciones': courses_response }.to_json
+  end
+
+
   post '/reset' do
     CoursesRepository.new.delete_all
     StudentsRepository.new.delete_all
@@ -55,7 +67,7 @@ AstaporGuarani::App.controllers do
     subject = CoursesRepository.new.find_by_code(subject_code)
     final_results = GradesCalculator.new(student, subject).calculate_final_grade
 
-    { 'estado': final_results['status'], 'nota_final': final_results['final_grade'] }.to_json
+    { 'estado': final_results[:status], 'nota_final': final_results[:final_grade] }.to_json
   end
 
   post '/alumnos' do

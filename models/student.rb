@@ -1,4 +1,5 @@
 require_relative '../models/course'
+require 'set'
 
 CODE = 'codigo'.freeze
 
@@ -10,7 +11,7 @@ class Student
     @id = data[:id]
     @name = data[:name]
     @user_name = data[:user_name]
-    @inscriptions = data[:inscriptions] || []
+    @inscriptions = data[:inscriptions] || Set[]
     @grades = data[:grades] || {}
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
