@@ -79,4 +79,72 @@ describe 'GradesCalculator' do
       expect(result[:final_grade]).to eq 3
     end
   end
+
+  describe 'Calculation with colloquium - Has no grades' do
+    student = Student.new(student_params)
+    subject = ExamCourse.new(course_param)
+    student.inscribe_to(subject)
+    grades_calculator = GradesCalculator.new(student, subject)
+
+    it 'cant get final grade of a non-completed course' do
+      result = grades_calculator.calculate_final_grade
+
+      expect(result[:status]).to eq 'EN_CURSO'
+    end
+  end
+
+  describe 'Calculation with homework - passes' do
+    student = Student.new(student_params)
+
+    subject = HomeWorkCourse.new(course_param)
+    student.inscribe_to(subject)
+    grade = GradeHelper.new('codigo_materia' => '9532', 'notas' => '[10, 7, 1]',
+                            'username_alumno' => 'AB')
+    student.add_grade(grade)
+    grades_calculator = GradesCalculator.new(student, subject)
+
+    it 'mean must be greater or equal than 6 in order to pass' do
+      result = grades_calculator.calculate_final_grade
+
+      expect(result[:status]).to eq 'APROBADO'
+      expect(result[:final_grade]).to eq 6
+    end
+  end
+
+  describe 'Calculation with homework - does not pass' do
+    student = Student.new(student_params)
+
+    subject = HomeWorkCourse.new(course_param)
+    student.inscribe_to(subject)
+    grade = GradeHelper.new('codigo_materia' => '9532', 'notas' => '[10, 1, 1]',
+                            'username_alumno' => 'AB')
+    student.add_grade(grade)
+    grades_calculator = GradesCalculator.new(student, subject)
+
+    it 'failed homeworks must be less than two in order to pass' do
+      result = grades_calculator.calculate_final_grade
+
+      expect(result[:status]).to eq 'DESAPROBADO'
+      expect(result[:final_grade]).to eq 1
+    end
+  end
+
+  describe 'Minimum grade' do
+    student = Student.new(student_params)
+
+    subject = HomeWorkCourse.new(course_param)
+    student.inscribe_to(subject)
+
+    grade = GradeHelper.new('codigo_materia' => '9532', 'notas' => '[0,0]',
+                            'username_alumno' => 'mar2')
+    student.add_grade(grade)
+    grades_calculator = GradesCalculator.new(student, subject)
+
+    it 'minimum grade is 1' do
+      result = grades_calculator.calculate_final_grade
+
+      expect(result[:status]).to eq 'DESAPROBADO'
+      expect(result[:final_grade]).to eq 1
+    end
+  end
 end
