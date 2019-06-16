@@ -6,4 +6,8 @@ class HomeWorkCourse < Course
     @modality = self.class.to_s
     super(data)
   end
+
+  def final_grade(student_grades)
+    average(student_grades)
+  end
 end

@@ -8,6 +8,6 @@ class MidTermExamsCourse < Course
   end
 
   def final_grade(student_grades)
-    student_grades.inject { |sum, grade| sum + grade }.to_f / student_grades.size
+    average(student_grades)
   end
 end

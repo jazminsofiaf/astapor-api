@@ -65,6 +65,10 @@ class Course
     raise 'Subclass must implement'
   end
 
+  def average(grades)
+    grades.inject { |sum, grade| sum + grade }.to_f / grades.size
+  end
+
   def to_json(*_args)
     { 'id' => @id,
       'code' => @code,
