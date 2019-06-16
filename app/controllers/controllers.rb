@@ -1,5 +1,4 @@
 require_relative '../../app/helpers/error/astapor_error'
-require_relative '../../app/helpers/error/astapor_error'
 require_relative '../../models/grades_calculator'
 
 AstaporGuarani::App.controllers do
@@ -12,9 +11,14 @@ AstaporGuarani::App.controllers do
 
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
+    student = StudentsRepository.new.find_by_user_name(ParamsHelper.user_name(params))
+    unless student.nil?
+      courses = courses.reject do |course|
+        student.passed_courses.include?(course.code)
+      end
+    end
     courses_response = CoursesOffersParser.new.parse(courses)
-    student = StudentsRepository.new.find_by_user_name(params[USERNAME])
-    courses_response = student.failed_courses(courses_response) unless student.nil?
+
     status 200
     { 'oferta': courses_response }.to_json
   end
@@ -46,7 +50,7 @@ AstaporGuarani::App.controllers do
   end
 
   get '/materias/estado' do
-    user_name, subject_code = StatusHelper.parse(params)
+    user_name, subject_code = ParamsHelper.status_parse(params)
     student = StudentsRepository.new.find_or_create(user_name: user_name)
     subject = CoursesRepository.new.find_by_code(subject_code)
     final_results = GradesCalculator.new(student, subject).calculate_final_grade

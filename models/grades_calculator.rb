@@ -54,7 +54,7 @@ class GradesCalculator
       status = mean >= MINIMUM_PASS_WITH_HOMEWORK ? PASS : FAIL
     else
       mean = MINIMUM_GRADE
-      status = 'DESAPROBADO'
+      status = FAIL
     end
 
     { status: status, final_grade: mean }

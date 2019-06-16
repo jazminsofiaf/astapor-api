@@ -39,6 +39,10 @@ class Student
     @inscriptions.delete(grade.code)
   end
 
+  def passed_courses
+    @grades.keys
+  end
+
   def filter_courses_by_no_approved(courses)
     courses_filtered = []
     courses.each do |course|

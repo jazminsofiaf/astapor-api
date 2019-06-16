@@ -93,28 +93,21 @@ describe 'Student' do
     end
   end
 
-  describe 'when filtering courses by no inscribed' do
+  describe 'get passed courses' do
     course3_param = { id: 3, code: 9532, subject: 'Memo',
                       teacher: 'villagra', quota: 20, modality: 'tp' }
-    other_memo = Course.new(course3_param)
+    other_course = Course.new(course3_param)
     course2_param = { id: 4, code: 9502, subject: 'Memo2',
                       teacher: 'paez', quota: 20, modality: 'tp' }
     memo2 = Course.new(course2_param)
-    course1 = { 'nombre': 'Memo', 'codigo': 9532,
-                'docente': 'villagra', 'cupo': 1,
-                'modalidad': 'tp' }
-    course2 = { 'nombre': 'Memo2', 'codigo': 9502,
-                'docente': 'paez', 'cupo': 1,
-                'modalidad': 'tp' }
 
     it 'should return empty array when all the courses to offer have been calificated' do
-      student.inscribe_to(other_memo)
+      student.inscribe_to(other_course)
       student.inscribe_to(memo2)
       student.add_grade(GradeHelper.new(JSON.parse(body2)))
       student.add_grade(GradeHelper.new(JSON.parse(body3)))
 
-      courses_array = [course1, course2]
-      expect(student.filter_courses_by_no_approved(courses_array).size).to eq 0
+      expect(student.passed_courses).to eq [9502, 9532]
     end
   end
 end
