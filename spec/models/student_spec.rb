@@ -39,7 +39,7 @@ describe 'Student' do
 
   course_param = { id: 1, code: 9532, subject: 'Memo',
                    teacher: 'villagra', quota: 1, modality: 'tp' }
-  memo = Course.new(course_param)
+  memo = ExamCourse.new(course_param)
 
   params = { name: 'Jazmin Ferreiro', user_name: 'jaz2' }
   student = Student.new(params)
@@ -96,10 +96,10 @@ describe 'Student' do
   describe 'get passed courses' do
     course3_param = { id: 3, code: 9532, subject: 'Memo',
                       teacher: 'villagra', quota: 20, modality: 'tp' }
-    other_course = Course.new(course3_param)
+    other_course = ExamCourse.new(course3_param)
     course2_param = { id: 4, code: 9502, subject: 'Memo2',
                       teacher: 'paez', quota: 20, modality: 'tp' }
-    memo2 = Course.new(course2_param)
+    memo2 = ExamCourse.new(course2_param)
 
     it 'should return empty array when all the courses to offer have been calificated' do
       student.inscribe_to(other_course)

@@ -16,12 +16,12 @@ describe 'Student repository' do
     end
 
     context 'when it has an inscription' do
-      course = Course.new(id: 1,
-                          code: 9532,
-                          subject: 'Memo',
-                          teacher: 'villagra',
-                          quota: 30,
-                          modality: 'tp')
+      course = ExamCourse.new(id: 1,
+                              code: 9532,
+                              subject: 'Memo',
+                              teacher: 'villagra',
+                              quota: 30,
+                              modality: 'tp')
       student.inscribe_to(course)
 
       it 'can save it and find it ' do
