@@ -1,6 +1,6 @@
 require_relative '../app/repositories/students_repository'
 require_relative '../app/repositories/courses_repository'
-class GradePointAvarage
+class GradePointAverage
   def initialize(user_name)
     @student = StudentsRepository.new.find_by_user_name(user_name)
   end

@@ -1,6 +1,6 @@
 require 'integration_spec_helper'
 
-require_relative '../../../models/grade_point_avarage'
+require_relative '../../../models/grade_point_average'
 require_relative '../../../app/helpers/grade_helper'
 require_relative '../../../models/exam_course'
 require_relative '../../../app/repositories/students_repository'
@@ -9,7 +9,7 @@ require_relative '../../../app/repositories/courses_repository'
 describe 'Grade Avarage point ' do
   context 'when no grades where set' do
     it 'should have a no grade avarage if student has no grades' do
-      response = GradePointAvarage.new('m').calculate
+      response = GradePointAverage.new('m').calculate
       expect(response[:notaPromedio]).to be_nil
       expect(response[:materiasAprobadas]).to eq(0)
     end
@@ -33,7 +33,7 @@ describe 'Grade Avarage point ' do
       student.add_grade(grade)
       StudentsRepository.new.save(student)
       CoursesRepository.new.save(subject)
-      response = GradePointAvarage.new('jaz').calculate
+      response = GradePointAverage.new('jaz').calculate
       expect(response[:notaPromedio]).to eq(10)
       expect(response[:materiasAprobadas]).to eq(1)
     end

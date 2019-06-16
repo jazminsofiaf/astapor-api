@@ -1,4 +1,5 @@
 require_relative '../models/course'
+require_relative '../app/repositories/students_repository'
 require 'set'
 
 CODE = 'codigo'.freeze
