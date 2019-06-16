@@ -20,7 +20,7 @@ AstaporGuarani::App.controllers do
     courses_response = CoursesOffersParser.new.parse(courses)
 
     status 200
-    { 'oferta': courses_response }.to_json
+    { oferta: courses_response }.to_json
   end
 
   get '/inscripciones' do
@@ -31,7 +31,7 @@ AstaporGuarani::App.controllers do
     end
     courses_response = CoursesOffersParser.new.parse(courses)
     status 200
-    { 'inscripciones': courses_response }.to_json
+    { inscripciones: courses_response }.to_json
   end
 
   post '/reset' do
@@ -46,7 +46,7 @@ AstaporGuarani::App.controllers do
 
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'MATERIA_CREADA' }.to_json
+    { resultado: 'MATERIA_CREADA' }.to_json
   end
 
   post '/calificar' do
@@ -57,7 +57,7 @@ AstaporGuarani::App.controllers do
     student.add_grade(grade)
     StudentsRepository.new.save(student)
     status 200
-    { 'resultado': 'notas_creadas' }.to_json
+    { resultado: 'notas_creadas' }.to_json
   end
 
   get '/materias/estado' do
@@ -66,7 +66,6 @@ AstaporGuarani::App.controllers do
     subject = CoursesRepository.new.find_by_code(subject_code)
     final_results = GradesCalculator.new(student, subject).calculate_final_grade
     final_results.to_json
-
   end
 
   post '/alumnos' do
@@ -81,7 +80,7 @@ AstaporGuarani::App.controllers do
     StudentsRepository.new.save(student)
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'INSCRIPCION_CREADA' }.to_json
+    { resultado: 'INSCRIPCION_CREADA' }.to_json
   end
 
   error AstaporError do |error|
