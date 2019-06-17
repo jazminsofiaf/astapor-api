@@ -1,4 +1,6 @@
 require_relative '../models/course'
+require_relative '../app/repositories/students_repository'
+require 'set'
 
 CODE = 'codigo'.freeze
 
@@ -10,7 +12,7 @@ class Student
     @id = data[:id]
     @name = data[:name]
     @user_name = data[:user_name]
-    @inscriptions = data[:inscriptions] || []
+    @inscriptions = data[:inscriptions] || Set[]
     @grades = data[:grades] || {}
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
@@ -33,10 +35,14 @@ class Student
   end
 
   def add_grade(grade)
-    raise StudentNotInscribedError unless @inscriptions.include? grade.code
+    raise StudentNotEnrolledError unless @inscriptions.include? grade.code
 
     @grades[grade.code] = grade.grades
     @inscriptions.delete(grade.code)
+  end
+
+  def passed_courses
+    @grades.keys
   end
 
   def filter_courses_by_no_approved(courses)
@@ -49,10 +55,7 @@ class Student
     courses_filtered
   end
 
-  def is_inscribed_in(course_code)
-    inscriptions.each do |code|
-      return true if course_code == code
-    end
-    false
+  def is_inscribed_in(course)
+    @inscriptions.include?(course.code)
   end
 end

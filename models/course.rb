@@ -11,7 +11,7 @@ class Course
   MSG = 1
 
   attr_accessor :id, :code, :subject, :teacher, :students,
-                :quota, :modality, :updated_on, :created_on,
+                :quota, :updated_on, :created_on,
                 :projector, :laboratory
 
   validates :code, length: { minimum: 4,
@@ -34,11 +34,11 @@ class Course
 
   def populate(data)
     @id = data[:id]
-    @code = data[:code]
+    @code = data[:code].to_i
     @subject = data[:subject]
     @teacher = data[:teacher]
-    @quota = data[:quota]
-    @modality = data[:modality]
+    @quota = data[:quota].to_i
+    @students = data[:students].to_i || 0
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
     @projector = data[:projector]
@@ -56,9 +56,22 @@ class Course
   end
 
   def reduce_quota
-    raise QuoteCompleteError if @quota <= LIMIT
+    raise QuoteCompleteError if @quota == @students
 
-    @quota -= 1
+    @students += 1
+  end
+
+  def final_grade(_grades)
+    raise 'Subclass must implement'
+  end
+
+  def average(grades)
+    average = grades.inject { |sum, grade| sum + grade }.to_f / grades.size
+    average.round(2)
+  end
+
+  def success(final_grade)
+    final_grade >= self.class::MINIMUM_REQUIRED
   end
 
   def to_json(*_args)

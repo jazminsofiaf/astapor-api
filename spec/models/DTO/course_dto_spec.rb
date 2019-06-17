@@ -11,7 +11,7 @@ describe 'Course dto' do
     }'
   end
 
-  let(:invalid) do
+  let(:invalid_quota) do
     '{"codigo": "4444",
       "modalidad": "tareas",
       "docente": "Linus Torvalds",
@@ -20,16 +20,29 @@ describe 'Course dto' do
     }'
   end
 
+  let(:invalid_modality) do
+    '{"codigo": "4444",
+      "modalidad": "tp",
+      "docente": "Linus Torvalds",
+      "nombreMateria": "Sistemas Operativos",
+      "cupo": 30
+    }'
+  end
+
   it 'should create a valid course' do
     course = CourseHelper.parse(body)
-    course.code = 4444
-    course.quota = 30
-    course.teacher = 'Linus Torvalds'
-    course.modality = 'tareas'
-    course.subject = 'Sistemas Operativos'
+    expect(course.code).to eq 4444
+    expect(course.quota).to eq 30
+    expect(course.teacher).to eq 'Linus Torvalds'
+    expect(course.modality).to eq 'HomeWorkCourse'
+    expect(course.subject).to eq 'Sistemas Operativos'
   end
 
   it 'should raise exception when quota is 0' do
-    expect { CourseHelper.parse(invalid) }.to raise_error(QuotaError)
+    expect { CourseHelper.parse(invalid_quota) }.to raise_error(QuotaError)
+  end
+
+  it 'should raise exception when modality not exist' do
+    expect { CourseHelper.parse(invalid_modality) }.to raise_error(ModalityError)
   end
 end

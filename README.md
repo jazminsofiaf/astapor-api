@@ -6,6 +6,7 @@ Follow these steps to initialize the PostgreSQL databases:
 `sudo apt-get install -y postgresql-9.5 postgresql-contrib postgresql-server-dev-9.5`
 1. Create development and test databases by running:
 `sudo -u postgres psql --dbname=postgres -f ./create_dev_and_test_dbs.sql`
+1. If you need to delete the database execute `sudo -u postgres psql --dbname=postgres -f ./delete_dbs.sql` and the previus command again
 
 
 

@@ -32,8 +32,7 @@ class CoursesRepository < BaseRepository
   end
 
   def load_object(a_record)
-    curse = super
-    curse
+    Object.const_get(a_record[:modality]).new(a_record)
   end
 
   def changeset(course)
@@ -42,6 +41,7 @@ class CoursesRepository < BaseRepository
       subject: course.subject,
       teacher: course.teacher,
       quota: course.quota,
+      students: course.students,
       modality: course.modality,
       projector: course.projector,
       laboratory: course.laboratory

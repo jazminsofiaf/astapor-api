@@ -1,13 +1,12 @@
 require 'integration_spec_helper'
-require 'byebug'
-
+require_relative '../../../models/exam_course'
 describe CoursesRepository do
   let(:repository) { described_class.new }
 
   let(:course) do
-    Course.new(code: 7517, subject: 'Analisis',
-               teacher: 'Sirne', quota: 31, modality: 'tp',
-               projector: false, laboratory: true)
+    ExamCourse.new(code: 7517, subject: 'Analisis',
+                   teacher: 'Sirne', quota: 31, modality: 'tp',
+                   projector: false, laboratory: true)
   end
 
   describe 'saving' do
@@ -16,12 +15,19 @@ describe CoursesRepository do
       described_class.new.save(course)
     end
 
+    it 'should be the same modality' do
+      described_class.new.save(course)
+      founded = described_class.new.find_by_code(course.code)
+      expect(founded.modality).to eq('ExamCourse')
+    end
+
     it 'saving the course and then get it with the same amount of students' do
       course.reduce_quota
       course.reduce_quota
       described_class.new.save(course)
       founded = described_class.new.find_by_code(course.code)
-      expect(founded.quota).to eq(29)
+      expect(founded.quota).to eq(31)
+      expect(founded.students).to eq(2)
     end
   end
 end

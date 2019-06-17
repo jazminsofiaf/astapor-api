@@ -16,12 +16,12 @@ describe 'Student repository' do
     end
 
     context 'when it has an inscription' do
-      course = Course.new(id: 1,
-                          code: 9532,
-                          subject: 'Memo',
-                          teacher: 'villagra',
-                          quota: 30,
-                          modality: 'tp')
+      course = ExamCourse.new(id: 1,
+                              code: 9532,
+                              subject: 'Memo',
+                              teacher: 'villagra',
+                              quota: 30,
+                              modality: 'tp')
       student.inscribe_to(course)
 
       it 'can save it and find it ' do
@@ -43,7 +43,7 @@ describe 'Student repository' do
         params = { name: 'Jazmin Ferreiro', user_name: 'jazmina' }
         student_found = repository.find_or_create(params)
         expect(student_found.name).to eq(student.name)
-        expect(student_found.inscriptions).to eq([])
+        expect(student_found.inscriptions).to eq(Set[])
       end
 
       context 'when a grade is added' do
@@ -75,7 +75,7 @@ describe 'Student repository' do
           student_found = repository.find_or_create(params)
           expect(student_found.user_name).to eq('jazmina')
           expect(student_found.name).to eq(student.name)
-          expect(student_found.inscriptions).to eq([])
+          expect(student_found.inscriptions).to eq(Set[])
           expect(student_found.grades).to eq({})
         end
       end

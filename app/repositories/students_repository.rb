@@ -1,4 +1,5 @@
 require_relative 'base_repository'
+require 'set'
 class StudentsRepository < BaseRepository
   self.table_name = :student
   self.model_class = 'Student'
@@ -72,7 +73,7 @@ class StudentsRepository < BaseRepository
     inscription_registers, grades_registers = registers.partition do |register|
       register.grade.nil?
     end
-    inscriptions = inscription_registers.map(&:code)
+    inscriptions = inscription_registers.map(&:code).to_set
     grades = Hash.new([])
     grades_registers.each do |register|
       grades[register.code] = grades[register.code].push(register.grade)
