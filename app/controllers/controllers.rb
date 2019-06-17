@@ -87,6 +87,10 @@ AstaporGuarani::App.controllers do
     { resultado: 'INSCRIPCION_CREADA' }.to_json
   end
 
+  get '/inscripciones' do
+
+  end
+
   error AstaporError do |error|
     handle_error(error)
   end
