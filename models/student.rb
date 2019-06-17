@@ -46,12 +46,8 @@ class Student
   end
 
   def filter_courses_by_no_approved(courses)
-    courses_filtered = []
-    courses.each do |course|
-      next if grades.key?(course[:codigo])
-
-      courses_filtered.push(course)
-    end
+    courses_filtered = courses
+    courses_filtered.reject { |course| grades.key?(course[:codigo]) }
     courses_filtered
   end
 
