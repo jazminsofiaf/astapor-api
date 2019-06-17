@@ -1,11 +1,4 @@
 require_relative '../../app/helpers/error/astapor_error'
-require 'byebug'
-USERNAME = 'usernameAlumno'.freeze
-CODE = 'codigoMateria'.freeze
-
-require_relative '../../app/helpers/error/astapor_error'
-require_relative '../../app/helpers/error/exception/astapor_exception'
-require_relative '../../app/helpers/error/exception/not_enrolled_exception'
 require_relative '../../models/grades_calculator'
 
 AstaporGuarani::App.controllers do
@@ -18,11 +11,31 @@ AstaporGuarani::App.controllers do
 
   get '/materias' do
     courses = CoursesRepository.new.load_dataset
+    grades_calculator = GradePointAverage.new(ParamsHelper.user_name(params))
+    passed_courses = grades_calculator.passed_courses_final_grades[0]
+    courses = courses.reject do |course|
+      passed_courses.include?(course.code)
+    end
     courses_response = CoursesOffersParser.new.parse(courses)
-    student = StudentsRepository.new.find_by_user_name(params[USERNAME])
-    courses_response = student.filter_courses_by_no_approved(courses_response) unless student.nil?
+
     status 200
-    { 'oferta': courses_response }.to_json
+    { oferta: courses_response }.to_json
+  end
+
+  get '/alumnos/promedio' do
+    status 200
+    GradePointAverage.new(ParamsHelper.user_name(params)).calculate.to_json
+  end
+
+  get '/inscripciones' do
+    student = StudentsRepository.new.find_by_user_name(ParamsHelper.user_name(params))
+    codes = student.nil? ? [] : student.inscriptions
+    courses = codes.map do |code|
+      CoursesRepository.new.find_by_code(code)
+    end
+    courses_response = CoursesOffersParser.new.parse(courses)
+    status 200
+    { inscripciones: courses_response }.to_json
   end
 
   post '/reset' do
@@ -37,35 +50,26 @@ AstaporGuarani::App.controllers do
 
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'MATERIA_CREADA' }.to_json
+    { resultado: 'MATERIA_CREADA' }.to_json
   end
 
   post '/calificar' do
     grade = GradeHelper.new(JSON.parse(request.body.read))
     student = StudentsRepository.new.find_by_user_name(grade.username)
-    raise StudentNotInscribedError if student.nil?
+    raise StudentNotEnrolledError if student.nil?
 
     student.add_grade(grade)
     StudentsRepository.new.save(student)
     status 200
-    { 'resultado': 'notas_creadas' }.to_json
+    { resultado: 'notas_creadas' }.to_json
   end
 
   get '/materias/estado' do
-    user_name = params['USERNAME']
-    subject_code = params['CODE']
-
+    user_name, subject_code = ParamsHelper.status_parse(params)
     student = StudentsRepository.new.find_or_create(user_name: user_name)
     subject = CoursesRepository.new.find_by_code(subject_code)
-
-    raise NotEnrolledException unless student.is_inscribed_in(subject_code.to_i)
-
     final_results = GradesCalculator.new(student, subject).calculate_final_grade
-
-    { 'estado': final_results['status'], 'nota_final': final_results['final_grade'] }.to_json
-
-  rescue NotEnrolledException
-    { 'estado': 'NO_INSCRIPTO', 'nota_final': nil }.to_json
+    final_results.to_json
   end
 
   post '/alumnos' do
@@ -74,22 +78,13 @@ AstaporGuarani::App.controllers do
                        user_name: inscription_request.username }
     student = StudentsRepository.new.find_or_create(student_params)
     course = CoursesRepository.new.find_by_code(inscription_request.code)
-    # esto queda comentado hasta que se arregle fitnesse
-    # raise CourseNotFoundError if course.nil?
-    if course.nil?
-      status 400 # arreglar fitnesse para que diga error y no resultado
-      return { 'resultado': 'MATERIA_NO_EXISTE' }.to_json
-    end
+    raise CourseNotFoundError if course.nil?
 
     student.inscribe_to(course)
     StudentsRepository.new.save(student)
     CoursesRepository.new.save(course)
     status 201
-    { 'resultado': 'INSCRIPCION_CREADA' }.to_json
-  end
-
-  error AstaporException do |exception|
-    handle_exception(exception)
+    { resultado: 'INSCRIPCION_CREADA' }.to_json
   end
 
   error AstaporError do |error|
