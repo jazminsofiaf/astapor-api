@@ -5,6 +5,7 @@ describe 'Register' do
     subject(:grade2) { Register.new(id: 1, student_username: 1, code: 9532, grade: 10) }
 
     let(:grade) { Register.new(id: 1, student_username: 1, code: 9532, grade: 10) }
+    let(:grade3) { Register.new(id: 1, student_username: 1, code: 9532, grade: 8) }
 
     describe 'model' do
       it { is_expected.to respond_to(:student_username) }
@@ -14,6 +15,10 @@ describe 'Register' do
 
     it 'should return true when both regiters are equal' do
       expect(grade == grade2).to eq true
+    end
+
+    it 'should return false when both regiters are different' do
+      expect(grade == grade3).to eq false
     end
   end
 end
