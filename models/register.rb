@@ -11,4 +11,11 @@ class Register
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
   end
+
+  def ==(other)
+    (other.class == self.class) &&
+      (other.code == code) &&
+      (other.student_username == student_username) &&
+      (other.grade == grade)
+  end
 end

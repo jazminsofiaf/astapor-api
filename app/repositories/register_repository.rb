@@ -7,6 +7,10 @@ class RegisterRepository < BaseRepository
     load_collection dataset.where(student_username: student_username)
   end
 
+  def load_dataset
+    load_collection dataset
+  end
+
   protected
 
   def load_object(a_record)
