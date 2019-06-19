@@ -39,6 +39,9 @@ class Student
 
     @grades[grade.code] = grade.grades
     @inscriptions.delete(grade.code)
+    StudentsRepository.new.delete_register(grade.code)
+    puts 'INSCRIPCIONESS AL AGERGAR NOTA'
+    puts inscriptions
   end
 
   def is_inscribed_in(course)
