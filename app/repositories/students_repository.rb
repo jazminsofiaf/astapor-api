@@ -29,6 +29,10 @@ class StudentsRepository < BaseRepository
     RegisterRepository.new.save(register)
   end
 
+  def delete_register(code)
+    RegisterRepository.new.delete_register(code)
+  end
+
   protected
 
   def find_dataset_by_username(user_name)

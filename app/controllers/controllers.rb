@@ -82,6 +82,10 @@ AstaporGuarani::App.controllers do
     course = CoursesRepository.new.find_by_code(inscription_request.code)
     raise CourseNotFoundError if course.nil?
 
+    grades_calculator = GradePointAverage.new(student.user_name)
+    passed_courses = grades_calculator.passed_courses_final_grades[0]
+    raise CourseApprovedError if passed_courses.include?(course.code)
+
     student.inscribe_to(course)
     StudentsRepository.new.save(student)
     CoursesRepository.new.save(course)
