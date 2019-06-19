@@ -1,5 +1,3 @@
-require 'byebug'
-
 class GradesCalculator
   MODALITIES = { 'parciales' => 'calculate_with_exams',
                  'coloquio' => 'calculate_with_colloquium',

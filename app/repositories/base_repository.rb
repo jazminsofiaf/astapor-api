@@ -1,5 +1,4 @@
 require_relative '../../config/database'
-require 'byebug'
 
 class BaseRepository
   def save(a_record)
