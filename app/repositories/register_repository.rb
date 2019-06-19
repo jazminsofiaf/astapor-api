@@ -11,6 +11,10 @@ class RegisterRepository < BaseRepository
     load_collection dataset
   end
 
+  def delete_register(code)
+    dataset.where(code: code, grade: nil).delete
+  end
+
   protected
 
   def load_object(a_record)

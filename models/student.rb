@@ -39,20 +39,9 @@ class Student
 
     @grades[grade.code] = grade.grades
     @inscriptions.delete(grade.code)
-  end
-
-  def passed_courses
-    @grades.keys
-  end
-
-  def filter_courses_by_no_approved(courses)
-    courses_filtered = []
-    courses.each do |course|
-      next if grades.key?(course[:codigo])
-
-      courses_filtered.push(course)
-    end
-    courses_filtered
+    StudentsRepository.new.delete_register(grade.code)
+    puts 'INSCRIPCIONESS AL AGERGAR NOTA'
+    puts inscriptions
   end
 
   def is_inscribed_in(course)

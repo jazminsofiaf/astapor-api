@@ -15,7 +15,6 @@ class GradePointAverage
   def passed_courses_final_grades
     passed = []
     final_grades = []
-
     @student&.grades&.map do |code, grades|
       course = CoursesRepository.new.find_by_code(code)
       final_grade = course.final_grade(grades)
