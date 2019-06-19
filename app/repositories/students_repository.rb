@@ -50,14 +50,18 @@ class StudentsRepository < BaseRepository
   end
 
   def changeset(student)
+    registers_existing = RegisterRepository.new.load_dataset
     student.inscriptions
            .map { |code| Register.new(code: code, student_username: student.user_name) }
-           .each { |inscription| RegisterRepository.new.save(inscription) }
-
+           .each do |inscription|
+      RegisterRepository.new.save(inscription) unless
+            registers_existing.include?(inscription)
+    end
     student.grades.each do |code, values|
       values.each do |grade|
         grade_register = Register.new(code: code, student_username: student.user_name, grade: grade)
-        RegisterRepository.new.save(grade_register)
+        RegisterRepository.new.save(grade_register) unless
+        registers_existing.include?(grade_register)
       end
     end
     {
@@ -76,7 +80,8 @@ class StudentsRepository < BaseRepository
     inscriptions = inscription_registers.map(&:code).to_set
     grades = Hash.new([])
     grades_registers.each do |register|
-      grades[register.code] = grades[register.code].push(register.grade)
+      grades[register.code] = [] unless grades.key?(register.code)
+      grades[register.code].push(register.grade)
     end
     [inscriptions, grades]
   end
