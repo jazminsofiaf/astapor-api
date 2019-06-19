@@ -41,16 +41,6 @@ class Student
     @inscriptions.delete(grade.code)
   end
 
-  def passed_courses
-    @grades.keys
-  end
-
-  def filter_courses_by_no_approved(courses)
-    courses_filtered = courses
-    courses_filtered.reject { |course| grades.key?(course[:codigo]) }
-    courses_filtered
-  end
-
   def is_inscribed_in(course)
     @inscriptions.include?(course.code)
   end
