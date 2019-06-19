@@ -67,8 +67,10 @@ AstaporGuarani::App.controllers do
   get '/materias/estado' do
     user_name, subject_code = ParamsHelper.status_parse(params)
     student = StudentsRepository.new.find_or_create(user_name: user_name)
-    subject = CoursesRepository.new.find_by_code(subject_code)
-    final_results = GradesCalculator.new(student, subject).calculate_final_grade
+    course = CoursesRepository.new.find_by_code(subject_code)
+    raise CourseNotFoundError if course.nil?
+
+    final_results = GradesCalculator.new(student, course).calculate_final_grade
     final_results.to_json
   end
 
