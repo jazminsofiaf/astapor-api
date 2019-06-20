@@ -1,7 +1,22 @@
 require_relative '../../app/helpers/error/astapor_error'
 require_relative '../../models/grades_calculator'
+require_relative '../../app/helpers/error/invalid_token'
+require 'sinatra/config_file'
 
+API_TOKEN_HEADER = 'HTTP_API_TOKEN'.freeze
+# esto no deberia estar aca
+API_TOKEN_VALUE_EXPECTED = '886923073:AAGBZ5lRk2r9o-tR1VU5vO6JcwZamkaFp1c'.freeze
 AstaporGuarani::App.controllers do
+  register Sinatra::ConfigFile
+
+  config_file '../../config.yml'
+
+  before do
+    header_token = request.env[API_TOKEN_HEADER]
+    puts header_token
+    # raise InvalidToken unless header_token == settings.api_token
+    # raise InvalidToken unless header_token == API_TOKEN_VALUE_EXPECTED
+  end
   # walking skeleton
   get '/' do
     course = CoursesRepository.new.search_by_subject('memo')

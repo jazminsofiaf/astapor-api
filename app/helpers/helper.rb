@@ -1,6 +1,6 @@
 # Helper methods defined here can be accessed
 # in any controller or view in the application
-require_relative '../../app/helpers/error/incompatible_request'
+require_relative 'error/incompatible_request'
 require_relative 'error/duplicate_subject_error'
 require_relative 'error/duplicated_inscription_error'
 require_relative 'error/quote_complete_error'
@@ -9,8 +9,9 @@ require_relative 'error/course_not_found_error'
 require_relative 'error/invalid_grade_error'
 require_relative 'error/student_not_enrolled_error'
 require_relative 'error/course_approved_error'
-require_relative '../../app/helpers/error/quota_error'
+require_relative 'error/quota_error'
 require_relative 'error/modality_error'
+require_relative 'error/invalid_token'
 
 AstaporGuarani::App.helpers do
   SPANISH_DEFAULT_ERROR_MSG = 'Astapor Internal Error'.freeze
@@ -24,7 +25,8 @@ AstaporGuarani::App.helpers do
                         StudentNotEnrolledError => 'alumno_incorrecto',
                         QuotaError => 'cupo_erroneo',
                         ModalityError => 'modalidad_invalida',
-                        CourseApprovedError => 'materia_aprobada' }.freeze
+                        CourseApprovedError => 'materia_aprobada',
+                        InvalidToken => 'api_token_invalido' }.freeze
 
   def handle_error(error)
     message = SPANISH_ERROR_MSG[error.class] || error.msg

@@ -5,6 +5,7 @@
 .settings
 .env
 .byebug_history
+config.yml
 
 *.iml
 **/target

@@ -32,6 +32,7 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
   gem 'ruby-debug-ide'
   gem 'simplecov'
+  gem 'sinatra-config-file', require: 'sinatra/config_file'
 end
 
 group :development do
