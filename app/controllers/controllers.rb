@@ -14,7 +14,7 @@ AstaporGuarani::App.controllers do
     header_token = request.env[API_TOKEN_HEADER]
     Padrino.logger.info("api-token #{header_token}")
     # raise InvalidToken unless header_token == settings.api_token
-    # raise InvalidToken unless header_token == API_TOKEN_VALUE_EXPECTED
+    raise InvalidToken unless header_token == API_TOKEN_VALUE_EXPECTED
   end
   # walking skeleton
   get '/' do
