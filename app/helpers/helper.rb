@@ -30,7 +30,7 @@ AstaporGuarani::App.helpers do
 
   def handle_error(error)
     message = SPANISH_ERROR_MSG[error.class] || error.msg
-    status 400
+    status error.class == InvalidToken ? 401 : 400
     { 'error': message.upcase }.to_json
   end
 end

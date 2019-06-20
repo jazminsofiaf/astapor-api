@@ -13,6 +13,7 @@ AstaporGuarani::App.controllers do
   before do
     header_token = request.env[API_TOKEN_HEADER]
     Padrino.logger.info("api-token #{header_token}")
+    next unless %w[materias alumnos promedio estado calificar inscripciones].include? request.path_info.split('/')[1]
     # raise InvalidToken unless header_token == settings.api_token
     raise InvalidToken unless header_token == API_TOKEN_VALUE_EXPECTED
   end
